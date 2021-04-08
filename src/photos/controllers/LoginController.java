@@ -11,18 +11,38 @@ import photos.Debug;
 import photos.app.Photos;
 import photos.structures.User;
 
-
+/**
+ * Controller for the login subsystem.
+ * 
+ * @author Robert Kulesa
+ * @author Aaron Kan 
+ */
 public class LoginController extends Controller {
 
+    /**
+     * FXML TextField for entering the username to log in with.
+     */
     @FXML
     private TextField fieldUsername;
 
+    /**
+     * FXML button for logging in.
+     */
     @FXML
     private Button buttonLogin;
 
+    /**
+     * FXML label to show to the user when logging in fails.
+     */
     @FXML
     private Text textLoginFailed;
 
+    /**
+     * FXML method for logging in when the button is clicked.
+     * Sends the user to the correct subsystem after a successful login.
+     * 
+     * @param event
+     */
     @FXML
     void loginButtonClicked(MouseEvent event) {
         //1. Parse through the users.txt 
@@ -56,12 +76,22 @@ public class LoginController extends Controller {
         } 
     }
 
+    /**
+     * FXML method for quitting the application when the button is clicked.
+     * 
+     * @param event
+     */
     @Override
     @FXML
     public void menuItemQuitClicked(ActionEvent event) {
         writeUsersAndQuit(event);
     }
 
+    /**
+     * Implemented method for setting the main stage for this controller.
+     * 
+     * @param stage    The stage to be set as main stage for this controller.
+     */
     @Override
     public void setMainStage(Stage stage) {
         mainStage = stage;

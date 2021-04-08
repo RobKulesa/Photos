@@ -10,31 +10,54 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
-import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.stage.Stage;
 
 /**
- * Abstract class with base functionality of every controller. 
- * Provides functionality for reading users
+ * Abstract class with base functionality and fields of every controller.
+ * 
+ * @author Robert Kulesa
+ * @author Aaron Kan 
  */
 public abstract class Controller {
 
-  protected Stage mainStage;
-  protected UserList userList;
+    /**
+     * Reference the main stage.
+     */
+    protected Stage mainStage;
 
-    @FXML
-    private Menu menuFile;
+    /**
+     * Reference to the current {@link UserList}.
+     */
+    protected UserList userList;
 
+    /**
+     * FXML File Menu > Quit Menu Item
+     */
     @FXML
     private MenuItem menuItemQuit;
 
+    /**
+     * Abstract FXML method for pressing the Quit Menu Item.
+     * 
+     * @param event
+     */
     @FXML
     abstract void menuItemQuitClicked(ActionEvent event);
 
+    /**
+     * Abstract method for setting the main stage for this controller.
+     * 
+     * @param stage    The stage to be set as main stage for this controller.
+     */
     public abstract void setMainStage(Stage stage);
 
+    /**
+     * Open an error popup dialog with the provided error message.
+     * 
+     * @param errorMsg    Error message to be shown in popup dialog.
+     */
     public void errorDialog(String errorMsg) {
         Dialog<String> dialog = new Dialog<String>();
 		dialog.setTitle("Error! =(");
@@ -43,35 +66,47 @@ public abstract class Controller {
 		dialog.getDialogPane().getButtonTypes().add(type);
   		dialog.setResizable(true);
 	  	dialog.showAndWait();
-	  }
+	}
 
+    /**
+     * Read the userList from filesystem using {@link UserList}.readUserList().
+     */
     protected void readUsers() {
-      try {
-        userList = UserList.readUserList();
-      } catch (Exception e) {
-          e.printStackTrace();
-      }
-      if(Debug.debugControllers) System.out.println("LoginController Read User List: " + userList.toString());
+        try {
+            userList = UserList.readUserList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if(Debug.debugControllers) System.out.println("LoginController Read User List: " + userList.toString());
     }
 
+    /**
+     * Write the userList to filesystem using {@link UserList}.writeUserList(userList).
+     */
     protected void writeUsers() {
-      try {
-        if(Debug.debugControllers) System.out.println("LoginController Write User List: " + userList.toString());
-        UserList.writeUserList(userList);
-      } catch (IOException e) { 
-        errorDialog("An unexpected error occured. Please try again");
-      }
+        try {
+            if(Debug.debugControllers) System.out.println("LoginController Write User List: " + userList.toString());
+            UserList.writeUserList(userList);
+        } catch (IOException e) { 
+            errorDialog("An unexpected error occured. Please try again");
+        }
     }
 
+    /**
+     * Write the userList to filesystem using {@link UserList}.writeUserList(userList) and quit application.
+     * 
+     * @param event    The event causing the quit request.
+     */
     protected void writeUsersAndQuit(Event event) {
-      try {
-        if(Debug.debugControllers) System.out.println("LoginController Write User List: " + userList.toString());
-        UserList.writeUserList(userList);
-        mainStage.close();
-      } catch (Exception e) { 
-        errorDialog("An unexpected error occured. Please try again");
-        event.consume();
-        return;
+        try {
+            if(Debug.debugControllers && userList != null) System.out.println("LoginController Write User List: " + userList.toString());
+            UserList.writeUserList(userList);
+            mainStage.close();
+        } catch (Exception e) { 
+            errorDialog(e.getMessage());
+            e.printStackTrace();
+            event.consume();
+            return;
       }
     }
 }

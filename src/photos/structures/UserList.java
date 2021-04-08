@@ -8,6 +8,9 @@ import photos.Debug;
 /**
  * UserList is a serializable class that holds an ArrayList of {@link User}s. An instance
  * of this class can be saved and loaded between runs of the application.
+ * 
+ * @author Robert Kulesa
+ * @author Aaron Kan 
  */
 public class UserList implements Serializable {
 
@@ -99,6 +102,7 @@ public class UserList implements Serializable {
      * @throws IOException    Thrown if file failed to be opened.
      */
     public static void writeUserList(UserList userList) throws IOException {
+        if(userList == null || userList.getUsers() == null || userList.getUsers().isEmpty()) return;
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(storeDir + File.separator + storeFile));
         oos.writeObject(userList);
         oos.close();

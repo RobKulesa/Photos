@@ -4,6 +4,9 @@ import java.io.Serializable;
 
 /**
  * User is a serializable class used to differentiate between different users of the application.
+ * 
+ * @author Robert Kulesa
+ * @author Aaron Kan 
  */
 public class User implements Serializable {
 
