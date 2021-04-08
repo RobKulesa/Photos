@@ -64,8 +64,8 @@ public abstract class Controller {
 		ButtonType type = new ButtonType("Ok", ButtonData.OK_DONE);
 		dialog.setContentText(errorMsg);
 		dialog.getDialogPane().getButtonTypes().add(type);
-  		dialog.setResizable(true);
-	  	dialog.showAndWait();
+		dialog.setResizable(true);
+        dialog.showAndWait();
 	}
 
     /**
@@ -107,6 +107,6 @@ public abstract class Controller {
             e.printStackTrace();
             event.consume();
             return;
-      }
+        }
     }
 }

@@ -97,6 +97,15 @@ public class Photos extends Application {
         }
     }
 
+    public void goToAlbumList(){
+        try{
+            replaceSceneContent("/resources/view/albumlist.fxml");
+            if(Debug.debugPhotos) System.out.println("Photos Sending user (" + currentUser + ") to normal album list");
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
     /**
      * Method for sending the user to the admin page. Can be called with
      * <code>Photos.getInstance().goToAdminPage()</code>

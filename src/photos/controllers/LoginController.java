@@ -65,7 +65,7 @@ public class LoginController extends Controller {
                     break;
                 } else {
                     //Navigate to normal user page
-                    errorDialog("Yay we are not an admin");
+                    Photos.getInstance().goToAlbumList();
                     break;
                 }
             }

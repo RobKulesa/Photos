@@ -1,7 +1,7 @@
 package photos.structures;
 
 import java.io.Serializable;
-
+import java.util.*;
 /**
  * User is a serializable class used to differentiate between different users of the application.
  * 
@@ -19,6 +19,11 @@ public class User implements Serializable {
      * Username of this user.
      */
     private String username;
+
+    /**
+     * List of albums assocaited with this user
+     */
+    private ArrayList<Album> albums;
 
     /**
      * Create a new user.
@@ -45,6 +50,10 @@ public class User implements Serializable {
      */
     public String getUsername() {
         return this.username;
+    }
+
+    public ArrayList<Album> getAlbumList(){
+        return this.albums;
     }
 
     /**
