@@ -112,7 +112,8 @@ public class Photos extends Application {
      */
     public void goToAdminPage() {
         try {
-            replaceSceneContent("/resources/view/adminpage.fxml");
+            replaceSceneContent("/resources/view/testadminpage.fxml");
+            //replaceSceneContent("/resources/view/adminpage.fxml");
             if(Debug.debugPhotos) System.out.println("Photos Sending user (" + currentUser + ") to admin page");
         } catch (Exception ex) {
             ex.printStackTrace();
