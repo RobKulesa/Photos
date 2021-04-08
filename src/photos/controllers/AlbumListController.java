@@ -1,6 +1,7 @@
 package photos.controllers;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -13,10 +14,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.control.Label;
 import photos.Debug;
-import javafx.scene.input.MouseEvent;
-
 import photos.app.Photos;
-import photos.structures.User;
 import photos.structures.User;
 import photos.structures.Album;
 /**
@@ -82,6 +80,25 @@ public class AlbumListController extends ListController<Album>{
     @FXML
     private Button buttonQuit;
     
+
+    @FXML
+    void buttonAlbumOpenClicked(MouseEvent event){
+        if(paneConfirmCreate.isVisible()) {
+            errorDialog("Please save pending changes before exiting.");
+            return;
+        }
+        errorDialog("Navigation to AlbumOpenView in development!");
+    }
+
+    @FXML
+    void buttonAlbumSearchClicked(MouseEvent event){
+        if(paneConfirmCreate.isVisible()) {
+            errorDialog("Please save pending changes before exiting.");
+            return;
+        }
+        errorDialog("Navigation to AlbumSearchView in development!");
+    }
+
     /**
      * FXML method used to quit the application when the menu item is clicked.
      */
@@ -125,6 +142,7 @@ public class AlbumListController extends ListController<Album>{
         writeUsersAndQuit(event);
     }
 
+
     /**
      * Refreshes the label used to display the current user's username
      */
@@ -150,6 +168,7 @@ public class AlbumListController extends ListController<Album>{
         });
         readUsers();
         refreshList();
+        
         listView.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
@@ -159,5 +178,15 @@ public class AlbumListController extends ListController<Album>{
         refreshUsernameDisplay();
     }   
 
-    public Album newEntry(String fieldKey)
+    public Album newEntry(String fieldKey){
+        return new Album(fieldKey);
+    }
+
+    public ArrayList<Album> getCollection(){
+        return Photos.getInstance().getCurrentUser().getAlbumList();
+    }
+
+    public void removeEntry(Album t){
+        this.getCollection().remove(t);
+    }
 }
