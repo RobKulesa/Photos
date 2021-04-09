@@ -44,6 +44,22 @@ public class User implements Serializable {
             Photo art2 = new Photo("data/art2.png");
             Photo art3 = new Photo("data/art3.jpg");
 
+            nature1.addTag("scene", "mountain");
+            nature1.addTag("scene", "lake");
+            nature1.addTag("season", "fall");
+
+            nature2.addTag("scene", "trail");
+            nature2.addTag("season", "summer");
+
+            art1.addTag("medium", "digital");
+            art1.addTag("subject", "chameleon");
+
+            art2.addTag("medium", "digital");
+            art2.addTag("subject", "watermelon");
+
+            art3.addTag("medium", "digital");
+            art3.addTag("subject", "pokemon");
+
             stockNature.addPhoto(nature1);
             stockNature.addPhoto(nature2);
 
@@ -96,7 +112,7 @@ public class User implements Serializable {
      */
     @Override
     public boolean equals(Object o) {
-        if(o==null || !(o instanceof User) || !(o instanceof String)) {
+        if(o==null || !(o instanceof User || o instanceof String)) {
             return false;
         }
         if(o instanceof User) {

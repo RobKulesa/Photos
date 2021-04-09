@@ -33,14 +33,20 @@ public class Photo implements Serializable {
         this.path = path;
         this.caption = null;
         this.lastModified = initLastModified(path);       // NEED TO FIX
-        this.tags = new TreeMap<String, ArrayList<String>>(new Comparator<String>(){
+        /* this.tags = new TreeMap<String, ArrayList<String>>(new Comparator<String>()  {
 
             @Override
             public int compare(String arg0, String arg1) {
                 return arg0.compareToIgnoreCase(arg1);
             }
             
-        });
+        }); */
+
+        this.tags = new TreeMap<String, ArrayList<String>>(
+            (Comparator<String> & Serializable) (o1, o2) -> {
+                return o1.compareToIgnoreCase(o2);
+            }
+        );
     }
 
     public String getPath(){
@@ -109,7 +115,12 @@ public class Photo implements Serializable {
     public void addTag(String name, String val) throws IllegalArgumentException {
         name = name.toLowerCase();
         val = val.toLowerCase();
-        for(String s : this.getTagValsByName(name)) {
+        ArrayList<String> vals = new ArrayList<String>();
+        if(!this.getTagNames().contains(name)) {
+            this.tags.put(name, vals);
+        }
+        vals = this.getTagValsByName(name);
+        for(String s : vals) {
             if(s.equals(val)) throw new IllegalArgumentException("Tag Value already exists for this photo!");
         }
         this.tags.get(name).add(val);
@@ -117,16 +128,18 @@ public class Photo implements Serializable {
 
     public ArrayList<String> getTagValsByName(String name) {
         name = name.toLowerCase();
-        return this.tags.get(name);
+        ArrayList<String> vals = this.tags.get(name);
+        if(vals == null) vals = new ArrayList<String>();
+        return vals;
     }
 
     
     public void removeTag(String name, String val) throws IllegalArgumentException {
         name = name.toLowerCase();
+        if(!this.getTagNames().contains(name)) throw new IllegalArgumentException("Tag Name does not exist!");
+
         final String value = val.toLowerCase();
         ArrayList<String> vals = this.getTagValsByName(name);
-
-        if(vals == null || vals.isEmpty()) throw new IllegalArgumentException("Tag Name does not exist!");
         if(!vals.contains(val)) throw new IllegalArgumentException("Tag Value does not exist!");
         vals.removeIf(new Predicate<String>() {
             @Override
@@ -139,8 +152,9 @@ public class Photo implements Serializable {
     public boolean hasTag(String name, String val) {
         name = name.toLowerCase();
         val = val.toLowerCase();
-
-        for(String s : this.getTagValsByName(name)) {
+        ArrayList<String> vals = this.getTagValsByName(name);
+        if(vals.isEmpty()) return false;
+        for(String s : vals) {
             if(s.equalsIgnoreCase(val)) return true;
         }
         return false;
@@ -156,5 +170,9 @@ public class Photo implements Serializable {
             s+= "no caption available";
         s+= "||" + this.lastModified.toString();
         return s;
+    }
+
+    public boolean isInDateRange(GregorianCalendar from, GregorianCalendar to) {
+        return this.lastModified.compareTo(from) >= 0 && this.lastModified.compareTo(to) <= 0;
     }
 }

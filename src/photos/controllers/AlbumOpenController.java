@@ -3,20 +3,18 @@ package photos.controllers;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import javafx.fxml.Initializable;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListCell;
 import javafx.scene.input.MouseEvent;
-import javafx.collections.ObservableList;
-import javafx.collections.FXCollections;
 import javafx.stage.Stage;
 import photos.app.Photos;
 import photos.structures.Photo;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 public class AlbumOpenController extends ListController<Photo> implements Initializable{
     
@@ -86,7 +84,7 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
     }
 
     public ArrayList<Photo> getCollection(){
-        return Photos.getInstance().getCurrentAlbum().getPhotoAlbum();
+        return Photos.getInstance().getCurrentAlbum().getPhotos();
     }
 
     public void removeEntry(Photo t){
@@ -97,7 +95,8 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
     public void initialize(URL location, ResourceBundle resources) {
         ObservableList<Photo> photoObservableList = FXCollections.observableArrayList(this.getCollection());
         listView.setItems(photoObservableList);
-        listView.setCellFactory(new ListCell<Photo>() {
+
+        /* listView.setCellFactory(new ListCell<Photo>() {
             final ImageView imgView = new ImageView();
             imgView.setFitHeight(200);
             imgView.setFitWidth(200);
@@ -113,7 +112,7 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
             cell.setGraphic(imgView);
             return cell
         });
-
+ */
 
     }
     

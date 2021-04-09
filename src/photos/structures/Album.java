@@ -50,7 +50,7 @@ public class Album implements Serializable {
 
     public void addPhoto(Photo p) {
         this.photoAlbum.add(p);
-        this.updateDates();
+        //this.updateDates();
     }
 
     public void deletePhoto(Photo p) {
@@ -58,8 +58,12 @@ public class Album implements Serializable {
         this.updateDates();
     }
 
-    public ArrayList<Photo> getPhotoAlbum() {
+    public ArrayList<Photo> getPhotos() {
         return this.photoAlbum;
+    }
+
+    public int getNumPhotos() {
+        return this.photoAlbum.size();
     }
 
     @Override
@@ -67,7 +71,7 @@ public class Album implements Serializable {
         String s = "";
         s += this.name;
         s += " | ";
-        s += Integer.toString(this.getPhotoAlbum().size());
+        s += Integer.toString(this.getPhotos().size());
         s += " | ";
         
         if(this.earliestDate != null && this.latestDate != null){

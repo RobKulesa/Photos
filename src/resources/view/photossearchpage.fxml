@@ -49,7 +49,7 @@
                         <TextField fx:id="fieldTagValue2" layoutX="206.0" layoutY="17.0" prefHeight="26.0" prefWidth="150.0" promptText="tag value 2" />
                      </children>
                   </Pane>
-                  <ComboBox fx:id="comboBoxCombination" layoutX="119.0" layoutY="58.0" prefWidth="150.0" promptText="and/or/none" />
+                  <ComboBox fx:id="comboBoxCombination" layoutX="119.0" layoutY="58.0" onAction="#comboBoxCombinationSelected" prefWidth="150.0" promptText="and/or/none" />
                   <TextField fx:id="fieldTagName1" layoutX="6.0" layoutY="14.0" prefHeight="26.0" prefWidth="158.0" promptText="tag name 1" />
                   <TextField fx:id="fieldTagValue1" layoutX="206.0" layoutY="14.0" prefHeight="26.0" prefWidth="150.0" promptText="tag value 1" />
                </children>
