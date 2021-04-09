@@ -38,63 +38,28 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="542.0" prefWidth="849.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="photos.controllers.AlbumListController">
+<VBox prefHeight="542.0" prefWidth="849.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="photos.controllers.AlbumListController">
   <children>
     <MenuBar prefHeight="23.0" prefWidth="629.0" VBox.vgrow="NEVER">
       <menus>
         <Menu mnemonicParsing="false" text="File">
           <items>
-            <MenuItem mnemonicParsing="false" text="New" />
-            <MenuItem mnemonicParsing="false" text="Open…" />
-            <Menu mnemonicParsing="false" text="Open Recent" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Close" />
-            <MenuItem mnemonicParsing="false" text="Save" />
-            <MenuItem mnemonicParsing="false" text="Save As…" />
-            <MenuItem mnemonicParsing="false" text="Revert" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Preferences…" />
-            <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" text="Quit" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Edit">
-          <items>
-            <MenuItem mnemonicParsing="false" text="Undo" />
-            <MenuItem mnemonicParsing="false" text="Redo" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Cut" />
-            <MenuItem mnemonicParsing="false" text="Copy" />
-            <MenuItem mnemonicParsing="false" text="Paste" />
-            <MenuItem mnemonicParsing="false" text="Delete" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Select All" />
-            <MenuItem mnemonicParsing="false" text="Unselect All" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Help">
-          <items>
-            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
           </items>
         </Menu>
       </menus>
     </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="392.0" prefWidth="661.0" VBox.vgrow="ALWAYS">
       <children>
-        <Label alignment="CENTER" layoutX="155.0" layoutY="177.0" style="&#10;" text="Drag components from Library here…" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
-          <font>
-            <Font size="18.0" />
-          </font>
-        </Label>
             <GridPane layoutY="427.0" prefHeight="90.0" prefWidth="849.0">
               <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -108,22 +73,18 @@
                <children>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <Button layoutX="41.0" layoutY="33.0" mnemonicParsing="false" text="Open Selected Album" />
+                        <Button fx:id="buttonAlbumOpen" layoutX="41.0" layoutY="33.0" mnemonicParsing="false" onMouseClicked="#buttonAlbumOpenClicked" text="Open Selected Album" />
                      </children>
                   </AnchorPane>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                      <children>
-                        <Button layoutX="59.0" layoutY="33.0" mnemonicParsing="false" text="Search Albums" />
+                        <Button fx:id="buttonAlbumSearch" layoutX="59.0" layoutY="33.0" mnemonicParsing="false" onMouseClicked="#buttonAlbumSearchClicked" text="Search Albums" />
                      </children>
                   </AnchorPane>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
-                     <children>
-                        <Button layoutX="79.0" layoutY="33.0" mnemonicParsing="false" text="Logout" />
-                     </children>
-                  </AnchorPane>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" />
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3">
                      <children>
-                        <Button layoutX="81.0" layoutY="33.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="50.0" text="Quit" />
+                        <Button fx:id="buttonLogout" layoutX="76.0" layoutY="30.0" mnemonicParsing="false" onMouseClicked="#buttonLogoutClicked" text="Logout" />
                      </children>
                   </AnchorPane>
                </children>
@@ -133,18 +94,21 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <ListView layoutX="15.0" layoutY="37.0" prefHeight="386.0" prefWidth="552.0" />
-            <Button layoutX="638.0" layoutY="81.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="148.0" text="Create Album" />
-            <Button layoutX="638.0" layoutY="134.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="148.0" text="Rename Selected Album" />
-            <Button layoutX="638.0" layoutY="178.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="148.0" text="Remove Selected Album" />
-            <TextField layoutX="663.0" layoutY="305.0" promptText="Insert Name Here" />
-            <Label alignment="CENTER" layoutX="613.0" layoutY="309.0" prefHeight="17.0" prefWidth="50.0" text="Name:" />
-            <Button layoutX="719.0" layoutY="338.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="108.0" text="Confirm Changes" />
-            <Label layoutX="631.0" layoutY="377.0" text="Invalid Album Name Detected!" textFill="RED" />
-            <Label layoutX="667.0" layoutY="394.0" text="Please Try Again!" textFill="RED" />
-            <Button layoutX="600.0" layoutY="338.0" mnemonicParsing="false" text="Cancel Changes" />
-            <Label layoutX="636.0" layoutY="29.0" text="Welcome:" />
-            <Label fx:id="usernameDisplay" layoutX="698.0" layoutY="29.0" />
+            <ListView fx:id="listView" layoutX="15.0" layoutY="37.0" prefHeight="386.0" prefWidth="552.0" />
+            <Button fx:id="buttonCreate" layoutX="622.0" layoutY="81.0" mnemonicParsing="false" onMouseClicked="#buttonCreateClicked" prefHeight="26.0" prefWidth="180.0" text="Create Album" />
+            <Button fx:id="buttonRename" layoutX="622.0" layoutY="123.0" mnemonicParsing="false" onMouseClicked="#buttonRenameClicked" prefHeight="26.0" prefWidth="180.0" text="Rename Selected Album" />
+            <Button fx:id="buttonDelete" layoutX="622.0" layoutY="163.0" mnemonicParsing="false" onMouseClicked="#buttonDeleteClicked" prefHeight="26.0" prefWidth="180.0" text="Remove Selected Album" />
+            <Label layoutX="581.0" layoutY="37.0" text="Welcome:" />
+            <Label fx:id="usernameDisplay" layoutX="657.0" layoutY="37.0" prefHeight="16.0" prefWidth="180.0" />
+            <Pane fx:id="paneConfirmCreate" layoutX="596.0" layoutY="245.0" prefHeight="178.0" prefWidth="233.0" visible="false">
+               <children>
+                  <TextField fx:id="fieldNewEntry" layoutX="70.0" layoutY="31.0" promptText="Insert Name Here" />
+                  <Label fx:id="labelEntryField" alignment="CENTER" layoutY="35.0" prefHeight="17.0" prefWidth="50.0" text="Album" />
+                  <Button fx:id="buttonConfirm" layoutY="77.0" mnemonicParsing="false" onMouseClicked="#buttonConfirmClicked" prefHeight="25.0" prefWidth="108.0" text="Confirm Changes" />
+                  <Label fx:id="labelInvalidAddition" layoutX="35.0" layoutY="121.0" text="Invalid Album Name Detected!" textFill="RED" visible="false" />
+                  <Button fx:id="buttonCancel" layoutX="133.0" layoutY="77.0" mnemonicParsing="false" onMouseClicked="#buttonCancelClicked" text="Cancel Changes" />
+               </children>
+            </Pane>
       </children>
     </AnchorPane>
   </children>

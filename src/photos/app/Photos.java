@@ -3,6 +3,7 @@ package photos.app;
 import photos.Debug;
 import photos.controllers.Controller;
 import photos.structures.User;
+import photos.structures.UserList;
 
 import java.io.IOException;
 
@@ -30,7 +31,12 @@ public class Photos extends Application {
     /**
      * Field for the currently logged in user, if any.
      */
-    User currentUser;
+    private User currentUser;
+
+    /**
+     * Reference to the current {@link UserList}.
+     */
+    private UserList userList;
 
     /**
      * Static field that holds the reference to the current instance of the application.
@@ -69,6 +75,14 @@ public class Photos extends Application {
      */
     public void setCurrentUser(User user) {
         currentUser = user;
+    }
+
+    public UserList getUserList() {
+        return userList;
+    }
+
+    public void setUserList(UserList userList) {
+        this.userList = userList;
     }
 
     /**
@@ -112,8 +126,7 @@ public class Photos extends Application {
      */
     public void goToAdminPage() {
         try {
-            replaceSceneContent("/resources/view/testadminpage.fxml");
-            //replaceSceneContent("/resources/view/adminpage.fxml");
+            replaceSceneContent("/resources/view/adminpage.fxml");
             if(Debug.debugPhotos) System.out.println("Photos Sending user (" + currentUser + ") to admin page");
         } catch (Exception ex) {
             ex.printStackTrace();

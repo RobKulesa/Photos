@@ -1,5 +1,7 @@
 package photos.structures;
 import java.util.*;
+import java.io.Serializable;
+
 /**
  * Photo is a class that models a photo in the application
  * 
@@ -7,7 +9,10 @@ import java.util.*;
  * @author Aaron Kan 
  */
 
-public class Photo {
+public class Photo implements Serializable {
+    
+    private static final long serialVersionUID = 2L;
+
     private String path;
     private String caption;
     private GregorianCalendar lastModified;

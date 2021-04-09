@@ -1,6 +1,7 @@
 package photos.controllers;
 
 import photos.Debug;
+import photos.app.Photos;
 import photos.structures.UserList;
 
 import java.io.IOException;
@@ -28,11 +29,6 @@ public abstract class Controller {
     protected Stage mainStage;
 
     /**
-     * Reference to the current {@link UserList}.
-     */
-    protected UserList userList;
-
-    /**
      * FXML File Menu > Quit Menu Item
      */
     @FXML
@@ -58,7 +54,7 @@ public abstract class Controller {
      * 
      * @param errorMsg    Error message to be shown in popup dialog.
      */
-    public void errorDialog(String errorMsg) {
+    protected void errorDialog(String errorMsg) {
         Dialog<String> dialog = new Dialog<String>();
 		dialog.setTitle("Error! =(");
 		ButtonType type = new ButtonType("Ok", ButtonData.OK_DONE);
@@ -73,11 +69,11 @@ public abstract class Controller {
      */
     protected void readUsers() {
         try {
-            userList = UserList.readUserList();
+            Photos.getInstance().setUserList(UserList.readUserList());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(Debug.debugControllers) System.out.println("LoginController Read User List: " + userList.toString());
+        if(Debug.debugControllers) System.out.println("LoginController Read User List: " + Photos.getInstance().getUserList().toString());
     }
 
     /**
@@ -85,8 +81,8 @@ public abstract class Controller {
      */
     protected void writeUsers() {
         try {
-            if(Debug.debugControllers) System.out.println("LoginController Write User List: " + userList.toString());
-            UserList.writeUserList(userList);
+            if(Debug.debugControllers) System.out.println("LoginController Write User List: " + Photos.getInstance().getUserList().toString());
+            UserList.writeUserList(Photos.getInstance().getUserList());
         } catch (IOException e) { 
             errorDialog("An unexpected error occured. Please try again");
         }
@@ -99,8 +95,8 @@ public abstract class Controller {
      */
     protected void writeUsersAndQuit(Event event) {
         try {
-            if(Debug.debugControllers && userList != null) System.out.println("LoginController Write User List: " + userList.toString());
-            UserList.writeUserList(userList);
+            if(Debug.debugControllers && Photos.getInstance().getUserList() != null) System.out.println("LoginController Write User List: " + Photos.getInstance().getUserList().toString());
+            UserList.writeUserList(Photos.getInstance().getUserList());
             mainStage.close();
         } catch (Exception e) { 
             errorDialog(e.getMessage());

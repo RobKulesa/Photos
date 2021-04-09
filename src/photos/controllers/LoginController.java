@@ -52,8 +52,8 @@ public class LoginController extends Controller {
         //2. Check to see if the field is contained within users.txt
         String loginAttempt = fieldUsername.getText();
         boolean goodLogin = false;
-        for(int i = 0; i < userList.getLength(); ++i) {
-            User user = userList.getUser(i);
+        for(int i = 0; i < Photos.getInstance().getUserList().getLength(); ++i) {
+            User user = Photos.getInstance().getUserList().getUser(i);
             goodLogin = user.getUsername().equals(loginAttempt);
             if(goodLogin) {
                 textLoginFailed.setVisible(false);

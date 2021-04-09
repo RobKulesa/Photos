@@ -1,12 +1,17 @@
 package photos.structures;
 import java.util.*;
+import java.io.Serializable;
+
 /**
  * Photo is a class that models a photo-album in the application
  * 
  * @author Robert Kulesa
  * @author Aaron Kan 
  */
-public class Album {
+public class Album implements Serializable {
+    
+    private static final long serialVersionUID = 2L;
+    
     /**
      * Name of the album
      */
@@ -39,26 +44,26 @@ public class Album {
         return this.name;
     }
 
-    public void setName(String newName){
+    public void setName(String newName) {
         this.name = newName;
     }
 
-    public void insertPhoto(Photo p){
+    public void insertPhoto(Photo p) {
         this.photoAlbum.add(p);
         this.updateDates();
     }
 
-    public void deletePhoto(Photo p){
+    public void deletePhoto(Photo p) {
         this.photoAlbum.remove(p);
         this.updateDates();
     }
 
-    public ArrayList<Photo> getPhotoAlbum(){
+    public ArrayList<Photo> getPhotoAlbum() {
         return this.photoAlbum;
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         String s = "";
         s += this.name;
         s += "\t";
@@ -77,14 +82,14 @@ public class Album {
         return s;
     }
 
-    public void updateDates(){
-        if(this.photoAlbum.size() == 0){
+    public void updateDates() {
+        if(this.photoAlbum.size() == 0) {
             this.earliestDate = null;
             this.latestDate = null;
-        } else if(this.photoAlbum.size() == 1){
+        } else if(this.photoAlbum.size() == 1) {
             this.earliestDate = this.photoAlbum.get(0).getLastModified();
-        }else {
-            for(Photo p : this.photoAlbum){
+        } else {
+            for(Photo p : this.photoAlbum) {
                 if(p.getLastModified().compareTo(this.earliestDate) < 0)
                     this.earliestDate = p.getLastModified();
                 else if(p.getLastModified().compareTo(this.latestDate) > 0)
@@ -93,4 +98,12 @@ public class Album {
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if(o==null || !(o instanceof Album)) {
+            return false;
+        }
+        Album other = (Album) o;
+        return this.getName().equalsIgnoreCase(other.getName());
+    }
 }

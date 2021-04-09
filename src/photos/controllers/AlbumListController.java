@@ -1,22 +1,18 @@
 package photos.controllers;
 
+import java.util.ArrayList;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.control.ListView;
-import javafx.scene.layout.Pane;
-import javafx.scene.control.MenuItem;
-import java.util.ArrayList;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import javafx.scene.control.Label;
-import photos.Debug;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import photos.app.Photos;
-import photos.structures.User;
 import photos.structures.Album;
+import photos.structures.User;
+
 /**
  * Controller for the normal user subsystem.
  * 
@@ -24,43 +20,7 @@ import photos.structures.Album;
  * @author Robert Kulesa 
  */
 
-public class AlbumListController extends ListController<Album>{
-    
-    
-    private static boolean allowSelect = true;
-    
-    @FXML
-    private ListView<Album> listView;
-
-    @FXML
-    private Button buttonCreate;
-
-    @FXML
-    private Pane paneConfirmCreate;
-
-    @FXML
-    private TextField fieldNewEntry;
-
-    @FXML
-    private Label labelEntryField;
-
-    @FXML
-    private Button buttonConfirm;
-
-    /**
-     * FXML button to cancel creation of new user.
-     */
-    @FXML
-    private Button buttonCancel;
-
-    @FXML 
-    private Label labelInvalidAddition;
-
-    @FXML 
-    private Button buttonDelete;
-
-    @FXML
-    private MenuItem menuItemQuit;
+public class AlbumListController extends ListController<Album> {
 
     /**
      * FXML Label used for displaying the current user's username
@@ -76,9 +36,6 @@ public class AlbumListController extends ListController<Album>{
 
     @FXML
     private Button buttonLogout;
-
-    @FXML
-    private Button buttonQuit;
     
 
     @FXML
@@ -97,6 +54,11 @@ public class AlbumListController extends ListController<Album>{
             return;
         }
         errorDialog("Navigation to AlbumSearchView in development!");
+    }
+
+    @FXML 
+    void buttonRenameClicked(MouseEvent event){
+        errorDialog("we didn't implement this yet kekw");
     }
 
     /**
