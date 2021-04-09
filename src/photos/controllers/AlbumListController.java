@@ -11,7 +11,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import photos.app.Photos;
 import photos.structures.Album;
-import photos.structures.User;
 
 /**
  * Controller for the normal user subsystem.
@@ -32,28 +31,37 @@ public class AlbumListController extends ListController<Album> {
     private Button buttonAlbumOpen;
 
     @FXML
-    private Button buttonAlbumSearch;
+    private Button buttonPhotosSearch;
 
     @FXML
     private Button buttonLogout;
+    
     
 
     @FXML
     void buttonAlbumOpenClicked(MouseEvent event){
         if(paneConfirmCreate.isVisible()) {
-            errorDialog("Please save pending changes before exiting.");
+            errorDialog("Please save pending changes before leaving page.");
             return;
         }
-        errorDialog("Navigation to AlbumOpenView in development!");
+
+        Album selectedEntry = listView.getSelectionModel().getSelectedItem();
+        if(selectedEntry == null){
+            errorDialog("Please select an album to open first.");
+            return;
+        }
+
+        Photos.getInstance().setCurrentAlbum(selectedEntry);
+        Photos.getInstance().goToAlbumOpen();
     }
 
     @FXML
-    void buttonAlbumSearchClicked(MouseEvent event){
+    void buttonPhotosSearchClicked(MouseEvent event){
         if(paneConfirmCreate.isVisible()) {
             errorDialog("Please save pending changes before exiting.");
             return;
         }
-        errorDialog("Navigation to AlbumSearchView in development!");
+        Photos.getInstance().goToPhotosSearch();
     }
 
     @FXML 

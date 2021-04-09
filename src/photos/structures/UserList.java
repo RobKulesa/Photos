@@ -58,6 +58,10 @@ public class UserList implements Serializable {
         users.add(u);
     }
 
+    public void addUser(User u, int index) {
+        users.add(index, u);
+    }
+
     /**
      * Remove a user to the UserList.
      * 
@@ -136,9 +140,12 @@ public class UserList implements Serializable {
                 if(Debug.debugUsers) System.out.println("\tuserList.users is null");
                 userList = new UserList();
                 userList.addUser(new User("admin"));
-            } else if (userList.getLength() == 0) {
-                if(Debug.debugUsers) System.out.println("\tuserList.users is empty");
-                userList.addUser(new User("admin"));
+            } 
+            if(!userList.containsUser("admin")) {
+                userList.addUser(new User("admin"), 0);
+            }
+            if(!userList.containsUser("stock")) {
+                userList.addUser(new User("stock"), 1);
             }
         }
 
@@ -152,4 +159,17 @@ public class UserList implements Serializable {
         return users.toString();
     }
     
+    public boolean containsUser(User u) {
+        for(User listUser : this.users) {
+            if(listUser.equals(u)) return true;
+        }
+        return false;
+    }
+
+    public boolean containsUser(String u) {
+        for(User listUser : this.users) {
+            if(listUser.equals(u)) return true;
+        }
+        return false;
+    }
 }

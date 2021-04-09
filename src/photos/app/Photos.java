@@ -4,7 +4,7 @@ import photos.Debug;
 import photos.controllers.Controller;
 import photos.structures.User;
 import photos.structures.UserList;
-
+import photos.structures.Album;
 import java.io.IOException;
 
 import javafx.application.Application;
@@ -38,6 +38,10 @@ public class Photos extends Application {
      */
     private UserList userList;
 
+    /**
+     * Reference to the current album (if any)
+     */
+    private Album currentAlbum;
     /**
      * Static field that holds the reference to the current instance of the application.
      */
@@ -85,6 +89,13 @@ public class Photos extends Application {
         this.userList = userList;
     }
 
+    public Album getCurrentAlbum() {
+        return currentAlbum;
+    }
+
+    public void setCurrentAlbum(Album currentAlbum) {
+        this.currentAlbum = currentAlbum;
+    }
     /**
      * Implements the start method of superclass Application. Starts the application
      * and directs the user to the login page.
@@ -128,6 +139,24 @@ public class Photos extends Application {
         try {
             replaceSceneContent("/resources/view/adminpage.fxml");
             if(Debug.debugPhotos) System.out.println("Photos Sending user (" + currentUser + ") to admin page");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void goToAlbumOpen(){
+        try {
+            replaceSceneContent("/resources/view/testalbumopen.fxml");
+            if(Debug.debugPhotos) System.out.println("Photos Sending user (" + currentUser + ") to admin page");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void goToPhotosSearch() {
+        try {
+            replaceSceneContent("/resources/view/photossearchpage.fxml");
+            if(Debug.debugPhotos) System.out.println("Photos Sending user (" + currentUser + ") to photos search page");
         } catch (Exception ex) {
             ex.printStackTrace();
         }

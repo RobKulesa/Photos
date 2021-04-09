@@ -33,6 +33,27 @@ public class User implements Serializable {
     public User(String username) {
         this.username = username;
         this.albums = new ArrayList<Album>();
+
+        if(username.equalsIgnoreCase("stock")) {
+            Album stockNature = new Album("nature");
+            Album stockArt = new Album("art");
+
+            Photo nature1 = new Photo("data/nature1.jpg");
+            Photo nature2 = new Photo("data/nature2.jpg");
+            Photo art1 = new Photo("data/art1.png");
+            Photo art2 = new Photo("data/art2.png");
+            Photo art3 = new Photo("data/art3.jpg");
+
+            stockNature.addPhoto(nature1);
+            stockNature.addPhoto(nature2);
+
+            stockArt.addPhoto(art1);
+            stockArt.addPhoto(art2);
+            stockArt.addPhoto(art3);
+
+            this.albums.add(stockNature);
+            this.albums.add(stockArt);
+        }
     }
 
     /**
@@ -75,10 +96,15 @@ public class User implements Serializable {
      */
     @Override
     public boolean equals(Object o) {
-        if(o==null || !(o instanceof User)) {
+        if(o==null || !(o instanceof User) || !(o instanceof String)) {
             return false;
         }
-        User other = (User) o;
-        return this.getUsername().equalsIgnoreCase(other.getUsername());
+        if(o instanceof User) {
+            User otherUser = (User) o;
+            return this.getUsername().equalsIgnoreCase(otherUser.getUsername());
+        } else {
+            String otherString = (String) o;
+            return this.getUsername().equalsIgnoreCase(otherString);
+        }
     }
 }

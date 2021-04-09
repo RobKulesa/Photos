@@ -78,7 +78,7 @@
                   </AnchorPane>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                      <children>
-                        <Button fx:id="buttonAlbumSearch" layoutX="59.0" layoutY="33.0" mnemonicParsing="false" onMouseClicked="#buttonAlbumSearchClicked" text="Search Albums" />
+                        <Button fx:id="buttonPhotosSearch" layoutX="59.0" layoutY="33.0" mnemonicParsing="false" onMouseClicked="#buttonPhotosSearchClicked" text="Search Photos" />
                      </children>
                   </AnchorPane>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" />
@@ -100,13 +100,13 @@
             <Button fx:id="buttonDelete" layoutX="622.0" layoutY="163.0" mnemonicParsing="false" onMouseClicked="#buttonDeleteClicked" prefHeight="26.0" prefWidth="180.0" text="Remove Selected Album" />
             <Label layoutX="581.0" layoutY="37.0" text="Welcome:" />
             <Label fx:id="usernameDisplay" layoutX="657.0" layoutY="37.0" prefHeight="16.0" prefWidth="180.0" />
-            <Pane fx:id="paneConfirmCreate" layoutX="596.0" layoutY="245.0" prefHeight="178.0" prefWidth="233.0" visible="false">
+            <Pane fx:id="paneConfirmCreate" layoutX="571.0" layoutY="245.0" prefHeight="178.0" prefWidth="277.0" visible="false">
                <children>
-                  <TextField fx:id="fieldNewEntry" layoutX="70.0" layoutY="31.0" promptText="Insert Name Here" />
-                  <Label fx:id="labelEntryField" alignment="CENTER" layoutY="35.0" prefHeight="17.0" prefWidth="50.0" text="Album" />
-                  <Button fx:id="buttonConfirm" layoutY="77.0" mnemonicParsing="false" onMouseClicked="#buttonConfirmClicked" prefHeight="25.0" prefWidth="108.0" text="Confirm Changes" />
+                  <TextField fx:id="fieldNewEntry" layoutX="56.0" layoutY="32.0" prefHeight="26.0" prefWidth="212.0" promptText="Insert Name Here" />
+                  <Label fx:id="labelEntryField" alignment="CENTER" layoutX="4.0" layoutY="36.0" prefHeight="17.0" prefWidth="50.0" text="Album" />
+                  <Button fx:id="buttonConfirm" layoutY="76.0" mnemonicParsing="false" onMouseClicked="#buttonConfirmClicked" prefHeight="26.0" prefWidth="137.0" text="Confirm Changes" />
                   <Label fx:id="labelInvalidAddition" layoutX="35.0" layoutY="121.0" text="Invalid Album Name Detected!" textFill="RED" visible="false" />
-                  <Button fx:id="buttonCancel" layoutX="133.0" layoutY="77.0" mnemonicParsing="false" onMouseClicked="#buttonCancelClicked" text="Cancel Changes" />
+                  <Button fx:id="buttonCancel" layoutX="149.0" layoutY="76.0" mnemonicParsing="false" onMouseClicked="#buttonCancelClicked" prefHeight="26.0" prefWidth="128.0" text="Cancel Changes" />
                </children>
             </Pane>
       </children>

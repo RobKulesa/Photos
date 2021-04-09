@@ -48,7 +48,7 @@ public class Album implements Serializable {
         this.name = newName;
     }
 
-    public void insertPhoto(Photo p) {
+    public void addPhoto(Photo p) {
         this.photoAlbum.add(p);
         this.updateDates();
     }
@@ -66,9 +66,9 @@ public class Album implements Serializable {
     public String toString() {
         String s = "";
         s += this.name;
-        s += "\t";
-        s+= Integer.toString(this.getPhotoAlbum().size());
-        s+= "\t";
+        s += " | ";
+        s += Integer.toString(this.getPhotoAlbum().size());
+        s += " | ";
         
         if(this.earliestDate != null && this.latestDate != null){
             s+= this.earliestDate.toString();
