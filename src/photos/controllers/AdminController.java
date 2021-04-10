@@ -100,7 +100,7 @@ public class AdminController extends ListController<User> {
             writeUsersAndQuit(event);
         });
         readUsers();
-        refreshList();
+        refreshList(null);
         //EventFilter used to stop selection when creating a new user
         listView.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
 			@Override

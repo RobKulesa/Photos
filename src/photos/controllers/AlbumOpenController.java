@@ -25,7 +25,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import photos.Debug;
 import photos.app.Photos;
+import photos.structures.Album;
 import photos.structures.Photo;
 
 public class AlbumOpenController extends ListController<Photo> implements Initializable {
@@ -49,6 +51,12 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
     private AnchorPane paneAddEditCaption;
 
     @FXML
+    private Button buttonAddTag;
+
+    @FXML
+    private Button buttonRemoveTag;
+
+    @FXML
     private TextField fieldNewCaption;
 
     @FXML
@@ -58,7 +66,7 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
     private Button buttonCancelNewCaption;
 
     @FXML
-    private ListView<?> listViewTags;
+    private ListView<String> listViewTags;
 
     @FXML
     private AnchorPane paneAddTag;
@@ -76,7 +84,7 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
     private TextField fieldTagValue;
 
     @FXML
-    private ListView<?> listViewAlbums;
+    private ListView<Album> listViewAlbums;
 
     @FXML
     private AnchorPane paneMoveCopy;
@@ -101,7 +109,40 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
 
     @FXML
     void buttonAddEditCaptionClicked(MouseEvent event) {
+        allowSelect = false;
+        paneAddEditCaption.setVisible(true);
+        fieldNewCaption.setEditable(true);
+        buttonConfirmNewCaption.setDisable(false);
+        buttonCancelNewCaption.setDisable(false);
+    }
 
+    @FXML
+    void buttonCancelNewCaptionClicked(MouseEvent event) {
+        allowSelect = true;
+        buttonCancelNewCaption.setDisable(true);
+        buttonConfirmNewCaption.setDisable(true);
+        fieldNewCaption.setEditable(false);
+        paneAddEditCaption.setVisible(false);
+    }
+
+    @FXML
+    void buttonAddTagClicked(MouseEvent event) {
+        allowSelect = false;
+        paneAddTag.setVisible(true);
+        fieldTagName.setEditable(true);
+        fieldTagValue.setEditable(true);
+        buttonConfirmNewTag.setDisable(false);
+        buttonCancelNewTag.setDisable(false);
+    }
+
+    @FXML
+    void buttonCancelNewTagClicked(MouseEvent event) {
+        allowSelect = true;
+        buttonCancelNewTag.setDisable(true);
+        buttonConfirmNewTag.setDisable(true);
+        fieldTagValue.setEditable(false);
+        fieldTagName.setEditable(false);
+        paneAddTag.setVisible(false);
     }
 
     @FXML
@@ -115,34 +156,116 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
     }
 
     @FXML
-    void buttonCancelNewCaptionClicked(MouseEvent event) {
-
-    }
-
-    @FXML
-    void buttonCancelNewTagClicked(MouseEvent event) {
-
-    }
-
-    @FXML
     void buttonConfirmNewCaptionClicked(MouseEvent event) {
+        Photo selectedPhoto = listView.getSelectionModel().getSelectedItem();
+        String newCaption = fieldNewCaption.getText();
+        if(newCaption == null){
+            newCaption = "";
+        }
+        
+        selectedPhoto.setCaption(newCaption);
+        refreshList(selectedPhoto);
 
+        allowSelect = true;
+
+        buttonCancelNewCaption.setDisable(true);
+        buttonConfirmNewCaption.setDisable(true);
+        fieldNewCaption.setEditable(false);
+        paneAddEditCaption.setVisible(false);
     }
 
     @FXML
     void buttonConfirmNewTagClicked(MouseEvent event) {
+        Photo selectedPhoto = listView.getSelectionModel().getSelectedItem();
+        String newTagName = fieldTagName.getText();
+        String newTagVal = fieldTagValue.getText();
+        if(newTagName.isEmpty() || newTagVal.isEmpty()){
+            errorDialog("New Tag Fields Cannot Be Empty!");
+            return;
+        }
+        
+        selectedPhoto.addTag(newTagName, newTagVal);
+        refreshList(selectedPhoto);
+        refreshTagsList();
 
+        allowSelect = true;
+
+        buttonCancelNewTag.setDisable(true);
+        buttonConfirmNewTag.setDisable(true);
+        fieldTagValue.setEditable(false);
+        fieldTagName.setEditable(false);
+        paneAddTag.setVisible(false);
     }
 
     @FXML
     void buttonCopyPhotoClicked(MouseEvent event) {
-
+        Album selectedAlbum = listViewAlbums.getSelectionModel().getSelectedItem();
+        Photo selectedPhoto = listView.getSelectionModel().getSelectedItem();
+        if(selectedAlbum == null) {
+            errorDialog("Please Select an Album First!");
+            return;
+        }
+        if(selectedPhoto == null) {
+            errorDialog("Please select a Photo First!");
+            return;
+        }
+        ArrayList<Album> userAlbums = new ArrayList<Album>(listViewAlbums.getItems());
+        for(Album a : userAlbums) {
+            if(selectedAlbum.equals(a)) {
+                errorDialog("Please select an album other than the currently opened one.");
+                return;
+            }
+            for(Photo p : a.getPhotos()) {
+                if(selectedPhoto.equals(p)) {
+                    errorDialog("This photo is already in this album!");
+                    return;
+                }
+            }
+        }
+        selectedAlbum.addPhoto(selectedPhoto);
     }
 
 
     @FXML
     void buttonMovePhotoClicked(MouseEvent event) {
+        Album selectedAlbum = listViewAlbums.getSelectionModel().getSelectedItem();
+        Photo selectedPhoto = listView.getSelectionModel().getSelectedItem();
+        if(selectedAlbum == null) {
+            errorDialog("Please Select an Album First!");
+            return;
+        }
+        if(selectedPhoto == null) {
+            errorDialog("Please select a Photo First!");
+            return;
+        }
+        ArrayList<Album> userAlbums = new ArrayList<Album>(listViewAlbums.getItems());
+        for(Album a : userAlbums) {
+            if(selectedAlbum.equals(a)) {
+                errorDialog("Please select an album other than the currently opened one.");
+                return;
+            }
+            for(Photo p : a.getPhotos()) {
+                if(selectedPhoto.equals(p)) {
+                    errorDialog("This photo is already in this album!");
+                    return;
+                }
+            }
+        }
+        selectedAlbum.addPhoto(selectedPhoto);
+        Photos.getInstance().getCurrentAlbum().deletePhoto(selectedPhoto);
+    }
 
+    
+
+    @FXML
+    void buttonRemoveTagClicked(MouseEvent event) {
+        Photo selectedPhoto = listView.getSelectionModel().getSelectedItem();
+        String[] tag = listViewTags.getSelectionModel().getSelectedItem().split(",", 2);
+        String name = tag[0].substring(1);
+        String val = tag[1].substring(0, tag[1].length()-2);
+
+        selectedPhoto.removeTag(name, val);
+        refreshTagsList();
     }
 
     @FXML
@@ -164,7 +287,7 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
 
     @FXML
     void photosListViewSelected(MouseEvent event) {
-        
+
     }
     
     @Override
@@ -179,7 +302,9 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
             writeUsersAndQuit(event);
         });
         readUsers();
-        refreshList();
+        refreshList(null);
+        refreshTagsList();
+        refreshAlbumsList();
         
         listView.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
 			@Override
@@ -187,6 +312,62 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
                 if(!allowSelect) event.consume();
 			}
 		});
+
+        listViewTags.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if(!allowSelect) event.consume();
+            }
+        });
+    }
+
+    public void refreshTagsList() {
+        Photo selectedPhoto = listView.getSelectionModel().getSelectedItem();
+        if(selectedPhoto == null) {
+            return;
+        }
+        listViewTags.getSelectionModel().clearSelection();
+        listViewTags.getItems().clear();
+
+        //Load items into list
+        listViewTags.getItems().addAll(selectedPhoto.getTagStrings());
+
+        if(Debug.debugControllers) System.out.println("AlbumOpenController Got Generic List: " + listViewTags.getItems());
+
+        listViewTags.getSelectionModel().select(0);
+        if(listViewTags.getItems().isEmpty()){
+            buttonRemoveTag.setVisible(false);
+            buttonRemoveTag.setDisable(true);
+        } else{
+            buttonRemoveTag.setVisible(true);
+            buttonRemoveTag.setDisable(false);
+        }
+        
+    }
+
+    public void refreshAlbumsList() {
+        ArrayList<Album> usersAlbums = Photos.getInstance().getCurrentUser().getAlbumList();
+        listViewAlbums.getSelectionModel().clearSelection();
+        listViewAlbums.getItems().clear();
+
+        //Load items into list
+        listViewAlbums.getItems().addAll(usersAlbums);
+
+        if(Debug.debugControllers) System.out.println("AlbumOpenController Got Generic List: " + listViewTags.getItems());
+
+        listViewAlbums.getSelectionModel().select(0);
+        if(listViewAlbums.getItems().isEmpty()) {
+            buttonMovePhoto.setVisible(false);
+            buttonMovePhoto.setDisable(true);
+            buttonCopyPhoto.setVisible(false);
+            buttonCopyPhoto.setDisable(true);
+        } else{
+            buttonMovePhoto.setVisible(true);
+            buttonMovePhoto.setDisable(false);
+            buttonCopyPhoto.setVisible(true);
+            buttonCopyPhoto.setDisable(false);
+        }
+        
     }
 
     @Override
@@ -274,6 +455,5 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
             
         }
     }
-
     
 }

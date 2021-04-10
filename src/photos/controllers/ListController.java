@@ -103,7 +103,7 @@ public abstract class ListController<T> extends Controller {
         getCollection().add(createdEntry);
 
         
-        refreshList();
+        refreshList(createdEntry);
         listView.getSelectionModel().select(createdEntry);
         allowSelect = true;
 
@@ -135,10 +135,10 @@ public abstract class ListController<T> extends Controller {
         }
 
         removeEntry(selectedEntry);
-        refreshList();
+        refreshList(null);
     }
 
-    public void refreshList() {
+    public void refreshList(T t) {
         listView.getSelectionModel().clearSelection();
         listView.getItems().clear();
 
@@ -147,7 +147,9 @@ public abstract class ListController<T> extends Controller {
 
         if(Debug.debugControllers) System.out.println("ListController Got Generic List: " + listView.getItems());
 
-        listView.getSelectionModel().select(0);
+        if(t == null) listView.getSelectionModel().select(0);
+        else listView.getSelectionModel().select(t);
+
         if(listView.getItems().isEmpty()){
             buttonDelete.setVisible(false);
             buttonDelete.setDisable(true);

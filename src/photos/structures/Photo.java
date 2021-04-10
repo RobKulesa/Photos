@@ -109,6 +109,16 @@ public class Photo implements Serializable {
         return this.tags;
     }
 
+    public ArrayList<String> getTagStrings() {
+        ArrayList<String> tagStrings = new ArrayList<String>();
+        for(String name : this.tags.keySet()) {
+            for(String val : this.tags.get(name)) {
+                tagStrings.add("(" + name + ", " + val + ")");
+            }
+        }
+        return tagStrings;
+    }
+
     public Set<String> getTagNames() {
         return this.tags.keySet();
     }

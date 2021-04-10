@@ -123,17 +123,17 @@
                                              <children>
                                                 <ListView fx:id="listViewTags" layoutX="7.0" layoutY="17.0" prefHeight="126.0" prefWidth="309.0" />
                                                 <Label layoutX="146.0" text="Tags" />
-                                                <Button layoutX="36.0" layoutY="151.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="100.0" text="Add Tag" />
-                                                <Button layoutX="177.0" layoutY="151.0" mnemonicParsing="false" text="Remove Tag" />
+                                                <Button fx:id="buttonAddTag" layoutX="36.0" layoutY="151.0" mnemonicParsing="false" onMouseClicked="#buttonAddTagClicked" prefHeight="26.0" prefWidth="100.0" text="Add Tag" />
+                                                <Button fx:id="buttonRemoveTag" layoutX="177.0" layoutY="151.0" mnemonicParsing="false" onMouseClicked="#buttonRemoveTagClicked" text="Remove Tag" />
                                              </children>
                                           </AnchorPane>
                                           <AnchorPane fx:id="paneAddTag" prefHeight="200.0" prefWidth="200.0" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                              <children>
-                                                <TextField fx:id="fieldTagName" layoutX="97.0" layoutY="27.0" prefHeight="26.0" prefWidth="212.0" promptText="Tag Name" />
+                                                <TextField fx:id="fieldTagName" editable="false" layoutX="97.0" layoutY="27.0" prefHeight="26.0" prefWidth="212.0" promptText="Tag Name" />
                                                 <Label layoutX="15.0" layoutY="32.0" prefHeight="16.0" prefWidth="81.0" text="Tag Name:" />
                                                 <Button fx:id="buttonConfirmNewTag" layoutX="70.0" layoutY="132.0" mnemonicParsing="false" onMouseClicked="#buttonConfirmNewTagClicked" prefHeight="26.0" prefWidth="88.0" text="Confirm" />
                                                 <Button fx:id="buttonCancelNewTag" layoutX="179.0" layoutY="132.0" mnemonicParsing="false" onMouseClicked="#buttonCancelNewTagClicked" prefHeight="26.0" prefWidth="81.0" text="Cancel" />
-                                                <TextField fx:id="fieldTagValue" layoutX="97.0" layoutY="63.0" prefHeight="26.0" prefWidth="212.0" promptText="Tag Value" />
+                                                <TextField fx:id="fieldTagValue" editable="false" layoutX="97.0" layoutY="63.0" prefHeight="26.0" prefWidth="212.0" promptText="Tag Value" />
                                                 <Label layoutX="15.0" layoutY="68.0" prefHeight="16.0" prefWidth="81.0" text="Tag Value:" />
                                              </children>
                                           </AnchorPane>
@@ -143,12 +143,12 @@
                                                 <Label layoutX="136.0" text="Albums" />
                                              </children>
                                           </AnchorPane>
-                                          <AnchorPane fx:id="paneMoveCopy" prefHeight="190.0" prefWidth="343.0" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                          <AnchorPane fx:id="paneMoveCopy" prefHeight="190.0" prefWidth="343.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                              <children>
                                                 <Button fx:id="buttonMovePhoto" layoutX="75.0" layoutY="54.0" mnemonicParsing="false" onMouseClicked="#buttonMovePhotoClicked" text="Move To Selected Album" />
                                                 <Button fx:id="buttonCopyPhoto" layoutX="75.0" layoutY="88.0" mnemonicParsing="false" onMouseClicked="#buttonCopyPhotoClicked" text="Copy To Selected Album" />
-                                                <Label fx:id="labelCopySuccessful" layoutX="108.0" layoutY="129.0" text="Copy Successful!" />
-                                                <Label fx:id="labelMoveSuccessful" layoutX="108.0" layoutY="22.0" text="Move Successful!" />
+                                                <Label fx:id="labelCopySuccessful" layoutX="108.0" layoutY="129.0" text="Copy Successful!" visible="false" />
+                                                <Label fx:id="labelMoveSuccessful" layoutX="108.0" layoutY="22.0" text="Move Successful!" visible="false" />
                                              </children>
                                           </AnchorPane>
                                        </children>

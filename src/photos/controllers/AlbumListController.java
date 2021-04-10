@@ -159,8 +159,7 @@ public class AlbumListController extends ListController<Album> {
             }
             selectedEntry.setName(inputEntryName);
         }
-        refreshList();
-        listView.getSelectionModel().select(selectedEntry);
+        refreshList(selectedEntry);
         allowSelect = true;
 
         paneConfirmCreate.setVisible(false);
@@ -193,7 +192,7 @@ public class AlbumListController extends ListController<Album> {
             writeUsersAndQuit(event);
         });
         readUsers();
-        refreshList();
+        refreshList(null);
         
         listView.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
 			@Override
