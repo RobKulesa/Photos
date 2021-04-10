@@ -146,7 +146,7 @@ public class Photos extends Application {
 
     public void goToAlbumOpen(){
         try {
-            replaceSceneContent("/resources/view/testalbumopen.fxml");
+            replaceSceneContent("/resources/view/albumopen.fxml");
             if(Debug.debugPhotos) System.out.println("Photos Sending user (" + currentUser + ") to admin page");
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -162,6 +162,7 @@ public class Photos extends Application {
         }
     }
 
+
     /**
      * Method for replacing the scene with new content.
      * 
@@ -169,9 +170,11 @@ public class Photos extends Application {
      */
     private void replaceSceneContent(String fxmlLocation) {
         try {
+
 			FXMLLoader loader = new FXMLLoader();
+            System.out.println(fxmlLocation);
 			loader.setLocation(getClass().getResource(fxmlLocation));
-			VBox vbox = (VBox)loader.load();
+            VBox vbox = (VBox)loader.load();
 			
             Controller controller = loader.getController();
             controller.setMainStage(mainStage);

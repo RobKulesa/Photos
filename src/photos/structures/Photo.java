@@ -11,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.text.SimpleDateFormat;
 import java.io.IOException;
 
 /**
@@ -82,10 +83,10 @@ public class Photo implements Serializable {
                                             Integer.parseInt(hours), Integer.parseInt(minutes), Integer.parseInt(seconds));
 
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            System.out.println("BadFileFed");
+            return null;
         }
-        
-        return null;
     }
 
     public String getCaption(){
@@ -162,17 +163,39 @@ public class Photo implements Serializable {
 
     @Override
     public String toString() {
-        String s = "";
-        s+= this.path + "||";
+        String s = "Filepath:\t";
+        s+= this.path + "\nCaption:\t";
         if(this.caption != null)
             s+= this.caption;
         else
             s+= "no caption available";
-        s+= "||" + this.lastModified.toString();
+        s+= "\nDate: \t";
+    
+        if(this.lastModified!=null){
+            SimpleDateFormat fmt = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
+            fmt.setCalendar(this.lastModified);
+            String formattedDate = fmt.format(this.lastModified.getTime());
+            s+= formattedDate;
+        } else
+            s+="no date available";
         return s;
     }
 
     public boolean isInDateRange(GregorianCalendar from, GregorianCalendar to) {
         return this.lastModified.compareTo(from) >= 0 && this.lastModified.compareTo(to) <= 0;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(o==null || !(o instanceof Photo || o instanceof String)) {
+            return false;
+        }
+        if(o instanceof Photo) {
+            Photo otherPhoto = (Photo) o;
+            return this.getPath().equals(otherPhoto.getPath());
+        } else {
+            String otherString = (String) o;
+            return this.getPath().equals(otherString);
+        }
     }
 }

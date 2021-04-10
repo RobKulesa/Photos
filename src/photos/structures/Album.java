@@ -20,7 +20,7 @@ public class Album implements Serializable {
     /**
      * Data structure that holds all the photos associated with the album
      */
-    private ArrayList<Photo> photoAlbum;
+    private ArrayList<Photo> photos;
 
     /**
      * A Calendar object that represents the earliest modification date in the album
@@ -35,7 +35,7 @@ public class Album implements Serializable {
 
     public Album(String name){
         this.name = name;
-        this.photoAlbum = new ArrayList<Photo>();
+        this.photos = new ArrayList<Photo>();
         this.earliestDate = null;
         this.latestDate = null;
     }
@@ -49,21 +49,22 @@ public class Album implements Serializable {
     }
 
     public void addPhoto(Photo p) {
-        this.photoAlbum.add(p);
-        //this.updateDates();
+        this.photos.add(p);
+        //this.updateDates(); TODO: fix this
     }
 
     public void deletePhoto(Photo p) {
-        this.photoAlbum.remove(p);
+        this.photos.remove(p);
         this.updateDates();
     }
 
     public ArrayList<Photo> getPhotos() {
-        return this.photoAlbum;
+        if(this.photos == null) this.photos = new ArrayList<Photo>();
+        return this.photos;
     }
 
     public int getNumPhotos() {
-        return this.photoAlbum.size();
+        return this.photos.size();
     }
 
     @Override
@@ -87,17 +88,30 @@ public class Album implements Serializable {
     }
 
     public void updateDates() {
-        if(this.photoAlbum.size() == 0) {
+        if(this.photos.size() == 0) {
             this.earliestDate = null;
             this.latestDate = null;
-        } else if(this.photoAlbum.size() == 1) {
-            this.earliestDate = this.photoAlbum.get(0).getLastModified();
+        } else if(this.photos.size() == 1) {
+            if(this.photos.get(0).getLastModified()!= null)
+                this.earliestDate = this.photos.get(0).getLastModified();
+            else{
+                this.earliestDate = null;
+                this.latestDate = null;
+            }
         } else {
-            for(Photo p : this.photoAlbum) {
-                if(p.getLastModified().compareTo(this.earliestDate) < 0)
-                    this.earliestDate = p.getLastModified();
-                else if(p.getLastModified().compareTo(this.latestDate) > 0)
-                    this.latestDate = p.getLastModified();
+            boolean allNull = true;
+            for(Photo p : this.photos) {
+                if(p.getLastModified() != null){
+                    allNull = false;
+                    if(p.getLastModified().compareTo(this.earliestDate) < 0)
+                        this.earliestDate = p.getLastModified();
+                    else if(p.getLastModified().compareTo(this.latestDate) > 0)
+                        this.latestDate = p.getLastModified();
+                }
+            }
+            if(allNull){
+                this.earliestDate = null;
+                this.latestDate = null;
             }
         }
     }

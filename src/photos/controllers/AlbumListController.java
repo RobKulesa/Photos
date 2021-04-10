@@ -53,6 +53,7 @@ public class AlbumListController extends ListController<Album> {
 
         Photos.getInstance().setCurrentAlbum(selectedEntry);
         Photos.getInstance().goToAlbumOpen();
+        return;
     }
 
     @FXML
@@ -62,6 +63,7 @@ public class AlbumListController extends ListController<Album> {
             return;
         }
         Photos.getInstance().goToPhotosSearch();
+        return;
     }
 
     @FXML 
@@ -158,5 +160,9 @@ public class AlbumListController extends ListController<Album> {
 
     public void removeEntry(Album t){
         this.getCollection().remove(t);
+    }
+
+    public boolean isGoodEntry(Album t){
+        return !isRepeatEntry(t);
     }
 }

@@ -54,7 +54,7 @@ public abstract class Controller {
      * 
      * @param errorMsg    Error message to be shown in popup dialog.
      */
-    protected void errorDialog(String errorMsg) {
+    public void errorDialog(String errorMsg) {
         Dialog<String> dialog = new Dialog<String>();
 		dialog.setTitle("Error! =(");
 		ButtonType type = new ButtonType("Ok", ButtonData.OK_DONE);
@@ -67,7 +67,7 @@ public abstract class Controller {
     /**
      * Read the userList from filesystem using {@link UserList}.readUserList().
      */
-    protected void readUsers() {
+    public void readUsers() {
         try {
             Photos.getInstance().setUserList(UserList.readUserList());
         } catch (Exception e) {
@@ -79,7 +79,7 @@ public abstract class Controller {
     /**
      * Write the userList to filesystem using {@link UserList}.writeUserList(userList).
      */
-    protected void writeUsers() {
+    public void writeUsers() {
         try {
             if(Debug.debugControllers) System.out.println("LoginController Write User List: " + Photos.getInstance().getUserList().toString());
             UserList.writeUserList(Photos.getInstance().getUserList());
@@ -93,7 +93,7 @@ public abstract class Controller {
      * 
      * @param event    The event causing the quit request.
      */
-    protected void writeUsersAndQuit(Event event) {
+    public void writeUsersAndQuit(Event event) {
         try {
             if(Debug.debugControllers && Photos.getInstance().getUserList() != null) System.out.println("LoginController Write User List: " + Photos.getInstance().getUserList().toString());
             UserList.writeUserList(Photos.getInstance().getUserList());

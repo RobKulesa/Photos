@@ -121,4 +121,8 @@ public class AdminController extends ListController<User> {
     public void removeEntry(User t){
         Photos.getInstance().getUserList().removeUser(t);
     }
+
+    public boolean isGoodEntry(User t){
+        return !isRepeatEntry(t);
+    }
 }

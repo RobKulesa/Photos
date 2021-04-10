@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
     Copyright (c) 2015, 2019, Gluon and/or its affiliates.
     All rights reserved. Use is subject to license terms.
@@ -88,13 +87,22 @@
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2" />
                   <AnchorPane prefHeight="63.0" prefWidth="107.0" GridPane.rowIndex="3" />
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4" />
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="5" />
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="5">
+                     <children>
+                        <Button fx:id="buttonLogout" layoutX="19.0" layoutY="19.0" mnemonicParsing="false" onMouseClicked="#buttonLogoutClicked" prefHeight="25.0" prefWidth="98.0" text="Logout" />
+                     </children></AnchorPane>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="6">
                      <children>
-                        <Button fx:id="buttonLogout" layoutX="18.0" layoutY="20.0" mnemonicParsing="false" onMouseClicked="#buttonLogoutClicked" prefHeight="25.0" prefWidth="98.0" text="Logout" />
+                        <Button fx:id="buttonBack" layoutX="18.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#buttonBackClicked" prefHeight="25.0" prefWidth="98.0" text="&lt; Back" />
                      </children>
                   </AnchorPane>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="7" />
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="7">
+                     <children>
+                        <Label layoutX="31.0" layoutY="6.0" text="Above button" />
+                        <Label layoutX="35.0" layoutY="23.0" text="navigates to" />
+                        <Label layoutX="28.0" layoutY="41.0" text="previous scene" />
+                     </children>
+                  </AnchorPane>
                </children>
             </GridPane>
             <ListView fx:id="listView" layoutX="325.0" layoutY="37.0" prefHeight="290.0" prefWidth="343.0" />

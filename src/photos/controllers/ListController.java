@@ -86,7 +86,8 @@ public abstract class ListController<T> extends Controller {
         allowSelect = false;
     }
 
-    @FXML void buttonConfirmClicked(MouseEvent event){
+    @FXML 
+    void buttonConfirmClicked(MouseEvent event){
         String inputEntryName = fieldNewEntry.getText();
         T createdEntry = newEntry(inputEntryName);
         if(inputEntryName.isBlank()){
@@ -94,13 +95,13 @@ public abstract class ListController<T> extends Controller {
             return;
         }
 
-        for(T tInList : getCollection()){
-            if(tInList.equals(createdEntry)){
-                labelInvalidAddition.setVisible(true);
-                return;
-            }
+        if(!isGoodEntry(createdEntry)){
+            labelInvalidAddition.setVisible(true);
+            return;
         }
+            
 
+        
         getCollection().add(createdEntry);
         refreshList();
         listView.getSelectionModel().select(createdEntry);
@@ -156,8 +157,19 @@ public abstract class ListController<T> extends Controller {
         }
         
     }
+
+    public boolean isRepeatEntry(T t){
+        for(T tInList : getCollection()){
+            if(tInList.equals(t)){
+                return true;
+            }
+        }
+        return false;
+    }
     
     public abstract T newEntry(String fieldKey);
     public abstract ArrayList<T> getCollection();
     public abstract void removeEntry(T t);
-}
+    public abstract boolean isGoodEntry(T entry);
+    
+} 
