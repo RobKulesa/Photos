@@ -20,6 +20,7 @@ import photos.structures.Photo;
 public class SlideshowController extends Controller implements Initializable {
 
     int currentIndex;
+    int albumSize;
 
     @FXML
     private Button buttonNext;
@@ -55,27 +56,68 @@ public class SlideshowController extends Controller implements Initializable {
     @FXML
     void buttonNextClicked(MouseEvent event) {
         currentIndex+=1;
+        if(currentIndex == albumSize -1){
+            buttonNext.setVisible(false);
+            buttonNext.setDisable(true);
+        }
+        if(currentIndex!= 0){
+            buttonPrev.setVisible(true);
+            buttonPrev.setDisable(false);
+        }
+        try{
+            changeImageViewImage();;
+        } catch(Exception ex){
+            ex.printStackTrace();
+        }
+        
     }
 
     @FXML
     void buttonPrevClicked(MouseEvent event) {
         currentIndex -=1;
+        if(currentIndex == 0){
+            buttonPrev.setVisible(false);
+            buttonPrev.setDisable(true);
+        }
+        if(currentIndex!= albumSize-1){
+            buttonNext.setVisible(true);
+            buttonNext.setDisable(false);
+        }
+        try{
+            changeImageViewImage();;
+        } catch(Exception ex){
+            ex.printStackTrace();
+        }
     }
 
     public void changeImageViewImage() throws FileNotFoundException {
-        Photo currentPhoto = Photos.getInstance().getCurrentAlbum().getPhotos().get(currentIndex);
-        String absolutePath = FileSystems.getDefault().getPath(currentPhoto.getPath()).normalize().toAbsolutePath().toString();
-        System.out.println(absolutePath);
-        InputStream inputStream = new FileInputStream(absolutePath);
-        Image img = new Image(inputStream);
+        try{
+            Photo currentPhoto = Photos.getInstance().getCurrentAlbum().getPhotos().get(currentIndex);
+            String absolutePath = FileSystems.getDefault().getPath(currentPhoto.getPath()).normalize().toAbsolutePath().toString();
+            System.out.println(absolutePath);
+            InputStream inputStream = new FileInputStream(absolutePath);
+            Image img = new Image(inputStream);
+            imageviewCurrentImage.setImage(img);
+            inputStream.close();
+        } catch(Exception ex){
+            ex.printStackTrace();
+        }
+        
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources){
         currentIndex = 0;
+        albumSize = Photos.getInstance().getCurrentAlbum().getNumPhotos();
         buttonPrev.setDisable(true);
+        buttonPrev.setVisible(false);
+        try{
+            changeImageViewImage();;
+        } catch(Exception ex){
+            ex.printStackTrace();
+        }
 
-        if(Photos.getInstance().getCurrentAlbum().getNumPhotos() == 1){
+        if(albumSize == 1){
             buttonNext.setVisible(false);
             buttonNext.setDisable(true);
         }

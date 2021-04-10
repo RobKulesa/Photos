@@ -7,7 +7,8 @@ import java.net.URL;
 import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
+import java.util.GregorianCalendar;
+import java.text.SimpleDateFormat;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -270,9 +271,11 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
 
     @FXML
     void buttonOpenSlideshowClicked(MouseEvent event){
-        if(Photos.getInstance().getCurrentAlbum().getNumPhotos() <= 0)
+        if(Photos.getInstance().getCurrentAlbum().getNumPhotos() <= 0){
             errorDialog("Cannot show slideshow of album with zero photos");
-        errorDialog("to the slideshow we go");
+            return;
+        }
+        Photos.getInstance().goToSlideShow();
     }
 
     @Override
@@ -285,9 +288,41 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
         writeUsersAndQuit(event);
     }
 
+
+    public void refreshImageView(){
+        try{
+            Photo selectedPhoto = listView.getSelectionModel().getSelectedItem();
+            String absolutePath = FileSystems.getDefault().getPath(selectedPhoto.getPath()).normalize().toAbsolutePath().toString();
+            System.out.println(absolutePath);
+            InputStream inputStream = new FileInputStream(absolutePath);
+            Image img = new Image(inputStream);
+            imageView.setImage(img);
+            inputStream.close();
+        } catch(Exception ex){
+            ex.printStackTrace();
+        }
+        
+    }
+
+    public void refreshCaption(){
+        Photo selectedPhoto = listView.getSelectionModel().getSelectedItem();
+        labelCaption.setText(selectedPhoto.getCaption());
+    }
+
+    public void refreshDate(){
+        Photo selectedPhoto = listView.getSelectionModel().getSelectedItem();
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
+        fmt.setCalendar(selectedPhoto.getLastModified());
+        String formattedDate = fmt.format(selectedPhoto.getLastModified().getTime());
+        labelDate.setText(formattedDate);
+    }
+
     @FXML
     void photosListViewSelected(MouseEvent event) {
-
+        refreshImageView();
+        refreshCaption();
+        refreshDate();
+        refreshTagsList();        
     }
     
     @Override
@@ -420,6 +455,11 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
         ObservableList<Photo> photoObservableList = FXCollections.observableArrayList(this.getCollection());
         listView.setItems(photoObservableList);
         listView.setCellFactory(param -> new ImageCell());
+        listView.getSelectionModel().select(0);
+        refreshDate();
+        refreshCaption();
+        refreshImageView();
+        //refreshTagList();
     }
     
     private class ImageCell extends ListCell<Photo>{
