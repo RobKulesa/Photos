@@ -31,7 +31,7 @@ public class Photos extends Application {
     /**
      * Field for the currently logged in user, if any.
      */
-    private User currentUser;
+    private int currentUserIndex;
 
     /**
      * Reference to the current {@link UserList}.
@@ -41,7 +41,8 @@ public class Photos extends Application {
     /**
      * Reference to the current album (if any)
      */
-    private Album currentAlbum;
+    private int currentAlbumIndex;
+
     /**
      * Static field that holds the reference to the current instance of the application.
      */
@@ -52,6 +53,8 @@ public class Photos extends Application {
      */
     public Photos() {
         instance = this;
+        instance.currentUserIndex = -1;
+        instance.currentAlbumIndex = -1;
     }
 
     /**
@@ -69,7 +72,7 @@ public class Photos extends Application {
      * @return User    The currently logged in user.
      */
     public User getCurrentUser() {
-        return currentUser;
+        return instance.getUserList().getUser(currentUserIndex);
     }
     
     /**
@@ -77,25 +80,33 @@ public class Photos extends Application {
      * 
      * @param user    The user to be set as currently logged in.
      */
-    public void setCurrentUser(User user) {
-        currentUser = user;
+    public void setCurrentUser(int currentUserIndex) {
+        instance.currentUserIndex = currentUserIndex;
     }
 
     public UserList getUserList() {
-        return userList;
+        return instance.userList;
     }
 
     public void setUserList(UserList userList) {
-        this.userList = userList;
+        instance.userList = userList;
     }
 
     public Album getCurrentAlbum() {
-        return currentAlbum;
+        return instance.getUserList().getUser(instance.currentUserIndex).getAlbum(instance.currentAlbumIndex);
     }
 
-    public void setCurrentAlbum(Album currentAlbum) {
-        this.currentAlbum = currentAlbum;
+    public void setCurrentAlbum(int currentAlbumIndex) {
+        instance.currentAlbumIndex = currentAlbumIndex;
     }
+
+    public void setCurrentAlbum(Album album) {
+        for(Album a : instance.getUserList().getUser(instance.currentUserIndex).getAlbumList()) {
+            if(a.equals(album)) 
+                instance.currentAlbumIndex = instance.getUserList().getUser(instance.currentUserIndex).getAlbumList().indexOf(a);
+        }
+    }
+
     /**
      * Implements the start method of superclass Application. Starts the application
      * and directs the user to the login page.
@@ -116,7 +127,7 @@ public class Photos extends Application {
     public void goToLoginPage() {
         try {
             replaceSceneContent("/resources/view/loginpage.fxml");
-            if(Debug.debugPhotos) System.out.println("Photos Sending user (" + currentUser + ") to login page");
+            //if(Debug.debugPhotos) System.out.println("Photos Sending user (" + instance.getUserList().getUser(currentUserIndex) + ") to login page");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -125,7 +136,7 @@ public class Photos extends Application {
     public void goToAlbumList(){
         try{
             replaceSceneContent("/resources/view/albumlist.fxml");
-            if(Debug.debugPhotos) System.out.println("Photos Sending user (" + currentUser + ") to normal album list");
+            if(Debug.debugPhotos) System.out.println("Photos Sending user (" + instance.getUserList().getUser(currentUserIndex) + ") to normal album list");
         } catch (Exception ex){
             ex.printStackTrace();
         }
@@ -138,7 +149,7 @@ public class Photos extends Application {
     public void goToAdminPage() {
         try {
             replaceSceneContent("/resources/view/adminpage.fxml");
-            if(Debug.debugPhotos) System.out.println("Photos Sending user (" + currentUser + ") to admin page");
+            if(Debug.debugPhotos) System.out.println("Photos Sending user (" + instance.getUserList().getUser(currentUserIndex) + ") to admin page");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -147,7 +158,7 @@ public class Photos extends Application {
     public void goToAlbumOpen(){
         try {
             replaceSceneContent("/resources/view/albumopen.fxml");
-            if(Debug.debugPhotos) System.out.println("Photos Sending user (" + currentUser + ") to admin page");
+            if(Debug.debugPhotos) System.out.println("Photos Sending user (" + instance.getUserList().getUser(currentUserIndex) + ") to admin page");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -156,7 +167,7 @@ public class Photos extends Application {
     public void goToPhotosSearch() {
         try {
             replaceSceneContent("/resources/view/photossearchpage.fxml");
-            if(Debug.debugPhotos) System.out.println("Photos Sending user (" + currentUser + ") to photos search page");
+            if(Debug.debugPhotos) System.out.println("Photos Sending user (" + instance.getUserList().getUser(currentUserIndex) + ") to photos search page");
         } catch (Exception ex) {
             ex.printStackTrace();
         }

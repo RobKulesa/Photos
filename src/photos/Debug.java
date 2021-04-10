@@ -12,17 +12,17 @@ public class Debug {
     /**
      * Debug constant for the Photos class.
      */
-    public static final boolean debugPhotos = true;
+    public static final boolean debugPhotos = false;
 
     /**
      * Debug constant for Controller classes.
      */
-    public static final boolean debugControllers = true;
+    public static final boolean debugControllers = false;
 
     /**
      * Debug constant for User classes.
      */
-    public static final boolean debugUsers = true;
+    public static final boolean debugUsers = false;
 
 
 }

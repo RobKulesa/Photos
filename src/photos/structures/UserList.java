@@ -145,6 +145,7 @@ public class UserList implements Serializable {
                 userList.addUser(new User("admin"), 0);
             }
             if(!userList.containsUser("stock")) {
+                if(Debug.debugUsers) System.out.println("UserList: Stock not found, creating it!");
                 userList.addUser(new User("stock"), 1);
             }
         }
@@ -156,7 +157,21 @@ public class UserList implements Serializable {
 
     @Override
     public String toString() {
-        return users.toString();
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for(User u : this.users) {
+            sb.append(u.getUsername());
+            sb.append(": (|");
+            for(Album a : u.getAlbumList()) {
+                sb.append(a.getName());
+                sb.append(", ");
+                sb.append(a.getNumPhotos());
+                sb.append("|");
+            }
+            sb.append(")\n");
+        }
+        sb.append("]\n");
+        return sb.toString();
     }
     
     public boolean containsUser(User u) {

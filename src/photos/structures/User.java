@@ -94,6 +94,10 @@ public class User implements Serializable {
         return this.albums;
     }
 
+    public Album getAlbum(int index) {
+        return this.albums.get(index);
+    }
+
     /**
      * Get the string representation of this user.
      * 

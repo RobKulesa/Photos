@@ -59,7 +59,7 @@ public class LoginController extends Controller {
                 textLoginFailed.setVisible(false);
                 if(Debug.debugControllers) System.out.println("LoginController User logged in as: \"" + user.toString() + "\"");
 
-                Photos.getInstance().setCurrentUser(user);
+                Photos.getInstance().setCurrentUser(i);
                 if(loginAttempt.equals("admin")){
                     Photos.getInstance().goToAdminPage();
                     break;

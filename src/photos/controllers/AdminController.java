@@ -50,7 +50,7 @@ public class AdminController extends ListController<User> {
             errorDialog("Please save pending changes before logging out.");
             return;
         }
-        Photos.getInstance().setCurrentUser(null);
+        Photos.getInstance().setCurrentUser(-1);
         Photos.getInstance().goToLoginPage();
         writeUsers();
     }

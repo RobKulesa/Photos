@@ -111,7 +111,7 @@ public class AlbumListController extends ListController<Album> {
             errorDialog("Please save pending changes before logging out.");
             return;
         }
-        Photos.getInstance().setCurrentUser(null);
+        Photos.getInstance().setCurrentUser(-1);
         Photos.getInstance().goToLoginPage();
         writeUsers();
     }
@@ -208,7 +208,7 @@ public class AlbumListController extends ListController<Album> {
         return new Album(fieldKey);
     }
 
-    public ArrayList<Album> getCollection(){
+    public ArrayList<Album> getCollection() {
         return Photos.getInstance().getCurrentUser().getAlbumList();
     }
 

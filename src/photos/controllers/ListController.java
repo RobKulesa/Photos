@@ -99,6 +99,7 @@ public abstract class ListController<T> extends Controller {
             labelInvalidAddition.setVisible(true);
             return;
         }
+        
         getCollection().add(createdEntry);
 
         

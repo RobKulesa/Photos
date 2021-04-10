@@ -1,22 +1,23 @@
 package photos.controllers;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.net.URL;
+import java.nio.file.FileSystems;
+import java.util.ResourceBundle;
+
 import javafx.event.ActionEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import photos.app.Photos;
-
-import java.util.ResourceBundle;
-import javafx.fxml.Initializable;
-import java.net.URL;
-
-public class SlideshowController extends Controller implements Initializable{
+import photos.structures.Photo;
+public class SlideshowController extends Controller implements Initializable {
 
     int currentIndex;
 
@@ -61,11 +62,12 @@ public class SlideshowController extends Controller implements Initializable{
         currentIndex -=1;
     }
 
-    public void changeImageViewImage(){
-        String absolutePath = FileSystems.getDefault().getPath(item.getPath()).normalize().toAbsolutePath().toString();
-                    System.out.println(absolutePath);
-                    InputStream inputStream = new FileInputStream(absolutePath);
-                    Image img = new Image(inputStream);
+    public void changeImageViewImage() throws FileNotFoundException {
+        Photo currentPhoto = Photos.getInstance().getCurrentAlbum().getPhotos().get(currentIndex);
+        String absolutePath = FileSystems.getDefault().getPath(currentPhoto.getPath()).normalize().toAbsolutePath().toString();
+        System.out.println(absolutePath);
+        InputStream inputStream = new FileInputStream(absolutePath);
+        Image img = new Image(inputStream);
     }
 
     @Override
