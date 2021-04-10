@@ -131,9 +131,7 @@ public class AlbumOpenController extends ListController<Photo>  implements Initi
                     imageView.setImage(null);
                     setGraphic(null);
                     setText(null);
-                } else {
-                    System.out.println("*******TESTING THE URL********");
-    
+                } else {    
                     String absolutePath = FileSystems.getDefault().getPath(item.getPath()).normalize().toAbsolutePath().toString();
                     System.out.println(absolutePath);
                     InputStream inputStream = new FileInputStream(absolutePath);

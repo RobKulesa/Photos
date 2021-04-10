@@ -162,6 +162,14 @@ public class Photos extends Application {
         }
     }
 
+    public void goToSlideShow(){
+        try{
+            replaceSceneContent("/resources/view/slideshow.fxml");
+        } catch(Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
 
     /**
      * Method for replacing the scene with new content.

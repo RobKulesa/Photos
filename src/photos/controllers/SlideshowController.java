@@ -18,6 +18,8 @@ import java.net.URL;
 
 public class SlideshowController extends Controller implements Initializable{
 
+    int currentIndex;
+
     @FXML
     private Button buttonNext;
 
@@ -32,7 +34,7 @@ public class SlideshowController extends Controller implements Initializable{
 
     @FXML
     void menuItemQuitClicked(ActionEvent event){
-
+        writeUsersAndQuit(event);
     }
 
     @FXML
@@ -46,21 +48,29 @@ public class SlideshowController extends Controller implements Initializable{
 
     @FXML
     void buttonBackClicked(MouseEvent event) {
-
+        Photos.getInstance().goToAlbumOpen();
     }
 
     @FXML
     void buttonNextClicked(MouseEvent event) {
-
+        currentIndex+=1;
     }
 
     @FXML
     void buttonPrevClicked(MouseEvent event) {
+        currentIndex -=1;
+    }
 
+    public void changeImageViewImage(){
+        String absolutePath = FileSystems.getDefault().getPath(item.getPath()).normalize().toAbsolutePath().toString();
+                    System.out.println(absolutePath);
+                    InputStream inputStream = new FileInputStream(absolutePath);
+                    Image img = new Image(inputStream);
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources){
+        currentIndex = 0;
         buttonPrev.setDisable(true);
 
         if(Photos.getInstance().getCurrentAlbum().getNumPhotos() == 1){
