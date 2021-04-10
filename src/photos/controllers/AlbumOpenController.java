@@ -7,7 +7,6 @@ import java.net.URL;
 import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.GregorianCalendar;
 import java.text.SimpleDateFormat;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -166,6 +165,7 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
         
         selectedPhoto.setCaption(newCaption);
         refreshList(selectedPhoto);
+        refreshCaption();
 
         allowSelect = true;
 
@@ -177,6 +177,7 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
 
     @FXML
     void buttonConfirmNewTagClicked(MouseEvent event) {
+        //TODO: ERROR DIALOG ON DUPLICATE TAGS
         Photo selectedPhoto = listView.getSelectionModel().getSelectedItem();
         String newTagName = fieldTagName.getText();
         String newTagVal = fieldTagValue.getText();
@@ -196,6 +197,8 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
         fieldTagValue.setEditable(false);
         fieldTagName.setEditable(false);
         paneAddTag.setVisible(false);
+
+        
     }
 
     @FXML
@@ -263,8 +266,9 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
         Photo selectedPhoto = listView.getSelectionModel().getSelectedItem();
         String[] tag = listViewTags.getSelectionModel().getSelectedItem().split(",", 2);
         String name = tag[0].substring(1);
-        String val = tag[1].substring(0, tag[1].length()-2);
-
+        String val = tag[1].substring(1, tag[1].length()-1);
+        System.out.println(name);
+        System.out.println(val);
         selectedPhoto.removeTag(name, val);
         refreshTagsList();
     }
