@@ -34,9 +34,12 @@ public class AlbumListController extends ListController<Album> {
     private Button buttonPhotosSearch;
 
     @FXML
+    private Button buttonRename;
+
+    @FXML
     private Button buttonLogout;
     
-    
+    boolean createNotRename;
 
     @FXML
     void buttonAlbumOpenClicked(MouseEvent event){
@@ -66,9 +69,22 @@ public class AlbumListController extends ListController<Album> {
         return;
     }
 
+
+    @Override
+    @FXML
+    void buttonCreateClicked(MouseEvent event) {
+        // TODO Auto-generated method stub
+        super.buttonCreateClicked(event);
+        createNotRename = true;
+    }
+
+
     @FXML 
     void buttonRenameClicked(MouseEvent event){
-        errorDialog("we didn't implement this yet kekw");
+        createNotRename = false;
+        paneConfirmCreate.setVisible(true);
+        fieldNewEntry.setEditable(true);
+        fieldNewEntry.setText("");
     }
 
     /**
@@ -113,7 +129,45 @@ public class AlbumListController extends ListController<Album> {
         }
         writeUsersAndQuit(event);
     }
+    
+    @Override
+    @FXML
+    void buttonConfirmClicked(MouseEvent event){
+        String inputEntryName = fieldNewEntry.getText();
+        Album selectedEntry;
+        if(createNotRename){
+            selectedEntry = newEntry(inputEntryName);
+            if(inputEntryName.isBlank()){
+                labelInvalidAddition.setVisible(true);
+                return;
+            }
 
+            if(!isGoodEntry(selectedEntry)){
+                labelInvalidAddition.setVisible(true);
+                return;
+            }
+            getCollection().add(selectedEntry);
+        } else{
+            selectedEntry = listView.getSelectionModel().getSelectedItem();
+            if(selectedEntry == null){
+                errorDialog("An album must be selected before confirming rename");
+                return;
+            }
+            if(inputEntryName.equals("")){
+                errorDialog("Cannot rename album with empty string");
+                return;
+            }
+            selectedEntry.setName(inputEntryName);
+        }
+        refreshList();
+        listView.getSelectionModel().select(selectedEntry);
+        allowSelect = true;
+
+        paneConfirmCreate.setVisible(false);
+        fieldNewEntry.setEditable(false);
+        labelInvalidAddition.setVisible(false);
+    }
+    
 
     /**
      * Refreshes the label used to display the current user's username
@@ -163,6 +217,6 @@ public class AlbumListController extends ListController<Album> {
     }
 
     public boolean isGoodEntry(Album t){
-        return !isRepeatEntry(t);
+        return !isRepeatEntry(t) && !t.getName().equals("");
     }
 }

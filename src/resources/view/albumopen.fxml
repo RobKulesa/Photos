@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!--
     Copyright (c) 2015, 2019, Gluon and/or its affiliates.
     All rights reserved. Use is subject to license terms.
@@ -84,7 +85,10 @@
                         <Button fx:id="buttonDelete" layoutX="18.0" layoutY="20.0" mnemonicParsing="false" onMouseClicked="#buttonDeleteClicked" prefHeight="25.0" prefWidth="98.0" text="Delete Photo" textAlignment="CENTER" wrapText="true" />
                      </children>
                   </AnchorPane>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2" />
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
+                     <children>
+                        <Button fx:id="buttonViewSlideshow" layoutX="21.0" layoutY="20.0" mnemonicParsing="false" onMouseClicked="#buttonViewSlideshowClicked" text="View Slideshow" />
+                     </children></AnchorPane>
                   <AnchorPane prefHeight="63.0" prefWidth="107.0" GridPane.rowIndex="3" />
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4" />
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="5">

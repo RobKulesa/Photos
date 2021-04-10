@@ -30,6 +30,8 @@ public class AlbumOpenController extends ListController<Photo>  implements Initi
     @FXML
     private Button buttonBack;
 
+    @FXML Button buttonViewSlideshow;
+
     /**
      * FXML method used to quit the application when the menu item is clicked.
      */
@@ -96,6 +98,13 @@ public class AlbumOpenController extends ListController<Photo>  implements Initi
 		});
 
 
+    }
+
+    @FXML
+    void buttonViewSlideshowClicked(MouseEvent event){
+        if(Photos.getInstance().getCurrentAlbum().getNumPhotos() <= 0)
+            errorDialog("Cannot show slideshow of album with zero photos");
+        errorDialog("to the slideshow we go");
     }
 
     public Photo newEntry(String fieldKey){
