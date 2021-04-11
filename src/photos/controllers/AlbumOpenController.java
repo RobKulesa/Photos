@@ -126,6 +126,33 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
     }
 
     @FXML
+    @Override
+    void buttonDeleteClicked(MouseEvent event) {
+        // TODO Auto-generated method stub
+        super.buttonDeleteClicked(event);
+        refreshImageView();
+        refreshCaption();
+        refreshDate();
+        refreshTagsList();  
+    }
+
+    @FXML
+    @Override
+    void buttonConfirmClicked(MouseEvent event) {
+        // TODO Auto-generated method stub
+        try{
+            super.buttonConfirmClicked(event);
+        listView.getSelectionModel().select(getCollection().size()-1);
+        refreshImageView();
+        refreshCaption();
+        refreshDate();
+        refreshTagsList();
+        } catch(Exception ex){
+            labelInvalidAddition.setVisible(true);
+        }
+    }
+
+    @FXML
     void buttonAddTagClicked(MouseEvent event) {
         allowSelect = false;
         paneAddTag.setVisible(true);
@@ -150,6 +177,9 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
         if(paneConfirmCreate.isVisible() || paneAddEditCaption.isVisible() || paneAddTag.isVisible()) {
             errorDialog("Please save pending changes before exiting.");
             return;
+        }
+        for(Album a : Photos.getInstance().getCurrentUser().getAlbumList()){
+            a.updateDates();
         }
         writeUsers();
         Photos.getInstance().goToAlbumList();
@@ -302,6 +332,10 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
     public void refreshImageView(){
         try{
             Photo selectedPhoto = listView.getSelectionModel().getSelectedItem();
+            if(selectedPhoto == null){
+                imageView.setImage(null);
+                return;
+            }
             String absolutePath = FileSystems.getDefault().getPath(selectedPhoto.getPath()).normalize().toAbsolutePath().toString();
             System.out.println(absolutePath);
             InputStream inputStream = new FileInputStream(absolutePath);
@@ -316,11 +350,19 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
 
     public void refreshCaption(){
         Photo selectedPhoto = listView.getSelectionModel().getSelectedItem();
+        if(selectedPhoto == null){
+            labelCaption.setText("");
+            return;
+        }
         labelCaption.setText(selectedPhoto.getCaption());
     }
 
     public void refreshDate(){
         Photo selectedPhoto = listView.getSelectionModel().getSelectedItem();
+        if(selectedPhoto == null){
+            labelDate.setText("");
+            return;
+        }
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
         fmt.setCalendar(selectedPhoto.getLastModified());
         String formattedDate = fmt.format(selectedPhoto.getLastModified().getTime());
@@ -329,10 +371,12 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
 
     @FXML
     void photosListViewSelected(MouseEvent event) {
-        refreshImageView();
-        refreshCaption();
-        refreshDate();
-        refreshTagsList();        
+        if(getCollection().size()>0){
+            refreshImageView();
+            refreshCaption();
+            refreshDate();
+            refreshTagsList();        
+        }
     }
     
     @Override
@@ -441,7 +485,7 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
             
             int index = t.getPath().lastIndexOf('.');
             if (index > 0) {
-                extension = t.getPath().substring(index + 1);
+                extension = t.getPath().substring(index + 1).toLowerCase();
             }
             if(!extension.equals("bmp") && !extension.equals("gif") && !extension.equals("jpg")
                 && !extension.equals("jpeg") && !extension.equals("png")){
@@ -465,11 +509,15 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
         ObservableList<Photo> photoObservableList = FXCollections.observableArrayList(this.getCollection());
         listView.setItems(photoObservableList);
         listView.setCellFactory(param -> new ImageCell());
-        listView.getSelectionModel().select(0);
-        refreshDate();
-        refreshCaption();
-        refreshImageView();
-        refreshTagsList();
+        if(getCollection().size()>0){
+            listView.getSelectionModel().select(0);
+            refreshDate();
+            refreshCaption();
+            refreshImageView();
+            refreshTagsList();
+        }
+        
+        
     }
     
     private class ImageCell extends ListCell<Photo>{

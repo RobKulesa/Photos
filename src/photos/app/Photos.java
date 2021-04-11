@@ -1,5 +1,4 @@
 package photos.app;
-
 import photos.Debug;
 import photos.controllers.Controller;
 import photos.structures.User;
@@ -164,8 +163,11 @@ public class Photos extends Application {
 
     public void goToAlbumList(){
         try{
+            
+            
             replaceSceneContent("/resources/view/albumlist.fxml");
             if(Debug.debugPhotos) System.out.println("Photos Sending user (" + instance.getUserList().getUser(currentUserIndex) + ") to normal album list");
+            
         } catch (Exception ex){
             ex.printStackTrace();
         }
