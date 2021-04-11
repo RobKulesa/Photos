@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import photos.Debug;
 import photos.app.Photos;
 import photos.structures.User;
+import photos.structures.Album;
 
 /**
  * Controller for the login subsystem.
@@ -65,6 +66,10 @@ public class LoginController extends Controller {
                     break;
                 } else {
                     //Navigate to normal user page
+                    for(Album a : Photos.getInstance().getCurrentUser().getAlbumList()){
+                        a.updateDates();
+                    }
+                    writeUsers();
                     Photos.getInstance().goToAlbumList();
                     break;
                 }

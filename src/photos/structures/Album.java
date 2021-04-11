@@ -1,6 +1,7 @@
 package photos.structures;
 import java.util.*;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 
 /**
  * Photo is a class that models a photo-album in the application
@@ -50,7 +51,7 @@ public class Album implements Serializable {
 
     public void addPhoto(Photo p) {
         this.photos.add(p);
-        //this.updateDates();
+        this.updateDates();
     }
 
     public void deletePhoto(Photo p) {
@@ -80,9 +81,17 @@ public class Album implements Serializable {
         s += " | ";
         
         if(this.earliestDate != null && this.latestDate != null){
-            s+= this.earliestDate.toString();
-            s+= "-";
-            s+= this.latestDate.toString();
+            SimpleDateFormat fmt = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm:ss");
+            fmt.setCalendar(this.earliestDate);
+            String formattedDate = fmt.format(this.earliestDate.getTime());
+            s+= formattedDate;
+
+            s+= "\t---\t";
+            SimpleDateFormat fmt2 = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm:ss");
+            fmt2.setCalendar(this.latestDate);
+            formattedDate = fmt2.format(this.latestDate.getTime());
+            s+= formattedDate;
+
         } else {
             s+= "N/A";
             s+= "-";
@@ -96,28 +105,53 @@ public class Album implements Serializable {
             this.earliestDate = null;
             this.latestDate = null;
         } else if(this.photos.size() == 1) {
-            if(this.photos.get(0).getLastModified()!= null)
+            if(this.photos.get(0).getLastModified()!= null){
                 this.earliestDate = this.photos.get(0).getLastModified();
+                this.latestDate = this.photos.get(0).getLastModified();
+            }
             else{
                 this.earliestDate = null;
                 this.latestDate = null;
             }
         } else {
             boolean allNull = true;
+            if(this.photos.get(0).getLastModified()!= null){
+                this.earliestDate = this.photos.get(0).getLastModified();
+                this.latestDate = this.photos.get(0).getLastModified();
+            }
+            else{
+                this.earliestDate = null;
+                this.latestDate = null;
+            }
+
+
             for(Photo p : this.photos) {
                 if(p.getLastModified() != null){
+                    System.out.println("Comparing::\n" + p.toString());
+                    System.out.printf("\tComparetoValue: %d\n", p.getLastModified().compareTo(this.earliestDate));
+
                     allNull = false;
-                    if(p.getLastModified().compareTo(this.earliestDate) < 0)
+                    if(p.getLastModified().compareTo(this.earliestDate) < 0){
                         this.earliestDate = p.getLastModified();
-                    else if(p.getLastModified().compareTo(this.latestDate) > 0)
+                        System.out.println("because compareto is negative, we are making it the new earliest date");
+                        System.out.println(this.toString());
+                    }
+                    else if(p.getLastModified().compareTo(this.latestDate) > 0){
+                        System.out.println("because compareto is positive, we are making it the new latest date");
+                        System.out.println(this.toString());
                         this.latestDate = p.getLastModified();
+                    }
+                        
                 }
             }
             if(allNull){
+                System.out.println("Setting all to null");
                 this.earliestDate = null;
                 this.latestDate = null;
             }
         }
+
+        System.out.println("Final result:" + this.toString());
     }
 
     @Override

@@ -143,7 +143,8 @@ public abstract class ListController<T> extends Controller {
         listView.getItems().clear();
 
         //Load items into list
-        listView.getItems().addAll(getCollection());
+        if(getCollection().size() > 0)
+            listView.getItems().addAll(getCollection());
 
         if(Debug.debugControllers) System.out.println("ListController Got Generic List: " + listView.getItems());
 
