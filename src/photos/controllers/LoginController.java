@@ -41,7 +41,7 @@ public class LoginController extends Controller {
      * FXML method for logging in when the button is clicked.
      * Sends the user to the correct subsystem after a successful login.
      * 
-     * @param event
+     * @param event    The event caused by the login button being clicked.
      */
     @FXML
     void loginButtonClicked(MouseEvent event) {
@@ -80,7 +80,7 @@ public class LoginController extends Controller {
     /**
      * FXML method for quitting the application when the button is clicked.
      * 
-     * @param event
+     * @param event    Event caused by the menu item being clicked.
      */
     @Override
     @FXML

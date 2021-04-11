@@ -99,7 +99,7 @@ public class Photos extends Application {
     /**
      * Method for setting the currently logged in user.
      * 
-     * @param user    The user to be set as currently logged in.
+     * @param currentUserIndex    The index of the user to be set as currently logged in.
      */
     public void setCurrentUser(int currentUserIndex) {
         instance.currentUserIndex = currentUserIndex;
@@ -117,9 +117,9 @@ public class Photos extends Application {
 
 
     /**
-     * Method for setting the program's list of users
+     * Method for setting the program's list of users.
      * 
-     * @param userlist      The useerList object to be set as the application's serializable list of users.
+     * @param userList      The UserList object to be set as the application's serializable list of users.
      */
     public void setUserList(UserList userList) {
         instance.userList = userList;
@@ -168,7 +168,7 @@ public class Photos extends Application {
         goToLoginPage();
         mainStage.setResizable(false);
         mainStage.show();
-    }
+    } 
     
     /**
      * Method for sending the user to the login page. Can be called with
@@ -177,9 +177,8 @@ public class Photos extends Application {
     public void goToLoginPage() {
         try {
             replaceSceneContent("/resources/view/loginpage.fxml");
-            //if(Debug.debugPhotos) System.out.println("Photos Sending user (" + instance.getUserList().getUser(currentUserIndex) + ") to login page");
         } catch (Exception ex) {
-            ex.printStackTrace();
+            return;
         }
     }
 
@@ -191,7 +190,7 @@ public class Photos extends Application {
         try{
             replaceSceneContent("/resources/view/albumlist.fxml");
         } catch (Exception ex){
-            ex.printStackTrace();
+            return;
         }
     }
 
@@ -203,7 +202,6 @@ public class Photos extends Application {
         try {
             replaceSceneContent("/resources/view/adminpage.fxml");
         } catch (Exception ex) {
-            ex.printStackTrace();
         }
     }
 
@@ -215,7 +213,7 @@ public class Photos extends Application {
         try {
             replaceSceneContent("/resources/view/albumopen.fxml");
         } catch (Exception ex) {
-            ex.printStackTrace();
+            return;
         }
     }
 
@@ -227,7 +225,7 @@ public class Photos extends Application {
         try {
             replaceSceneContent("/resources/view/photossearchpage.fxml");
         } catch (Exception ex) {
-            ex.printStackTrace();
+            return;
         }
     }
 
@@ -239,7 +237,7 @@ public class Photos extends Application {
         try{
             replaceSceneContent("/resources/view/searchresultsopen.fxml");
         } catch(Exception ex){
-            ex.printStackTrace();
+            return;
         }
     }
 
@@ -251,7 +249,7 @@ public class Photos extends Application {
         try{
             replaceSceneContent("/resources/view/slideshow.fxml");
         } catch(Exception ex){
-            ex.printStackTrace();
+            return;
         }
     }
 
@@ -264,7 +262,6 @@ public class Photos extends Application {
     private void replaceSceneContent(String fxmlLocation) {
         try {
 			FXMLLoader loader = new FXMLLoader();
-            //System.out.println(fxmlLocation);
 			loader.setLocation(getClass().getResource(fxmlLocation));
             VBox vbox = (VBox)loader.load();
 			
@@ -274,7 +271,7 @@ public class Photos extends Application {
             Scene scene = new Scene(vbox);
             mainStage.setScene(scene);
 		} catch (IOException e) {
-			e.printStackTrace();
+			return;
 		}
     }
 

@@ -28,87 +28,171 @@ import javafx.stage.Stage;
 import photos.app.Photos;
 import photos.structures.Album;
 import photos.structures.Photo;
-
+/**
+ * Controller for the part of the normal user subsystem
+ * that displays all the photos of a selected album.
+ * 
+ * @author Robert Kulesa
+ * @author Aaron Kan 
+ */
 public class AlbumOpenController extends ListController<Photo> implements Initializable {
 
+    /**
+     * FXML MenuItem used to quit out of the program
+     */
     @FXML
     private MenuItem menuItemQuit;
 
+    /**
+     * FXML ImageView used to display the current selected Photo
+     */
     @FXML
     private ImageView imageView;
 
+    /**
+     * FXML label used to display the current selected Photo's date
+     */
     @FXML
     private Label labelDate;
 
+    /**
+     * FXML label used to display the current selected Photo's caption
+     */
     @FXML
     private Label labelCaption;
 
+    /**
+     * FXML button used to add or edit a photo's caption
+     */ 
     @FXML
     private Button buttonAddEditCaption;
 
+    /**
+     * FXML AnchorPane used to hold the controls needed to add/edit a caption
+     */
     @FXML
     private AnchorPane paneAddEditCaption;
 
+    /**
+     * FXML Button used to add a Tag to a photo
+     */
     @FXML
     private Button buttonAddTag;
 
+    /**
+     * FXML Button used to remove a tag from a photo
+     */
     @FXML
     private Button buttonRemoveTag;
 
+    /**
+     * FXML TextField used to enter a new caption for a photo
+     */
     @FXML
     private TextField fieldNewCaption;
 
+    /**
+     * FXML Button used to confirm a caption edit
+     */
     @FXML
     private Button buttonConfirmNewCaption;
 
+    /**
+     * FXML Button used to cancel a caption edit
+     */
     @FXML
     private Button buttonCancelNewCaption;
 
+    /**
+     * FXML ListView used to display all the tags of the currently selected Photo
+     */
     @FXML
     private ListView<String> listViewTags;
 
+    /**
+     * FXML Anchorpane used to hold the controls needed for Tag creation functionality
+     */
     @FXML
     private AnchorPane paneAddTag;
 
+    /**
+     * FXML TextField used to input a name for a new Tag
+     */
     @FXML
     private TextField fieldTagName;
 
+    /**
+     * FXML Button used to confirm the creation of a new Tag
+     */
     @FXML
     private Button buttonConfirmNewTag;
 
+    /**
+     * FXML Button used to cancel the creation of a new Tag
+     */
     @FXML
     private Button buttonCancelNewTag;
 
+    /**
+     * FXML TextField used to input a value for a new Tag
+     */
     @FXML
     private TextField fieldTagValue;
 
+    /**
+     * FXML ListView used to display all the albums a user owns
+     */
     @FXML
     private ListView<Album> listViewAlbums;
 
+    /**
+     * FXML AnchorPane used to hold and view the controls needed to move and copy photos to another album
+     */
     @FXML
     private AnchorPane paneMoveCopy;
 
+    /**
+     * FXML Button used to move a Photo from one album to another
+     */
     @FXML
     private Button buttonMovePhoto;
 
+    /**
+     * FXML Button used to add a copy of the currently selected photo to another Album
+     */
     @FXML
     private Button buttonCopyPhoto;
 
+    /**
+     * FXML Label used to show if a copy operation was successful
+     */
     @FXML
     private Label labelCopySuccessful;
 
+    /**
+     * FXML Label used to show if a Photo move operation was successful
+     */
     @FXML
     private Label labelMoveSuccessful;
 
+    /**
+     * FXML Button used to open a slideshow of the current album
+     */
     @FXML
     private Button buttonOpenSlideshow;
 
+    /**
+     * FXML Button used to take the user back to the albumlist page
+     */
     @FXML
     private Button buttonBack;
 
     
     /** 
-     * @param event
+     * Event handler that opens the caption addition/edit functionality
+     * upon the appropriate event firing
+     * 
+     * @param event     Event that represents the add/edti caption button being clicked
      */
     @FXML
     void buttonAddEditCaptionClicked(MouseEvent event) {
@@ -123,9 +207,11 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
         buttonCancelNewCaption.setDisable(false);
     }
 
-    
     /** 
-     * @param event
+     * FXML Event handler that cancels the creation of a new caption
+     * upon the appropriate event firing
+     * 
+     * @param event     Event that represents the CancelNewCaption button being clicked
      */
     @FXML
     void buttonCancelNewCaptionClicked(MouseEvent event) {
@@ -138,7 +224,10 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
 
     
     /** 
-     * @param event
+     * FXML Event handler that deletes the currently selected photo
+     * upon the appropriate event firing
+     * 
+     * @param event     Event that represents the delete button being clicked
      */
     @FXML
     @Override
@@ -154,7 +243,10 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
 
     
     /** 
-     * @param event
+     * FXML Event handler that confirms the creation of a new Photo 
+     * upon the appropriate event firing 
+     * 
+     * @param event     Event that represents the Confirm button being clicked
      */
     @FXML
     @Override
@@ -175,7 +267,10 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
 
     
     /** 
-     * @param event
+     * FXML Event handler that adds a tag to the currently selected photo 
+     * upon the appropriate event firing
+     * 
+     * @param event     Event that represents the Add Tag button being clicked
      */
     @FXML
     void buttonAddTagClicked(MouseEvent event) {
@@ -193,7 +288,10 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
 
     
     /** 
-     * @param event
+     * FXML Event handler that cancels the creation of a new Tag 
+     * upon the appropriate event firing
+     * 
+     * @param event     Event that represents the Cancel New Tag button being clicked
      */
     @FXML
     void buttonCancelNewTagClicked(MouseEvent event) {
@@ -207,7 +305,10 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
 
     
     /** 
-     * @param event
+     * FXML Event handler that navigates to the albumlist page 
+     * upon the appropriate event firing
+     * 
+     * @param event     Event that represents the Back button being clicked
      */
     @FXML
     void buttonBackClicked(MouseEvent event){
@@ -224,7 +325,10 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
 
     
     /** 
-     * @param event
+     * FXML Event handler that saves the selected Photo's caption edit 
+     * upon the appropriate event firing
+     * 
+     * @param event     Event that represents the Confirm New Caption button being clicked
      */
     @FXML
     void buttonConfirmNewCaptionClicked(MouseEvent event) {
@@ -255,7 +359,10 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
 
     
     /** 
-     * @param event
+     * FXML Event handler that saves the creation of a new Tag 
+     * upon the appropriate event firing
+     * 
+     * @param event     Event that represents the Confirm New Tag button being clicked
      */
     @FXML
     void buttonConfirmNewTagClicked(MouseEvent event) {
@@ -293,7 +400,10 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
 
     
     /** 
-     * @param event
+     * FXML Event handler that copies the slected photo to another album 
+     * upon the appropriate event firing
+     * 
+     * @param event     Event that represents the Copy Photo button being clicked
      */
     @FXML
     void buttonCopyPhotoClicked(MouseEvent event) {
@@ -330,7 +440,10 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
 
     
     /** 
-     * @param event
+     * FXML Event handler that moves the selected Photo to the selected album
+     * upon the appropriate event firing
+     * 
+     * @param event     Event that represents the Move Photo button being clicked
      */
     @FXML
     void buttonMovePhotoClicked(MouseEvent event) {
@@ -368,7 +481,10 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
 
     
     /** 
-     * @param event
+     * FXML Event handler that removes the selected tag
+     * upon the appropriate event firing
+     * 
+     * @param event     Event that represents the Remove Tag button being clicked
      */
     @FXML
     void buttonRemoveTagClicked(MouseEvent event) {
@@ -391,7 +507,10 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
 
     
     /** 
-     * @param event
+     * FXML Event handler that navigates to the slideshow page
+     * upon the appropriate event firing
+     * 
+     * @param event     Event that represents the Open Slideshow button being clicked
      */
     @FXML
     void buttonOpenSlideshowClicked(MouseEvent event){
@@ -404,7 +523,10 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
 
     
     /** 
-     * @param event
+     * FXML Event handler that quits the application
+     * upon the appropriate event firing
+     * 
+     * @param event     Event that represents the Quit MenuItem being clicked
      */
     @Override
     @FXML
@@ -416,7 +538,10 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
         writeUsersAndQuit(event);
     }
 
-
+    /**
+     * Method that reloads the ImageView to display 
+     * the image of currently selected Photo
+     */
     public void refreshImageView(){
         try{
             Photo selectedPhoto = listView.getSelectionModel().getSelectedItem();
@@ -430,11 +555,16 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
             imageView.setImage(img);
             inputStream.close();
         } catch(Exception ex){
-            ex.printStackTrace();
+            errorDialog(ex.getMessage());
+            //ex.printStackTrace();
         }
         
     }
 
+    /**
+     * Method that reloads the caption label to display 
+     * the caption of currently selected Photo
+     */
     public void refreshCaption(){
         Photo selectedPhoto = listView.getSelectionModel().getSelectedItem();
         if(selectedPhoto == null){
@@ -444,6 +574,10 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
         labelCaption.setText(selectedPhoto.getCaption());
     }
 
+    /**
+     * Method that reloads the date label to display 
+     * the date of currently selected Photo
+     */   
     public void refreshDate(){
         Photo selectedPhoto = listView.getSelectionModel().getSelectedItem();
         if(selectedPhoto == null){
@@ -458,7 +592,10 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
 
     
     /** 
-     * @param event
+     * FXML Event handler that refreshes the appropriate controls
+     * upon a new Photo being selected
+     * 
+     * @param event     The event in which a new Photo in the Photo ListView is selected
      */
     @FXML
     void photosListViewSelected(MouseEvent event) {
@@ -471,8 +608,10 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
     }
     
     
-    /** 
-     * @param stage
+    /**
+     * Implemented method for setting the main stage for this controller.
+     * 
+     * @param stage    The stage to be set as main stage for this controller.
      */
     @Override
     public void setMainStage(Stage stage) {
@@ -505,6 +644,10 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
         });
     }
 
+    /**
+     * Method that reloads the current Tags ListView with all the tags
+     * associated with the currently selected Photo
+     */
     public void refreshTagsList() {
         Photo selectedPhoto = listView.getSelectionModel().getSelectedItem();
         if(selectedPhoto == null) {
@@ -527,6 +670,9 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
         
     }
 
+    /**
+     * Method that refreshes the list of albums displayed in its corresponding ListView
+     */
     public void refreshAlbumsList() {
         ArrayList<Album> usersAlbums = Photos.getInstance().getCurrentUser().getAlbumList();
         listViewAlbums.getSelectionModel().clearSelection();
@@ -551,9 +697,12 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
     }
 
     
-    /** 
-     * @param fieldKey
-     * @return Photo
+    /**
+     * Implemented method for instantiating a new Photo into the <code>ListView</code> of Photos.
+     * and the collection it represents
+     * 
+     * @param fieldKey      the String that will identify and instantiate the new Photo
+     * @return Photo        The newly instantiated Photo
      */
     @Override
     public Photo newEntry(String fieldKey){
@@ -561,8 +710,10 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
     }
 
     
-    /** 
-     * @return ArrayList<Photo>
+    /**
+     * Implemented method for retrieving the collection that represents the controller's <code>ListView</code> of Photos.
+     * 
+     * @return  the collection associated with the controller's <code>ListView</code> of Photos
      */
     @Override
     public ArrayList<Photo> getCollection(){
@@ -570,8 +721,10 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
     }
 
     
-    /** 
-     * @param t
+    /**
+     * Implemented method that removes an photo from the collection that represents the controller's <code>ListView</code> of Photos.
+     * 
+     * @param t     the Photo to be deleted
      */
     @Override
     public void removeEntry(Photo t){
@@ -579,9 +732,11 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
     }
 
     
-    /** 
-     * @param t
-     * @return boolean
+    /**
+     * Overridden method that determines if an entry is valid enough to be inserted into the the controller's collection
+     * 
+     * @param t         the entry in question
+     * @return boolean  the argument's validity for insertion purposes
      */
     @Override
     public boolean isGoodEntry(Photo t){
@@ -614,8 +769,11 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
 
     
     /** 
-     * @param arg0
-     * @param arg1
+     * Method that is called when the albumopen page and its controller are initialized
+     * Used to assign default settings and values to certain controls
+     * 
+     * @param arg0      The location used to resolve relative paths for the root object, or null if the location is not known.
+     * @param arg1      The resources used to localize the root object, or null if the root object was not localized.
      */
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
@@ -633,8 +791,25 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
         
     }
     
+    /**
+     * Custom ListCell that displays both the image associated with a given Photo
+     * as well as its String representation
+     * 
+     * @author Robert Kulesa
+     * @author Aaron Kan 
+     */
     private class ImageCell extends ListCell<Photo>{
+        /**
+         * ImageView that will display the appropriate image in the ListCell
+         */
         final ImageView imageView = new ImageView();
+        
+        /**
+         * An overridden method that is called when a listcell is updated
+         * 
+         * @param item      The photo associated with the cell
+         * @param empty     Boolean that indicates if a cell is empty
+         */
         @Override
         protected void updateItem(Photo item, boolean empty){
             
@@ -658,11 +833,10 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
                     inputStream.close();
                 }
             } catch(IOException e){
-                e.printStackTrace();
+                errorDialog(e.getMessage());
                 return;
             }
             
         }
     }
-    
 }

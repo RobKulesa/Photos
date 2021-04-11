@@ -48,7 +48,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="783.0" prefWidth="1259.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="photos.controllers.SearchResultsOpenController">
+<VBox prefHeight="783.0" prefWidth="1259.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="photos.controllers.SearchResultsOpenController">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>

@@ -42,7 +42,7 @@ public class AdminController extends ListController<User> {
     /**
      * FXML method used to logout when the button is clicked.
      * 
-     * @param event
+     * @param event    The event caused by the logout button being clicked.
      */
     @FXML
     void buttonLogoutClicked(MouseEvent event) {
@@ -58,7 +58,7 @@ public class AdminController extends ListController<User> {
     /**
      * FXML method used to quit the application when the button is clicked.
      * 
-     * @param event
+     * @param event    The event caused by the quit button being clicked.
      */
     @FXML
     void buttonQuitClicked(MouseEvent event) {
@@ -110,9 +110,8 @@ public class AdminController extends ListController<User> {
 		});
     }
 
-    
     /**
-     * Implemented method for instantiating a new <code>User</code> entry into the <code>ListView<T></code>
+     * Implemented method for instantiating a new <code>User</code> entry into the <code>ListView</code> of Users.
      * and the <code>User</code> collection it represents
      * 
      * @param fieldKey          the String that will identify and instantiate the new entry
@@ -122,20 +121,18 @@ public class AdminController extends ListController<User> {
         return new User(fieldKey);
     }
 
-    
     /** 
      * Implemented method for retrieving the collection that 
-     * represents the controller's <code>ListView<User></code>
+     * represents the controller's <code>ListView</code> of Users.
      * 
-     * @return ArrayList<User>
+     * @return     Collecton of users.
      */
     public ArrayList<User> getCollection(){
         return Photos.getInstance().getUserList().getUsers();
     }
 
-    
     /** 
-     * Implemented method that removed an entry from the collection that represents the controller's <code>ListView<User></code>
+     * Implemented method that removed an entry from the collection that represents the controller's <code>ListView</code> of Users.
      * 
      * @param t     the entry to be deleted
      */
@@ -147,7 +144,7 @@ public class AdminController extends ListController<User> {
     /** 
      * Implemented method that determines if an entry is valid enough to be inserted into the the controller's collection
      * 
-     * @param entry     the entry in question
+     * @param t     the entry in question
      * @return boolean  the argument's validity for insertion purposes
      */
     public boolean isGoodEntry(User t){

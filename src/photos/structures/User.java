@@ -26,7 +26,7 @@ public class User implements Serializable {
     private ArrayList<Album> albums;
 
     /**
-     * Create a new user.
+     * Create a new user. If user being created is the stock user, add the default albums to their album list.
      * 
      * @param username    Username for the new user.
      */
@@ -90,10 +90,21 @@ public class User implements Serializable {
         return this.username;
     }
 
+    /**
+     * Get this user's albums in an ArrayList.
+     * 
+     * @return    ArrayList of albums.
+     */
     public ArrayList<Album> getAlbumList(){
         return this.albums;
     }
 
+    /**
+     * Get the album at the provided index in this user's albums.
+     * 
+     * @param index     Index at which the album will be inserted.
+     * @return          Album at provided index.
+     */
     public Album getAlbum(int index) {
         return this.albums.get(index);
     }
@@ -109,9 +120,9 @@ public class User implements Serializable {
     }
 
     /**
-     * Return <code>true</code> if this user equals User o.
+     * Returns <code>true</code> if the passed string or user's name is equal to this user's name.
      * 
-     * @return    <code>true</code> if this user equals User o.
+     * @return    <code>true</code> if the passed object is equal to this user.
      *            <code>false</code> otherwise.
      */
     @Override

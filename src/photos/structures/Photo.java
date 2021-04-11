@@ -16,12 +16,11 @@ import java.text.SimpleDateFormat;
 import java.io.IOException;
 
 /**
- * Photo is a class that models a photo in the application
+ * Photo is a class that models a photo in the application.
  * 
  * @author Robert Kulesa
  * @author Aaron Kan 
  */
-
 public class Photo implements Serializable {
 
     /**
@@ -78,6 +77,8 @@ public class Photo implements Serializable {
     
     /**
      * Set the filesystem path of this photo.
+     * 
+     * @param newPath   new filePath to assign to the current Photo
      */
     public void setPath(String newPath){
         this.path = newPath;
@@ -101,10 +102,8 @@ public class Photo implements Serializable {
             else
                 fileTimeToString = attr.creationTime().toString();
 
-            System.out.println("\t\t\tFileTime: " + fileTimeToString);
             String year = fileTimeToString.substring(0,4);
             String month = fileTimeToString.substring(5,7);
-            System.out.println("\t\t\tMonth: " + month);
 
             String day = fileTimeToString.substring(8, 10);
             String hours = fileTimeToString.substring(11, 13);
@@ -114,12 +113,9 @@ public class Photo implements Serializable {
             GregorianCalendar ret = new GregorianCalendar(Integer.parseInt(year), Integer.parseInt(month)-1, Integer.parseInt(day),
                                             Integer.parseInt(hours), Integer.parseInt(minutes), Integer.parseInt(seconds));
             ret.set(Calendar.MILLISECOND, 0);
-            System.out.println("ret.getTime().toString()= " + ret.getTime().toString());
             return ret;
 
         } catch (IOException e) {
-            //e.printStackTrace();
-            System.out.println("BadFileFed");
             return null;
         }
     }
@@ -172,7 +168,7 @@ public class Photo implements Serializable {
     /**
      * Get the tags for this photo as a formatted string.
      * 
-     * @return    ArrayList<String>, each formatted string is one tag.
+     * @return    ArrayList of type String, each formatted string is one tag.
      */
     public ArrayList<String> getTagStrings() {
         ArrayList<String> tagStrings = new ArrayList<String>();
@@ -187,7 +183,7 @@ public class Photo implements Serializable {
     /**
      * Get all the tag names for this photo.
      * 
-     * @return    Set<String>, the tag names for this photo.
+     * @return    Set of type String, the tag names for this photo.
      */
     public Set<String> getTagNames() {
         return this.tags.keySet();

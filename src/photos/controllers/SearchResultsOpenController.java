@@ -28,99 +28,194 @@ import javafx.stage.Stage;
 import photos.app.Photos;
 import photos.structures.Album;
 import photos.structures.Photo;
-
+/**
+ * Controller that allows the user to interact with the search results
+ * from their search.
+ * 
+ * @author Robert Kulesa
+ * @author Aaron Kan 
+ */
 public class SearchResultsOpenController extends ListController<Photo> implements Initializable {
-
+    
+    /**
+     * FXML MenuItem used to quit out of the program
+     */
     @FXML
     private MenuItem menuItemQuit;
-
+    
+    /**
+     * FXML ImageView used to display the current selected Photo
+     */
     @FXML
     private ImageView imageView;
 
+    /**
+     * FXML label used to display the current selected Photo's date
+     */
     @FXML
     private Label labelDate;
 
-    @FXML
+    /**
+     * FXML label used to display the current selected Photo's caption
+     */
+    @FXML 
     private Label labelCaption;
 
+    /**
+     * FXML button used to add or edit a photo's caption
+     */
     @FXML
     private Button buttonAddEditCaption;
 
+    /**
+     * FXML AnchorPane used to hold the controls needed to add/edit a caption
+     */
     @FXML
     private AnchorPane paneAddEditCaption;
 
+    /**
+     * FXML Button used to add a Tag to a photo
+     */
     @FXML
     private Button buttonAddTag;
 
+    /**
+     * FXML Button used to remove a tag from a photo
+     */
     @FXML
     private Button buttonRemoveTag;
 
+    /**
+     * FXML TextField used to enter a new caption for a photo
+     */
     @FXML
     private TextField fieldNewCaption;
 
+    /**
+     * FXML Button used to confirm a caption edit
+     */
     @FXML
     private Button buttonConfirmNewCaption;
 
+    /**
+     * FXML Button used to cancel a caption edit
+     */
     @FXML
     private Button buttonCancelNewCaption;
 
+    /**
+     * FXML ListView used to display all the tags of the currently selected Photo
+     */
     @FXML
     private ListView<String> listViewTags;
 
+    /**
+     * FXML Anchorpane used to hold the controls needed for Tag creation functionality
+     */
     @FXML
     private AnchorPane paneAddTag;
 
+    /**
+     * FXML TextField used to input a name for a new Tag
+     */
     @FXML
     private TextField fieldTagName;
 
+    /**
+     * FXML Button used to confirm the creation of a new Tag
+     */
     @FXML
     private Button buttonConfirmNewTag;
 
+    /**
+     * FXML Button used to cancel the creation of a new Tag
+     */
     @FXML
     private Button buttonCancelNewTag;
 
+    /**
+     * FXML TextField used to input a value for a new Tag
+     */
     @FXML
     private TextField fieldTagValue;
 
+    /**
+     * FXML ListView used to display all the albums a user owns
+     */
     @FXML
     private ListView<Album> listViewAlbums;
 
+    /**
+     * FXML AnchorPane used to hold and view the controls needed to move and copy photos to another album
+     */
     @FXML
     private AnchorPane paneMoveCopy;
 
+    /**
+     * FXML Button used to move a Photo from one album to another
+     */
     @FXML
     private Button buttonMovePhoto;
 
+    /**
+     * FXML Button used to add a copy of the currently selected photo to another Album
+     */
     @FXML
     private Button buttonCopyPhoto;
 
+    /**
+     * FXML Label used to show if a copy operation was successful
+     */
     @FXML
     private Label labelCopySuccessful;
 
+    /**
+     * FXML Label used to show if a Photo move operation was successful
+     */
     @FXML
     private Label labelMoveSuccessful;
 
+    /**
+     * FXML Button used to take the user back to the albumlist page
+     */
     @FXML
     private Button buttonBack;
 
+    /**
+     * FXML AnchorPane holds components used to create album from search results.
+     */
     @FXML
     private AnchorPane paneCreateAlbum;
 
+    /**
+     * FXML TextField for the album name that will be created from search results.
+     */
     @FXML
     private TextField fieldAlbumName;
 
+    /**
+     * FXML Button for confirming adding the new album from the search results.
+     */
     @FXML
     private Button buttonConfirmNewAlbum;
 
+    /**
+     * FXML Button for canceling adding the new album from the search results.
+     */
     @FXML
     private Button buttonCancelNewAlbum;
 
+    /**
+     * FXML Button to begin creating album from the search results.
+     */
     @FXML
     private Button buttonCreateNewAlbum;
 
     
     /** 
-     * @param event
+     * Method for when the user clicks the create album from search results button.
+     * 
+     * @param event     Event that represents the create album from search reuslts button being clicked
      */
     @FXML
     void buttonCreateNewAlbumClicked(MouseEvent event) {
@@ -132,7 +227,9 @@ public class SearchResultsOpenController extends ListController<Photo> implement
 
     
     /** 
-     * @param event
+     * Method for when the user clicks the Confirm New Album button
+     * 
+     * @param event     Event that represents the Confirm New Album button being clicked
      */
     @FXML
     void buttonConfirmNewAlbumClicked(MouseEvent event) {
@@ -171,7 +268,9 @@ public class SearchResultsOpenController extends ListController<Photo> implement
 
     
     /** 
-     * @param event
+     * Method for when the user clicks the Cancel New Album button
+     * 
+     * @param event     Event that represents the Cancel New Album button being clicked
      */
     @FXML
     void buttonCancelNewAlbumClicked(MouseEvent event) {
@@ -182,9 +281,11 @@ public class SearchResultsOpenController extends ListController<Photo> implement
         buttonCancelNewAlbum.setDisable(true);
     }
 
-    
     /** 
-     * @param event
+     * Event handler that opens the caption addition/edit functionality
+     * upon the appropriate event firing
+     * 
+     * @param event     Event that represents the add/edit caption button being clicked
      */
     @FXML
     void buttonAddEditCaptionClicked(MouseEvent event) {
@@ -201,7 +302,10 @@ public class SearchResultsOpenController extends ListController<Photo> implement
 
     
     /** 
-     * @param event
+     * FXML Event handler that cancels the creation of a new caption
+     * upon the appropriate event firing
+     * 
+     * @param event     Event that represents the CancelNewCaption button being clicked
      */
     @FXML
     void buttonCancelNewCaptionClicked(MouseEvent event) {
@@ -214,7 +318,10 @@ public class SearchResultsOpenController extends ListController<Photo> implement
 
     
     /** 
-     * @param event
+     * FXML Event handler that adds a tag to the currently selected photo 
+     * upon the appropriate event firing
+     * 
+     * @param event     Event that represents the Add Tag button being clicked
      */
     @FXML
     void buttonAddTagClicked(MouseEvent event) {
@@ -232,7 +339,10 @@ public class SearchResultsOpenController extends ListController<Photo> implement
 
     
     /** 
-     * @param event
+     * FXML Event handler that cancels the creation of a new Tag 
+     * upon the appropriate event firing
+     * 
+     * @param event     Event that represents the Cancel New Tag button being clicked
      */
     @FXML
     void buttonCancelNewTagClicked(MouseEvent event) {
@@ -246,7 +356,10 @@ public class SearchResultsOpenController extends ListController<Photo> implement
 
     
     /** 
-     * @param event
+     * FXML Event handler that navigates to the photossearch page 
+     * upon the appropriate event firing
+     * 
+     * @param event     Event that represents the Back button being clicked
      */
     @FXML
     void buttonBackClicked(MouseEvent event){
@@ -260,7 +373,10 @@ public class SearchResultsOpenController extends ListController<Photo> implement
 
     
     /** 
-     * @param event
+     * FXML Event handler that saves the selected Photo's caption edit 
+     * upon the appropriate event firing
+     * 
+     * @param event     Event that represents the Confirm New Caption button being clicked
      */
     @FXML
     void buttonConfirmNewCaptionClicked(MouseEvent event) {
@@ -288,7 +404,10 @@ public class SearchResultsOpenController extends ListController<Photo> implement
 
     
     /** 
-     * @param event
+     * FXML Event handler that saves the creation of a new Tag 
+     * upon the appropriate event firing
+     * 
+     * @param event     Event that represents the Confirm New Tag button being clicked
      */
     @FXML
     void buttonConfirmNewTagClicked(MouseEvent event) {
@@ -324,7 +443,10 @@ public class SearchResultsOpenController extends ListController<Photo> implement
 
     
     /** 
-     * @param event
+     * FXML Event handler that copies the slected photo to another album 
+     * upon the appropriate event firing
+     * 
+     * @param event     Event that represents the Copy Photo button being clicked
      */
     @FXML
     void buttonCopyPhotoClicked(MouseEvent event) {
@@ -362,7 +484,10 @@ public class SearchResultsOpenController extends ListController<Photo> implement
 
     
     /** 
-     * @param event
+     * FXML Event handler that moves the selected Photo to the selected album
+     * upon the appropriate event firing
+     * 
+     * @param event     Event that represents the Move Photo button being clicked
      */
     @FXML
     void buttonMovePhotoClicked(MouseEvent event) {
@@ -400,7 +525,10 @@ public class SearchResultsOpenController extends ListController<Photo> implement
  
     
     /** 
-     * @param event
+     * FXML Event handler that removes the selected tag
+     * upon the appropriate event firing
+     * 
+     * @param event     Event that represents the Remove Tag button being clicked
      */
     @FXML
     void buttonRemoveTagClicked(MouseEvent event) {
@@ -423,7 +551,10 @@ public class SearchResultsOpenController extends ListController<Photo> implement
 
     
     /** 
-     * @param event
+     * FXML Event handler that quits the application
+     * upon the appropriate event firing
+     * 
+     * @param event     Event that represents the Quit MenuItem being clicked
      */
     @Override
     @FXML
@@ -435,7 +566,10 @@ public class SearchResultsOpenController extends ListController<Photo> implement
         writeUsersAndQuit(event);
     }
 
-
+    /**
+     * Method that reloads the ImageView to display 
+     * the image of currently selected Photo
+     */
     public void refreshImageView(){
         try{
             Photo selectedPhoto = listView.getSelectionModel().getSelectedItem();
@@ -445,16 +579,24 @@ public class SearchResultsOpenController extends ListController<Photo> implement
             imageView.setImage(img);
             inputStream.close();
         } catch(Exception ex){
-            ex.printStackTrace();
+            errorDialog(ex.getMessage());
         }
         
     }
 
+    /**
+     * Method that reloads the caption label to display 
+     * the caption of currently selected Photo
+     */
     public void refreshCaption(){
         Photo selectedPhoto = listView.getSelectionModel().getSelectedItem();
         labelCaption.setText(selectedPhoto.getCaption());
     }
 
+    /**
+     * Method that reloads the date label to display 
+     * the date of currently selected Photo
+     */
     public void refreshDate(){
         Photo selectedPhoto = listView.getSelectionModel().getSelectedItem();
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
@@ -465,7 +607,10 @@ public class SearchResultsOpenController extends ListController<Photo> implement
 
     
     /** 
-     * @param event
+     * FXML Event handler that refreshes the appropriate controls
+     * upon a new Photo being selected
+     * 
+     * @param event     The event in which a new Photo in the Photo ListView is selected
      */
     @FXML
     void photosListViewSelected(MouseEvent event) {
@@ -476,8 +621,10 @@ public class SearchResultsOpenController extends ListController<Photo> implement
     }
     
     
-    /** 
-     * @param stage
+    /**
+     * Implemented method for setting the main stage for this controller.
+     * 
+     * @param stage    The stage to be set as main stage for this controller.
      */
     @Override
     public void setMainStage(Stage stage) {
@@ -510,6 +657,10 @@ public class SearchResultsOpenController extends ListController<Photo> implement
         });
     }
 
+    /**
+     * Method that reloads the current Tags ListView with all the tags
+     * associated with the currently selected Photo
+     */
     public void refreshTagsList() {
         Photo selectedPhoto = listView.getSelectionModel().getSelectedItem();
         if(selectedPhoto == null) {
@@ -532,6 +683,9 @@ public class SearchResultsOpenController extends ListController<Photo> implement
         
     }
 
+    /**
+     * Method that refreshes the list of albums displayed in its corresponding ListView
+     */
     public void refreshAlbumsList() {
         ArrayList<Album> usersAlbums = Photos.getInstance().getCurrentUser().getAlbumList();
         listViewAlbums.getSelectionModel().clearSelection();
@@ -556,9 +710,12 @@ public class SearchResultsOpenController extends ListController<Photo> implement
     }
 
     
-    /** 
-     * @param fieldKey
-     * @return Photo
+    /**
+     * Implemented method for instantiating a new Photo into the <code>ListView</code> of type Photo
+     * and the collection it represents
+     * 
+     * @param fieldKey      the String that will identify and instantiate the new Photo
+     * @return Photo        The newly instantiated Photo
      */
     @Override
     public Photo newEntry(String fieldKey){
@@ -566,8 +723,10 @@ public class SearchResultsOpenController extends ListController<Photo> implement
     }
 
     
-    /** 
-     * @return ArrayList<Photo>
+    /**
+     * Implemented method for retrieving the collection that represents the controller's <code>ListView</code> of type Photo
+     * 
+     * @return ArrayList of type Photo  the collection associated with the controller's <code>ListView</code> of type Photo
      */
     @Override
     public ArrayList<Photo> getCollection(){
@@ -575,8 +734,10 @@ public class SearchResultsOpenController extends ListController<Photo> implement
     }
 
     
-    /** 
-     * @param t
+    /**
+     * Implemented method that removes an photo from the collection that represents the controller's <code>ListView</code> of type Photo
+     * 
+     * @param t     the Photo to be deleted
      */
     @Override
     public void removeEntry(Photo t){
@@ -584,9 +745,11 @@ public class SearchResultsOpenController extends ListController<Photo> implement
     }
 
     
-    /** 
-     * @param t
-     * @return boolean
+    /**
+     * Overridden method that determines if an entry is valid enough to be inserted into the the controller's collection
+     * 
+     * @param t     the entry in question
+     * @return      boolean  the argument's validity for insertion purposes
      */
     @Override
     public boolean isGoodEntry(Photo t){
@@ -617,9 +780,12 @@ public class SearchResultsOpenController extends ListController<Photo> implement
     }
 
     
-    /** 
-     * @param arg0
-     * @param arg1
+    /**
+     * Method that is called when the searchresultsopen page and its controller are initialized
+     * Used to assign default settings and values to certain controls
+     * 
+     * @param arg0      The location used to resolve relative paths for the root object, or null if the location is not known.
+     * @param arg1      The resources used to localize the root object, or null if the root object was not localized.
      */
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
@@ -632,9 +798,26 @@ public class SearchResultsOpenController extends ListController<Photo> implement
         refreshImageView();
         refreshTagsList();
     }
-    
-    private class ImageCell extends ListCell<Photo>{
+    /**
+     * Custom ListCell that displays both the image associated with a given Photo
+     * as well as its String representation
+     * 
+     * @author Robert Kulesa
+     * @author Aaron Kan 
+     */
+    private class ImageCell extends ListCell<Photo> {
+        
+        /**
+         * ImageView that will display the appropriate image in the ListCell
+         */
         final ImageView imageView = new ImageView();
+
+        /**
+         * An overridden method that is called when a listcell is updated
+         * 
+         * @param item      The photo associated with the cell
+         * @param empty     Boolean that indicates if a cell is empty
+         */
         @Override
         protected void updateItem(Photo item, boolean empty){
             
@@ -658,7 +841,7 @@ public class SearchResultsOpenController extends ListController<Photo> implement
                     inputStream.close();
                 }
             } catch(IOException e){
-                e.printStackTrace();
+                errorDialog(e.getMessage());
                 return;
             }
             

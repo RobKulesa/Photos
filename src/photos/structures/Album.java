@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 
 /**
- * Photo is a class that models a photo-album in the application
+ * Album is a class that models a photo-album in the application
  * 
  * @author Robert Kulesa
  * @author Aaron Kan 
@@ -35,7 +35,11 @@ public class Album implements Serializable {
      */
     private GregorianCalendar latestDate;
 
-
+    /**
+     * Create a new Album given its name.
+     * 
+     * @param name  String that the Album will have its name assigned to
+     */
     public Album(String name){
         this.name = name;
         this.photos = new ArrayList<Photo>();
@@ -43,37 +47,79 @@ public class Album implements Serializable {
         this.latestDate = null;
     }
 
-    public String getName(){
+    /**
+     * Get the name of this album.
+     * 
+     * @return String   the name of the Album
+     */
+    public String getName() {
         return this.name;
     }
 
+    /**
+     * Set the name of this album.
+     * 
+     * @param newName   New name for the album.
+     */
     public void setName(String newName) {
         this.name = newName;
     }
 
+    /**
+     * Add a photo to this album and update the album's date properties.
+     * 
+     * @param p    The photo to be added.
+     */
     public void addPhoto(Photo p) {
         this.photos.add(p);
         this.updateDates();
     }
 
+    /**
+     * Remove a photo from this album and update the album's date properties.
+     * 
+     * @param p    The photo to be removed from this album.
+     */
     public void deletePhoto(Photo p) {
         this.photos.remove(p);
         this.updateDates();
     }
 
+    /**
+     * Get the ArrayList of photos in this album.
+     * 
+     * @return    ArrayList of type Photo with the photos in this album.
+     */
     public ArrayList<Photo> getPhotos() {
         if(this.photos == null) this.photos = new ArrayList<Photo>();
         return this.photos;
     }
 
+    /**
+     * Get the number of photos in this album.
+     * 
+     * @return    The number of photos in this album.
+     */
     public int getNumPhotos() {
         return this.photos.size();
     }
 
+    /**
+     * Return <code>true</code> if this album contains the passed photo.
+     * 
+     * @param p    The photo to be checked if located in this album.
+     * @return     <code>true</code> if this album contains the passed photo.
+     *             <code>false</code> otherwise.
+     */
     public boolean containsPhoto(Photo p) {
         return this.photos.contains(p);
     }
 
+    /**
+     * Return the formatted string to display basic info about this album.
+     * 
+     * @return    Formatted string with basic info about this album.
+     */
     @Override
     public String toString() {
         String s = "";
@@ -103,6 +149,9 @@ public class Album implements Serializable {
                 
     }
 
+    /**
+     * Update the earliest date and latest date fields of this album.
+     */
     public void updateDates() {
         if(this.photos.size() == 0) {
             this.earliestDate = null;
@@ -130,33 +179,30 @@ public class Album implements Serializable {
 
             for(Photo p : this.photos) {
                 if(p.getLastModified() != null){
-                    System.out.println("Comparing::\n" + p.toString());
-                    System.out.printf("\tComparetoValue: %d\n", p.getLastModified().compareTo(this.earliestDate));
-
                     allNull = false;
                     if(p.getLastModified().compareTo(this.earliestDate) < 0){
                         this.earliestDate = p.getLastModified();
-                        System.out.println("because compareto is negative, we are making it the new earliest date");
-                        System.out.println(this.toString());
                     }
                     else if(p.getLastModified().compareTo(this.latestDate) > 0){
-                        System.out.println("because compareto is positive, we are making it the new latest date");
-                        System.out.println(this.toString());
                         this.latestDate = p.getLastModified();
                     }
                         
                 }
             }
             if(allNull){
-                System.out.println("Setting all to null");
                 this.earliestDate = null;
                 this.latestDate = null;
             }
         }
 
-        System.out.println("Final result:" + this.toString());
     }
 
+    /**
+     * Returns <code>true</code> if the passed string or album's name is equal to this album's name.
+     * 
+     * @return    <code>true</code> if the passed object is equal to this album.
+     *            <code>false</code> otherwise.
+     */
     @Override
     public boolean equals(Object o) {
         if(o==null || !(o instanceof Album || o instanceof String)) {

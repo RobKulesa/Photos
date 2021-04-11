@@ -48,6 +48,9 @@ public abstract class ListController<T> extends Controller {
     @FXML
     protected TextField fieldNewEntry;
 
+    /**
+     * FXML label that is associated with the fieldNewEntry TextField 
+     */
     @FXML
     protected Label labelEntryField;
 
@@ -171,7 +174,10 @@ public abstract class ListController<T> extends Controller {
 
     
     /** 
-     * @param t
+     * Method that reloads the ListView and the controls associated with it
+     * as is appropriate given the conditions of the current view
+     * 
+     * @param t     The item in the collection that the ListView will have selected upon being refreshed
      */
     public void refreshList(T t) {
         listView.getSelectionModel().clearSelection();
@@ -197,7 +203,7 @@ public abstract class ListController<T> extends Controller {
     
     /** 
      * Method that detects of an attempted new Entry is already
-     * an element in the current <code>ListView<T></code>
+     * an element in the current <code>ListView</code> of type T.
      * 
      * @param t             The item to be analyzed by the algorithm
      * @return boolean      determines if the item is a repeat
@@ -212,7 +218,7 @@ public abstract class ListController<T> extends Controller {
     }
     
     /**
-     * An abstract method for instantiating a new entry into the <code>ListView<T></code>
+     * An abstract method for instantiating a new entry into the <code>ListView</code> of type T.
      * and the collection it represents
      * 
      * @param fieldKey      the String that will identify and instantiate the new entry
@@ -221,14 +227,14 @@ public abstract class ListController<T> extends Controller {
     public abstract T newEntry(String fieldKey);
     
     /**
-     * An abstract method for retrieving the collection that represents the controller's <code>ListView<T></code>
+     * An abstract method for retrieving the collection that represents the controller's <code>ListView</code> of type T.
      * 
-     * @return ArrayList<T>  the collection associated with the controller's <code>ListView<T></code>
+     * @return ArrayList  the collection associated with the controller's <code>ListView</code> type T.
      */
     public abstract ArrayList<T> getCollection();
     
     /**
-     * An abstract method that removed an entry from the collection that represents the controller's <code>ListView<T></code>
+     * An abstract method that removes an entry from the collection that represents the controller's <code>ListView</code> of type T.
      * 
      * @param t     the entry to be deleted
      */
@@ -236,7 +242,7 @@ public abstract class ListController<T> extends Controller {
     
 
     /**
-     * An abstract method that determines if an entry is valid enough to be inserted into the the controller's collection
+     * An abstract method that determines if an entry is valid enough to be inserted into the the controller's collection.
      * 
      * @param entry     the entry in question
      * @return boolean  the argument's validity for insertion purposes

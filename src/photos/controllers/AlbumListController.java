@@ -100,13 +100,11 @@ public class AlbumListController extends ListController<Album> {
         Photos.getInstance().goToPhotosSearch();
     }
 
-
-    
     /** 
      * An overriden implementation of the buttonCreateClicked event handler from the
-     * <code>ListController<Album></code> superclass.
+     * <code>ListController</code> superclass.
      * 
-     * @param event
+     * @param event    The event caused by the create button being clicked.
      */
     @Override
     @FXML
@@ -115,10 +113,11 @@ public class AlbumListController extends ListController<Album> {
         createNotRename = true;
     }
 
-
-    
     /** 
-     * @param event
+     * Event handler that handles the rename-button being clicked.
+     * Sets the appropriate controls to visible in response to the event.
+     * 
+     * @param event     The event in which the rename-button is clicked.
      */
     @FXML 
     void buttonRenameClicked(MouseEvent event){
@@ -130,6 +129,7 @@ public class AlbumListController extends ListController<Album> {
 
     /**
      * FXML method used to quit the application when the menu item is clicked.
+     * @param event     The event in which the quit-menuItem is clicked
      */
     @Override
     @FXML
@@ -144,7 +144,7 @@ public class AlbumListController extends ListController<Album> {
     /**
      * FXML method used to logout when the button is clicked.
      * 
-     * @param event
+     * @param event     The event in which the logout button is clicked.
      */
     @FXML
     void buttonLogoutClicked(MouseEvent event) {
@@ -160,7 +160,7 @@ public class AlbumListController extends ListController<Album> {
     /**
      * FXML method used to quit the application when the button is clicked.
      * 
-     * @param event
+     * @param event     The event in which the quit button is clicked. 
      */
     @FXML
     void buttonQuitClicked(MouseEvent event) {
@@ -173,7 +173,9 @@ public class AlbumListController extends ListController<Album> {
     
     
     /** 
-     * @param event
+     * Overriden FXML method used to confirma user's proposed change to a particular album
+     * 
+     * @param event     The event in which the confirm button is clicked.
      */
     @Override
     @FXML
@@ -249,35 +251,41 @@ public class AlbumListController extends ListController<Album> {
         refreshUsernameDisplay();
     }   
 
-    
-    /** 
-     * @param fieldKey
-     * @return Album
+    /**
+     * Implemented for instantiating a new entry into the <code>ListView</code> of Albums
+     * and the collection it represents
+     * 
+     * @param fieldKey      the String that will identify and instantiate the new Album
+     * @return T            the newly instantiated entry
      */
     public Album newEntry(String fieldKey){
         return new Album(fieldKey);
     }
 
-    
-    /** 
-     * @return ArrayList<Album>
+    /**
+     * Implemented method for retrieving the collection that represents the controller's <code>ListView</code> of Albums.
+     * 
+     * @return ArrayList  the collection associated with the controller's <code>ListView</code> of Albums.
      */
     public ArrayList<Album> getCollection() {
         return Photos.getInstance().getCurrentUser().getAlbumList();
     }
-
     
-    /** 
-     * @param t
+    /**
+     * Implemented method that removed an entry from the collection that represents the controller's <code>ListView</code> of Albums.
+     * 
+     * @param t     the Album to be deleted
      */
     public void removeEntry(Album t){
         this.getCollection().remove(t);
     }
 
     
-    /** 
-     * @param t
-     * @return boolean
+    /**
+     * Implemented method that determines if an Album is valid enough to be inserted into the the controller's collection
+     * 
+     * @param t     the entry in question
+     * @return boolean  the argument's validity for insertion purposes
      */
     public boolean isGoodEntry(Album t){
         return !isRepeatEntry(t) && !t.getName().equals("");

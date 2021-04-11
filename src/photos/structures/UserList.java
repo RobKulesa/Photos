@@ -51,11 +51,19 @@ public class UserList implements Serializable {
 
     /**
      * Add a user to the UserList.
+     * 
+     * @param u     The User to be added to the UserList
      */
     public void addUser(User u){
         users.add(u);
     }
 
+    /**
+     * Add a user to the UserList at a specific index.
+     * 
+     * @param u         The User to be added to the UserList
+     * @param index     The index at which the User will be inserted
+     */
     public void addUser(User u, int index) {
         users.add(index, u);
     }
@@ -147,26 +155,14 @@ public class UserList implements Serializable {
 
         return userList;
     }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("[");
-        for(User u : this.users) {
-            sb.append(u.getUsername());
-            sb.append(": (|");
-            for(Album a : u.getAlbumList()) {
-                sb.append(a.getName());
-                sb.append(", ");
-                sb.append(a.getNumPhotos());
-                sb.append("|");
-            }
-            sb.append(")\n");
-        }
-        sb.append("]\n");
-        return sb.toString();
-    }
     
+    /**
+     * Returns <code>true</code> if passed User u is already in this user list.
+     * 
+     * @param u    The user to be checked.
+     * @return     <code>true</code> if passed User u is already in this user list.
+     *             <code>false</code> otherwise.
+     */
     public boolean containsUser(User u) {
         for(User listUser : this.users) {
             if(listUser.equals(u)) return true;
@@ -174,6 +170,13 @@ public class UserList implements Serializable {
         return false;
     }
 
+    /**
+     * Returns <code>true</code> if passed String u matches a user's username in this user list.
+     * 
+     * @param u    The username to be checked.
+     * @return     <code>true</code> if passed String u matches a user's username in this user list.
+     *             <code>false</code> otherwise.
+     */
     public boolean containsUser(String u) {
         for(User listUser : this.users) {
             if(listUser.equals(u)) return true;

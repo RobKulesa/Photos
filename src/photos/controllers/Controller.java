@@ -36,7 +36,7 @@ public abstract class Controller {
     /**
      * Abstract FXML method for pressing the Quit Menu Item.
      * 
-     * @param event
+     * @param event    The event caused by the menu item being clicked.
      */
     @FXML
     abstract void menuItemQuitClicked(ActionEvent event);
@@ -85,7 +85,7 @@ public abstract class Controller {
         try {
             Photos.getInstance().setUserList(UserList.readUserList());
         } catch (Exception e) {
-            e.printStackTrace();
+            errorDialog(e.getMessage());
         }
     }
 
@@ -111,7 +111,6 @@ public abstract class Controller {
             mainStage.close();
         } catch (Exception e) { 
             errorDialog(e.getMessage());
-            e.printStackTrace();
             event.consume();
             return;
         }

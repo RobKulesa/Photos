@@ -17,54 +17,112 @@ import javafx.stage.Stage;
 import photos.app.Photos;
 import photos.structures.Album;
 import photos.structures.Photo;
-
+/**
+ * Controller for the part of the normal-user subsystem
+ * that allows the user to search for photos using certain criteria
+ * @author Robert Kulesa
+ * @author Aaron Kan  
+ */
 public class PhotosSearchController extends Controller {
 
+    /**
+     * FXML RadioButton used to adjust the date range search criteria
+     */
     @FXML
     private RadioButton radioButtonDateRange;
 
+    /**
+     * FXML RadioButton used to adjust the Tag value search criteria 
+     */
     @FXML
     private RadioButton radioButtonTagValues;
 
+    /**
+     * FXML Pane that holds the functionality for picking date-range search criteria
+     */
     @FXML
     private Pane paneDatePickers;
 
+    /**
+     * FXML DatePicker that allows user to pick the lower bound for the date-range search criteria
+     */
     @FXML
-    private DatePicker datePickerFrom;
 
+        private DatePicker datePickerFrom;
+
+    /**
+     * FXML DatePicker that allows user to pick the upper bound for the date-range search criteria
+     */
     @FXML
     private DatePicker datePickerTo;
 
+    /**
+     * FXML Pane that holds the functionality for picking the primary Tag search criteria
+     */
     @FXML
     private Pane paneTagValues;
 
+    /**
+     * FXML Pane that holds the functionality for picking the secondary Tag search criteria
+     */
     @FXML
     private Pane paneSecondaryTag;
 
+    /**
+     * FXML TextField that allows the user to input the Tag Name 
+     * for the secondary Tag search criteria
+     */
     @FXML
     private TextField fieldTagName2;
 
+    /**
+     * FXML TextField that allows the user to input the Tag Value 
+     * for the secondary Tag search criteria
+     */
     @FXML
     private TextField fieldTagValue2;
 
+    /**
+     * FXML ComboBox that determines how you want to combine
+     * the primary and secondry Tags as search criteria
+     */
     @FXML
     private ComboBox<String> comboBoxCombination;
 
+    /**
+     * FXML TextField that allows the user to input the Tag Name 
+     * for the primary Tag search criteria
+     */
     @FXML
     private TextField fieldTagName1;
 
+    /**
+     * FXML TextField that allows the user to input the Tag Value 
+     * for the secondary Tag search criteria
+     */
     @FXML
     private TextField fieldTagValue1;
 
+    /**
+     * FXML Button that confirms the user-provided search criteria and
+     * executes the search
+     */
     @FXML
     private Button buttonConfirmSearch;
 
+    /**
+     * FXML Button that cancels the search the application-user may have 
+     * wanted to execute
+     */
     @FXML
     private Button buttonCancelSearch;
 
     
     /** 
-     * @param event
+     * FXML Event handler that cancels the search the user is formatting
+     * upon the appropriate event firing
+     * 
+     * @param event     Event that represents the Cancel Search button being clicked
      */
     @FXML
     void buttonCancelSearchClicked(MouseEvent event) {
@@ -73,7 +131,10 @@ public class PhotosSearchController extends Controller {
 
     
     /** 
-     * @param event
+     * FXML Event handler that that confirms and executes the search the user has formatted
+     * upon the appropriate event firing
+     * 
+     * @param event     Event that represents the Confirm Search button being clicked
      */
     @FXML
     void buttonConfirmSearchClicked(MouseEvent event) {
@@ -123,8 +184,6 @@ public class PhotosSearchController extends Controller {
             }
             gFrom = new GregorianCalendar(tFrom.getYear(), tFrom.getMonthValue()-1, tFrom.getDayOfMonth(), 0, 0, 0);
             gTo = new GregorianCalendar(tTo.getYear(), tTo.getMonthValue()-1, tTo.getDayOfMonth(), 23, 59, 59);
-            System.out.println(gFrom.toString());
-            System.out.println(gTo.toString());
         }
         
         for(Album album : currentUserAlbums) {
@@ -152,7 +211,9 @@ public class PhotosSearchController extends Controller {
 
     
     /** 
-     * @param event
+     * FXML Event handler that quits out of the application upon the appropriate MenuItem being clicked 
+     * 
+     * @param event     Event that represents the Quit MenuItem being clicked
      */
     @Override
     @FXML
@@ -162,7 +223,10 @@ public class PhotosSearchController extends Controller {
 
     
     /** 
-     * @param event
+     * FXML Event handler that adjusts the date range search criteria 
+     * upon the appropriate RadioButton being adjusted 
+     * 
+     * @param event     Event that represents the Date Range Selected RadiButton being adjusted
      */
     @FXML
     void radioButtonDateRangeSelected(MouseEvent event) {
@@ -173,7 +237,10 @@ public class PhotosSearchController extends Controller {
 
     
     /** 
-     * @param event
+     * FXML Event handler that adjusts the Tag values search criteria 
+     * upon the appropriate RadioButton being adjusted 
+     * 
+     * @param event     Event that represents the Tag Values Selected RadiButton being adjusted
      */
     @FXML
     void radioButtonTagValuesSelected(MouseEvent event) {
@@ -185,7 +252,11 @@ public class PhotosSearchController extends Controller {
 
     
     /** 
-     * @param event
+     * FXML Event handler that adjusts the visibility of the pane
+     * associated with the secondary Tag search criteria
+     * upon the appropriate event being fired. 
+     * 
+     * @param event     The event that represents a combobox item being selected
      */
     @FXML
     void comboBoxCombinationSelected(ActionEvent event) {
@@ -198,8 +269,10 @@ public class PhotosSearchController extends Controller {
     }
 
     
-    /** 
-     * @param stage
+    /**
+     * Implemented method for setting the main stage for this controller.
+     * 
+     * @param stage    The stage to be set as main stage for this controller.
      */
     @Override
     public void setMainStage(Stage stage) {
