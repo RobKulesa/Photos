@@ -14,7 +14,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import photos.Debug;
 import photos.app.Photos;
 import photos.structures.Album;
 import photos.structures.Photo;
@@ -63,11 +62,19 @@ public class PhotosSearchController extends Controller {
     @FXML
     private Button buttonCancelSearch;
 
+    
+    /** 
+     * @param event
+     */
     @FXML
     void buttonCancelSearchClicked(MouseEvent event) {
         Photos.getInstance().goToAlbumList();
     }
 
+    
+    /** 
+     * @param event
+     */
     @FXML
     void buttonConfirmSearchClicked(MouseEvent event) {
         ArrayList<Album> currentUserAlbums = Photos.getInstance().getCurrentUser().getAlbumList();
@@ -114,12 +121,15 @@ public class PhotosSearchController extends Controller {
                 errorDialog("DatePicker To cannot be blank!");
                 return;
             }
-            gFrom = new GregorianCalendar(tFrom.getYear(), tFrom.getMonthValue(), tFrom.getDayOfMonth(), 0, 0, 0);
-            gTo = new GregorianCalendar(tTo.getYear(), tTo.getMonthValue(), tTo.getDayOfMonth(), 23, 59, 59);
+            gFrom = new GregorianCalendar(tFrom.getYear(), tFrom.getMonthValue()-1, tFrom.getDayOfMonth(), 0, 0, 0);
+            gTo = new GregorianCalendar(tTo.getYear(), tTo.getMonthValue()-1, tTo.getDayOfMonth(), 23, 59, 59);
+            System.out.println(gFrom.toString());
+            System.out.println(gTo.toString());
         }
         
         for(Album album : currentUserAlbums) {
             for(Photo photo : album.getPhotos()) {
+                if(Photos.getInstance().getSearchResults().containsPhoto(photo)) break;
                 if(radioButtonTagValues.isSelected()) {
                     if(selectedCombo.equals("none") && photo.hasTag(tagname1, tagvalue1)) {
                         Photos.getInstance().getSearchResults().addPhoto(photo);
@@ -133,17 +143,27 @@ public class PhotosSearchController extends Controller {
                 }
             }
         }
-
-        if(Debug.debugControllers) System.out.println("PhotosSearchController Created Search Results Album with " + Photos.getInstance().getSearchResults().getNumPhotos() + " photos");
+        if(Photos.getInstance().getSearchResults().getNumPhotos() <= 0) {
+            errorDialog("No results found, please try again!");
+            return;
+        }
         Photos.getInstance().goToSearchResults();
     }
 
+    
+    /** 
+     * @param event
+     */
     @Override
     @FXML
     void menuItemQuitClicked(ActionEvent event) {
         writeUsersAndQuit(event);
     }
 
+    
+    /** 
+     * @param event
+     */
     @FXML
     void radioButtonDateRangeSelected(MouseEvent event) {
         radioButtonTagValues.setSelected(false);
@@ -151,6 +171,10 @@ public class PhotosSearchController extends Controller {
         paneTagValues.setVisible(false);
     }
 
+    
+    /** 
+     * @param event
+     */
     @FXML
     void radioButtonTagValuesSelected(MouseEvent event) {
         radioButtonDateRange.setSelected(false);
@@ -159,6 +183,10 @@ public class PhotosSearchController extends Controller {
 
     }
 
+    
+    /** 
+     * @param event
+     */
     @FXML
     void comboBoxCombinationSelected(ActionEvent event) {
         String combinationSelected = comboBoxCombination.getSelectionModel().getSelectedItem();
@@ -169,6 +197,10 @@ public class PhotosSearchController extends Controller {
         }
     }
 
+    
+    /** 
+     * @param stage
+     */
     @Override
     public void setMainStage(Stage stage) {
         mainStage = stage;

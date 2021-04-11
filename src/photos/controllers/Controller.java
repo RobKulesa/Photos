@@ -1,6 +1,5 @@
 package photos.controllers;
 
-import photos.Debug;
 import photos.app.Photos;
 import photos.structures.UserList;
 
@@ -63,12 +62,17 @@ public abstract class Controller {
 		dialog.setResizable(true);
         dialog.showAndWait();
 	}
-
-    public void successDialog(String errorMsg) {
+    
+    /** 
+     * Open a success message popup dialog with the provided message.
+     * 
+     * @param msg    Success message to be shown in the popup dialog.
+     */
+    public void successDialog(String msg) {
         Dialog<String> dialog = new Dialog<String>();
 		dialog.setTitle("Success! =)");
 		ButtonType type = new ButtonType("Ok", ButtonData.OK_DONE);
-		dialog.setContentText(errorMsg);
+		dialog.setContentText(msg);
 		dialog.getDialogPane().getButtonTypes().add(type);
 		dialog.setResizable(true);
         dialog.showAndWait();
@@ -83,7 +87,6 @@ public abstract class Controller {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(Debug.debugControllers) System.out.println("LoginController Read User List: " + Photos.getInstance().getUserList().toString());
     }
 
     /**
@@ -91,7 +94,6 @@ public abstract class Controller {
      */
     public void writeUsers() {
         try {
-            if(Debug.debugControllers) System.out.println("LoginController Write User List: " + Photos.getInstance().getUserList().toString());
             UserList.writeUserList(Photos.getInstance().getUserList());
         } catch (IOException e) { 
             errorDialog("An unexpected error occured. Please try again");
@@ -105,7 +107,6 @@ public abstract class Controller {
      */
     public void writeUsersAndQuit(Event event) {
         try {
-            if(Debug.debugControllers && Photos.getInstance().getUserList() != null) System.out.println("LoginController Write User List: " + Photos.getInstance().getUserList().toString());
             UserList.writeUserList(Photos.getInstance().getUserList());
             mainStage.close();
         } catch (Exception e) { 

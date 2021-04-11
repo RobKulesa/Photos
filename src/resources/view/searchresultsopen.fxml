@@ -48,7 +48,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="783.0" prefWidth="1259.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="photos.controllers.SearchResultsOpenController">
+<VBox prefHeight="783.0" prefWidth="1259.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="photos.controllers.SearchResultsOpenController">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -151,12 +151,7 @@
                                                 <Label fx:id="labelMoveSuccessful" layoutX="108.0" layoutY="22.0" text="Move Successful!" visible="false" />
                                              </children>
                                           </AnchorPane>
-                                          <AnchorPane GridPane.columnIndex="1">
-                                             <children>
-                                                <Label layoutX="14.0" layoutY="3.0" text="Album:" />
-                                                <Label fx:id="labelDate1" layoutX="64.0" layoutY="4.0" prefHeight="16.0" prefWidth="257.0" />
-                                             </children>
-                                          </AnchorPane>
+                                          <AnchorPane GridPane.columnIndex="1" />
                                        </children>
                                     </GridPane>
                                  </children>

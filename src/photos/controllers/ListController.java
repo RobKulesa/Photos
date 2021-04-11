@@ -9,9 +9,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import java.util.ArrayList;
 
-import photos.Debug;
 import photos.structures.User;
-
+/**
+ * Abstract controller to be extended by concrete controllers that need
+ * creation, deletion, and display functionality for a collection of items
+ * 
+ * @author Robert Kulesa
+ * @author Aaron Kan 
+ */
 public abstract class ListController<T> extends Controller {
 
     /**
@@ -70,6 +75,12 @@ public abstract class ListController<T> extends Controller {
     @FXML
     protected Button buttonDelete;
 
+    
+    /** 
+     * Event handler when the cancel-designated button is clicked
+     * 
+     * @param event     an event that fires when button is clicked
+     */
     @FXML
     void buttonCancelClicked(MouseEvent event) {
         labelInvalidAddition.setVisible(false);
@@ -78,6 +89,12 @@ public abstract class ListController<T> extends Controller {
         fieldNewEntry.setEditable(false);
     }
 
+    
+    /** 
+     * Event handler when the create-designated button is clicked
+     * 
+     * @param event     an event that fires when button is clicked
+     */
     @FXML
     void buttonCreateClicked(MouseEvent event){
         paneConfirmCreate.setVisible(true);
@@ -86,6 +103,12 @@ public abstract class ListController<T> extends Controller {
         allowSelect = false;
     }
 
+    
+    /** 
+     * Event handler when the confirm-designated button is clicked
+     * 
+     * @param event     an event that fires when button is clicked
+     */
     @FXML 
     void buttonConfirmClicked(MouseEvent event){
         String inputEntryName = fieldNewEntry.getText();
@@ -113,6 +136,12 @@ public abstract class ListController<T> extends Controller {
         writeUsers();
     }
 
+    
+    /** 
+     * Event handler when the delete-designated button is clicked
+     * 
+     * @param event     an event that fires when button is clicked
+     */
     @FXML
     void buttonDeleteClicked(MouseEvent event){
         T selectedEntry = listView.getSelectionModel().getSelectedItem();
@@ -140,6 +169,10 @@ public abstract class ListController<T> extends Controller {
         writeUsers();
     }
 
+    
+    /** 
+     * @param t
+     */
     public void refreshList(T t) {
         listView.getSelectionModel().clearSelection();
         listView.getItems().clear();
@@ -147,8 +180,6 @@ public abstract class ListController<T> extends Controller {
         //Load items into list
         if(getCollection().size() > 0)
             listView.getItems().addAll(getCollection());
-
-        if(Debug.debugControllers) System.out.println("ListController Got Generic List: " + listView.getItems());
 
         if(t == null) listView.getSelectionModel().select(0);
         else listView.getSelectionModel().select(t);
@@ -163,6 +194,14 @@ public abstract class ListController<T> extends Controller {
         
     }
 
+    
+    /** 
+     * Method that detects of an attempted new Entry is already
+     * an element in the current <code>ListView<T></code>
+     * 
+     * @param t             The item to be analyzed by the algorithm
+     * @return boolean      determines if the item is a repeat
+     */
     public boolean isRepeatEntry(T t){
         for(T tInList : getCollection()){
             if(tInList.equals(t)){
@@ -172,9 +211,36 @@ public abstract class ListController<T> extends Controller {
         return false;
     }
     
+    /**
+     * An abstract method for instantiating a new entry into the <code>ListView<T></code>
+     * and the collection it represents
+     * 
+     * @param fieldKey      the String that will identify and instantiate the new entry
+     * @return T            the newly instantiated entry
+     */
     public abstract T newEntry(String fieldKey);
+    
+    /**
+     * An abstract method for retrieving the collection that represents the controller's <code>ListView<T></code>
+     * 
+     * @return ArrayList<T>  the collection associated with the controller's <code>ListView<T></code>
+     */
     public abstract ArrayList<T> getCollection();
+    
+    /**
+     * An abstract method that removed an entry from the collection that represents the controller's <code>ListView<T></code>
+     * 
+     * @param t     the entry to be deleted
+     */
     public abstract void removeEntry(T t);
+    
+
+    /**
+     * An abstract method that determines if an entry is valid enough to be inserted into the the controller's collection
+     * 
+     * @param entry     the entry in question
+     * @return boolean  the argument's validity for insertion purposes
+     */
     public abstract boolean isGoodEntry(T entry);
     
 } 

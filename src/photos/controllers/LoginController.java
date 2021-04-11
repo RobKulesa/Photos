@@ -7,7 +7,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import photos.Debug;
 import photos.app.Photos;
 import photos.structures.User;
 import photos.structures.Album;
@@ -58,8 +57,6 @@ public class LoginController extends Controller {
             goodLogin = user.getUsername().equals(loginAttempt);
             if(goodLogin) {
                 textLoginFailed.setVisible(false);
-                if(Debug.debugControllers) System.out.println("LoginController User logged in as: \"" + user.toString() + "\"");
-
                 Photos.getInstance().setCurrentUser(i);
                 if(loginAttempt.equals("admin")){
                     Photos.getInstance().goToAdminPage();
@@ -76,7 +73,6 @@ public class LoginController extends Controller {
             }
         }
         if(!goodLogin){
-            if(Debug.debugControllers) System.out.println("LoginController Attempt to login as \"" + loginAttempt + "\" failed");
             textLoginFailed.setVisible(true);
         } 
     }

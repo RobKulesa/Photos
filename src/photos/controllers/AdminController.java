@@ -110,18 +110,46 @@ public class AdminController extends ListController<User> {
 		});
     }
 
+    
+    /**
+     * Implemented method for instantiating a new <code>User</code> entry into the <code>ListView<T></code>
+     * and the <code>User</code> collection it represents
+     * 
+     * @param fieldKey          the String that will identify and instantiate the new entry
+     * @return User             the newly instantiated <code>User</code> entry
+     */
     public User newEntry(String fieldKey){
         return new User(fieldKey);
     }
 
+    
+    /** 
+     * Implemented method for retrieving the collection that 
+     * represents the controller's <code>ListView<User></code>
+     * 
+     * @return ArrayList<User>
+     */
     public ArrayList<User> getCollection(){
         return Photos.getInstance().getUserList().getUsers();
     }
 
+    
+    /** 
+     * Implemented method that removed an entry from the collection that represents the controller's <code>ListView<User></code>
+     * 
+     * @param t     the entry to be deleted
+     */
     public void removeEntry(User t){
         Photos.getInstance().getUserList().removeUser(t);
     }
 
+    
+    /** 
+     * Implemented method that determines if an entry is valid enough to be inserted into the the controller's collection
+     * 
+     * @param entry     the entry in question
+     * @return boolean  the argument's validity for insertion purposes
+     */
     public boolean isGoodEntry(User t){
         return !isRepeatEntry(t);
     }

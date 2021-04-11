@@ -13,7 +13,8 @@ import photos.app.Photos;
 import photos.structures.Album;
 
 /**
- * Controller for the normal user subsystem.
+ * Controller for the part of normal user subsystem
+ * that displays the user's list of albums.
  * 
  * @author Aaron Kan
  * @author Robert Kulesa 
@@ -27,20 +28,43 @@ public class AlbumListController extends ListController<Album> {
     @FXML
     private Label usernameDisplay;
     
+    /**
+     * FXML Button used for navigating to the albumopen page
+     */
     @FXML
     private Button buttonAlbumOpen;
 
+    /**
+     * FXML Button used for navigating to the photossearch page
+     */
     @FXML
     private Button buttonPhotosSearch;
 
+    /**
+     * FXML Button used for renaming an album
+     */
     @FXML
     private Button buttonRename;
 
+    /**
+     * FXML Button used for logging out and returning to the login screen
+     */
     @FXML
     private Button buttonLogout;
     
+    /**
+     * A boolean that tells the application whether or not an edit 
+     * is a creation operation or a renaming operation
+     */
     boolean createNotRename;
 
+    
+    /** 
+     * Event handler that navigates to the albumopen page 
+     * when the associated event is fired under appropriate circumstances
+     * 
+     * @param event     The event where the <code>buttonAlbumOpen</code> is clicked
+     */
     @FXML
     void buttonAlbumOpenClicked(MouseEvent event){
         if(paneConfirmCreate.isVisible()) {
@@ -59,26 +83,43 @@ public class AlbumListController extends ListController<Album> {
         return;
     }
 
+    
+    /** 
+     * Event handler that navigates the the photossearch page
+     * when the associated event is fired and the appropriate conditions are met
+     * 
+     * @param event     The event where <code>buttonPhotosSearch</code> is clicked
+     */
     @FXML
     void buttonPhotosSearchClicked(MouseEvent event){
         if(paneConfirmCreate.isVisible()) {
             errorDialog("Please save pending changes before exiting.");
             return;
         }
+        writeUsers();
         Photos.getInstance().goToPhotosSearch();
-        return;
     }
 
 
+    
+    /** 
+     * An overriden implementation of the buttonCreateClicked event handler from the
+     * <code>ListController<Album></code> superclass.
+     * 
+     * @param event
+     */
     @Override
     @FXML
     void buttonCreateClicked(MouseEvent event) {
-        // TODO Auto-generated method stub
         super.buttonCreateClicked(event);
         createNotRename = true;
     }
 
 
+    
+    /** 
+     * @param event
+     */
     @FXML 
     void buttonRenameClicked(MouseEvent event){
         createNotRename = false;
@@ -130,6 +171,10 @@ public class AlbumListController extends ListController<Album> {
         writeUsersAndQuit(event);
     }
     
+    
+    /** 
+     * @param event
+     */
     @Override
     @FXML
     void buttonConfirmClicked(MouseEvent event){
@@ -165,6 +210,7 @@ public class AlbumListController extends ListController<Album> {
         paneConfirmCreate.setVisible(false);
         fieldNewEntry.setEditable(false);
         labelInvalidAddition.setVisible(false);
+        writeUsers();
     }
     
 
@@ -203,18 +249,36 @@ public class AlbumListController extends ListController<Album> {
         refreshUsernameDisplay();
     }   
 
+    
+    /** 
+     * @param fieldKey
+     * @return Album
+     */
     public Album newEntry(String fieldKey){
         return new Album(fieldKey);
     }
 
+    
+    /** 
+     * @return ArrayList<Album>
+     */
     public ArrayList<Album> getCollection() {
         return Photos.getInstance().getCurrentUser().getAlbumList();
     }
 
+    
+    /** 
+     * @param t
+     */
     public void removeEntry(Album t){
         this.getCollection().remove(t);
     }
 
+    
+    /** 
+     * @param t
+     * @return boolean
+     */
     public boolean isGoodEntry(Album t){
         return !isRepeatEntry(t) && !t.getName().equals("");
     }

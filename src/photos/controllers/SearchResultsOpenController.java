@@ -25,7 +25,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import photos.Debug;
 import photos.app.Photos;
 import photos.structures.Album;
 import photos.structures.Photo;
@@ -119,6 +118,10 @@ public class SearchResultsOpenController extends ListController<Photo> implement
     @FXML
     private Button buttonCreateNewAlbum;
 
+    
+    /** 
+     * @param event
+     */
     @FXML
     void buttonCreateNewAlbumClicked(MouseEvent event) {
         paneCreateAlbum.setVisible(true);
@@ -127,6 +130,10 @@ public class SearchResultsOpenController extends ListController<Photo> implement
         buttonCancelNewAlbum.setDisable(false);
     }
 
+    
+    /** 
+     * @param event
+     */
     @FXML
     void buttonConfirmNewAlbumClicked(MouseEvent event) {
         if(paneConfirmCreate.isVisible() || paneAddEditCaption.isVisible() || paneAddTag.isVisible()) {
@@ -136,6 +143,11 @@ public class SearchResultsOpenController extends ListController<Photo> implement
 
         if(fieldAlbumName.getText().isEmpty()) {
             errorDialog("Album Name cannot be empty!");
+            return;
+        }
+
+        if(listView.getItems().size() <= 0) {
+            errorDialog("Please select a photo first!");
             return;
         }
 
@@ -157,6 +169,10 @@ public class SearchResultsOpenController extends ListController<Photo> implement
         Photos.getInstance().goToAlbumOpen();
     }
 
+    
+    /** 
+     * @param event
+     */
     @FXML
     void buttonCancelNewAlbumClicked(MouseEvent event) {
         paneCreateAlbum.setVisible(false);
@@ -166,8 +182,16 @@ public class SearchResultsOpenController extends ListController<Photo> implement
         buttonCancelNewAlbum.setDisable(true);
     }
 
+    
+    /** 
+     * @param event
+     */
     @FXML
     void buttonAddEditCaptionClicked(MouseEvent event) {
+        if(listView.getSelectionModel().getSelectedItem() == null) {
+            errorDialog("Please select a photo first!");
+            return;
+        }
         allowSelect = false;
         paneAddEditCaption.setVisible(true);
         fieldNewCaption.setEditable(true);
@@ -175,6 +199,10 @@ public class SearchResultsOpenController extends ListController<Photo> implement
         buttonCancelNewCaption.setDisable(false);
     }
 
+    
+    /** 
+     * @param event
+     */
     @FXML
     void buttonCancelNewCaptionClicked(MouseEvent event) {
         allowSelect = true;
@@ -184,8 +212,16 @@ public class SearchResultsOpenController extends ListController<Photo> implement
         paneAddEditCaption.setVisible(false);
     }
 
+    
+    /** 
+     * @param event
+     */
     @FXML
     void buttonAddTagClicked(MouseEvent event) {
+        if(listView.getSelectionModel().getSelectedItem() == null) {
+            errorDialog("Please select a photo first!");
+            return;
+        }
         allowSelect = false;
         paneAddTag.setVisible(true);
         fieldTagName.setEditable(true);
@@ -194,6 +230,10 @@ public class SearchResultsOpenController extends ListController<Photo> implement
         buttonCancelNewTag.setDisable(false);
     }
 
+    
+    /** 
+     * @param event
+     */
     @FXML
     void buttonCancelNewTagClicked(MouseEvent event) {
         allowSelect = true;
@@ -204,6 +244,10 @@ public class SearchResultsOpenController extends ListController<Photo> implement
         paneAddTag.setVisible(false);
     }
 
+    
+    /** 
+     * @param event
+     */
     @FXML
     void buttonBackClicked(MouseEvent event){
         if(paneConfirmCreate.isVisible() || paneAddEditCaption.isVisible() || paneAddTag.isVisible() || paneCreateAlbum.isVisible()) {
@@ -214,6 +258,10 @@ public class SearchResultsOpenController extends ListController<Photo> implement
         Photos.getInstance().goToAlbumList();
     }
 
+    
+    /** 
+     * @param event
+     */
     @FXML
     void buttonConfirmNewCaptionClicked(MouseEvent event) {
         Photo selectedPhoto = listView.getSelectionModel().getSelectedItem();
@@ -223,8 +271,12 @@ public class SearchResultsOpenController extends ListController<Photo> implement
         }
         
         selectedPhoto.setCaption(newCaption);
-        refreshList(selectedPhoto);
+        refreshList(null);
+        refreshImageView();
+        refreshDate();
         refreshCaption();
+        refreshTagsList();
+        refreshAlbumsList();
 
         allowSelect = true;
 
@@ -234,6 +286,10 @@ public class SearchResultsOpenController extends ListController<Photo> implement
         paneAddEditCaption.setVisible(false);
     }
 
+    
+    /** 
+     * @param event
+     */
     @FXML
     void buttonConfirmNewTagClicked(MouseEvent event) {
         Photo selectedPhoto = listView.getSelectionModel().getSelectedItem();
@@ -250,8 +306,12 @@ public class SearchResultsOpenController extends ListController<Photo> implement
             errorDialog(e.getMessage());
             return;
         }
-        refreshList(selectedPhoto);
+        refreshList(null);
+        refreshImageView();
+        refreshDate();
+        refreshCaption();
         refreshTagsList();
+        refreshAlbumsList();
 
         allowSelect = true;
 
@@ -262,6 +322,10 @@ public class SearchResultsOpenController extends ListController<Photo> implement
         paneAddTag.setVisible(false);
     }
 
+    
+    /** 
+     * @param event
+     */
     @FXML
     void buttonCopyPhotoClicked(MouseEvent event) {
         Album selectedAlbum = listViewAlbums.getSelectionModel().getSelectedItem();
@@ -287,9 +351,19 @@ public class SearchResultsOpenController extends ListController<Photo> implement
         }
         selectedAlbum.addPhoto(selectedPhoto);
         successDialog("Copied Photo!");
+        refreshList(null);
+        refreshImageView();
+        refreshDate();
+        refreshCaption();
+        refreshTagsList();
+        refreshAlbumsList();
     }
 
 
+    
+    /** 
+     * @param event
+     */
     @FXML
     void buttonMovePhotoClicked(MouseEvent event) {
         Album selectedAlbum = listViewAlbums.getSelectionModel().getSelectedItem();
@@ -324,18 +398,33 @@ public class SearchResultsOpenController extends ListController<Photo> implement
         refreshAlbumsList();
     }
  
+    
+    /** 
+     * @param event
+     */
     @FXML
     void buttonRemoveTagClicked(MouseEvent event) {
         Photo selectedPhoto = listView.getSelectionModel().getSelectedItem();
+        if(selectedPhoto == null) {
+            errorDialog("Please select a photo first!");
+            return;
+        }
         String[] tag = listViewTags.getSelectionModel().getSelectedItem().split(",", 2);
         String name = tag[0].substring(1);
         String val = tag[1].substring(1, tag[1].length()-1);
-        System.out.println(name);
-        System.out.println(val);
         selectedPhoto.removeTag(name, val);
+        refreshList(null);
+        refreshImageView();
+        refreshDate();
+        refreshCaption();
         refreshTagsList();
+        refreshAlbumsList();
     }
 
+    
+    /** 
+     * @param event
+     */
     @Override
     @FXML
     void menuItemQuitClicked(ActionEvent event) {
@@ -351,7 +440,6 @@ public class SearchResultsOpenController extends ListController<Photo> implement
         try{
             Photo selectedPhoto = listView.getSelectionModel().getSelectedItem();
             String absolutePath = FileSystems.getDefault().getPath(selectedPhoto.getPath()).normalize().toAbsolutePath().toString();
-            System.out.println(absolutePath);
             InputStream inputStream = new FileInputStream(absolutePath);
             Image img = new Image(inputStream);
             imageView.setImage(img);
@@ -375,6 +463,10 @@ public class SearchResultsOpenController extends ListController<Photo> implement
         labelDate.setText(formattedDate);
     }
 
+    
+    /** 
+     * @param event
+     */
     @FXML
     void photosListViewSelected(MouseEvent event) {
         refreshImageView();
@@ -383,6 +475,10 @@ public class SearchResultsOpenController extends ListController<Photo> implement
         refreshTagsList();        
     }
     
+    
+    /** 
+     * @param stage
+     */
     @Override
     public void setMainStage(Stage stage) {
         mainStage = stage;
@@ -425,8 +521,6 @@ public class SearchResultsOpenController extends ListController<Photo> implement
         //Load items into list
         listViewTags.getItems().addAll(selectedPhoto.getTagStrings());
 
-        if(Debug.debugControllers) System.out.println("AlbumOpenController Got Generic List: " + listViewTags.getItems());
-
         listViewTags.getSelectionModel().select(0);
         if(listViewTags.getItems().isEmpty()){
             buttonRemoveTag.setVisible(false);
@@ -446,8 +540,6 @@ public class SearchResultsOpenController extends ListController<Photo> implement
         //Load items into list
         listViewAlbums.getItems().addAll(usersAlbums);
 
-        if(Debug.debugControllers) System.out.println("AlbumOpenController Got Generic List: " + listViewTags.getItems());
-
         listViewAlbums.getSelectionModel().select(0);
         if(listViewAlbums.getItems().isEmpty()) {
             buttonMovePhoto.setVisible(false);
@@ -463,29 +555,45 @@ public class SearchResultsOpenController extends ListController<Photo> implement
         
     }
 
+    
+    /** 
+     * @param fieldKey
+     * @return Photo
+     */
     @Override
     public Photo newEntry(String fieldKey){
         return new Photo(fieldKey);
     }
 
+    
+    /** 
+     * @return ArrayList<Photo>
+     */
     @Override
     public ArrayList<Photo> getCollection(){
         return Photos.getInstance().getSearchResults().getPhotos();
     }
 
+    
+    /** 
+     * @param t
+     */
     @Override
     public void removeEntry(Photo t){
         this.getCollection().remove(t);
     }
 
+    
+    /** 
+     * @param t
+     * @return boolean
+     */
     @Override
     public boolean isGoodEntry(Photo t){
         try{
             String extension = "";
             String absolutePath = FileSystems.getDefault().getPath(t.getPath()).normalize().toAbsolutePath().toString();
-            System.out.println(absolutePath);
             InputStream inputStream = new FileInputStream(absolutePath);
-            
             
             int index = t.getPath().lastIndexOf('.');
             if (index > 0) {
@@ -508,6 +616,11 @@ public class SearchResultsOpenController extends ListController<Photo> implement
         return true;
     }
 
+    
+    /** 
+     * @param arg0
+     * @param arg1
+     */
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         ObservableList<Photo> photoObservableList = FXCollections.observableArrayList(this.getCollection());
@@ -533,7 +646,6 @@ public class SearchResultsOpenController extends ListController<Photo> implement
                     setText(null);
                 } else {    
                     String absolutePath = FileSystems.getDefault().getPath(item.getPath()).normalize().toAbsolutePath().toString();
-                    System.out.println(absolutePath);
                     InputStream inputStream = new FileInputStream(absolutePath);
     
     
@@ -547,7 +659,6 @@ public class SearchResultsOpenController extends ListController<Photo> implement
                 }
             } catch(IOException e){
                 e.printStackTrace();
-                System.out.println("Bad filepath lololz");
                 return;
             }
             

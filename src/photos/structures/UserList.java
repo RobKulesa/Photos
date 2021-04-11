@@ -3,8 +3,6 @@ package photos.structures;
 import java.io.*;
 import java.util.*;
 
-import photos.Debug;
-
 /**
  * UserList is a serializable class that holds an ArrayList of {@link User}s. An instance
  * of this class can be saved and loaded between runs of the application.
@@ -110,7 +108,6 @@ public class UserList implements Serializable {
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(storeDir + File.separator + storeFile));
         oos.writeObject(userList);
         oos.close();
-        if(Debug.debugUsers) System.out.println("UserList writeUserList() wrote:" + userList.toString());
     }
 
     /**
@@ -132,12 +129,10 @@ public class UserList implements Serializable {
         }
         
         if(userList == null) {
-            if(Debug.debugUsers) System.out.println("\tuserList is null");
             userList = new UserList();
             userList.addUser(new User("admin"));
         } else {
             if(userList.getUsers() == null) {
-                if(Debug.debugUsers) System.out.println("\tuserList.users is null");
                 userList = new UserList();
                 userList.addUser(new User("admin"));
             } 
@@ -145,12 +140,10 @@ public class UserList implements Serializable {
                 userList.addUser(new User("admin"), 0);
             }
             if(!userList.containsUser("stock")) {
-                if(Debug.debugUsers) System.out.println("UserList: Stock not found, creating it!");
                 userList.addUser(new User("stock"), 1);
             }
         }
 
-        if(Debug.debugUsers) System.out.println("UserList readUserList() read:" + userList.toString());
 
         return userList;
     }

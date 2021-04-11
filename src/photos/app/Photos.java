@@ -1,5 +1,4 @@
 package photos.app;
-import photos.Debug;
 import photos.controllers.Controller;
 import photos.structures.User;
 import photos.structures.UserList;
@@ -37,11 +36,14 @@ public class Photos extends Application {
      */
     private UserList userList;
 
-    /**
-     * Reference to the current album (if any)
-     */
+    /**     
+     * Index of the current {@link Album}.
+    */
     private int currentAlbumIndex;
 
+    /**
+     * Reference to album resulting from search results
+     */
     private Album searchResults;
 
     /**
@@ -67,10 +69,20 @@ public class Photos extends Application {
         return instance;
     }
 
+    /**
+     * Set the search results to an album.
+     * 
+     * @param album    Album to set the search results to.
+     */
     public void setSearchResults(Album album) {
         instance.searchResults = album;
     }
 
+    /**
+     * Get the search results album.
+     * 
+     * @return    Search results album.
+     */
     public Album getSearchResults() {
         return instance.searchResults;
     }
@@ -93,41 +105,51 @@ public class Photos extends Application {
         instance.currentUserIndex = currentUserIndex;
     }
 
+
+    /**
+     * Method for retrieving the serialized list of users
+     * 
+     * @return UserList     The application's current list of users.
+     */
     public UserList getUserList() {
         return instance.userList;
     }
 
+
+    /**
+     * Method for setting the program's list of users
+     * 
+     * @param userlist      The useerList object to be set as the application's serializable list of users.
+     */
     public void setUserList(UserList userList) {
         instance.userList = userList;
     }
 
+    /**
+     * Method for getting the album the application is wants to open in the AlbumOpen page
+     * Achieved by retrieving the album from the serialized user at a known index
+     * 
+     * @return Album    The Album the application has opened/will open 
+     */
     public Album getCurrentAlbum() {
-        /* StringBuilder sb = new StringBuilder();
-        sb.append("[");
-        for(User u : this.userList.getUsers()) {
-            sb.append(u.getUsername());
-            sb.append(": (|");
-            for(Album a : u.getAlbumList()) {
-                sb.append(a.getName());
-                sb.append(", ");
-                sb.append(a.getNumPhotos());
-                sb.append("|");
-            }
-            sb.append(")\n");
-        }
-        sb.append("]\n");
-        System.out.println(sb.toString());
-
-        for(Album a : Photos.getInstance().getCurrentUser().getAlbumList()) {
-            System.out.println(a.toString());
-        } */
         return instance.getCurrentUser().getAlbum(instance.currentAlbumIndex);
     }
 
+    /**
+     * Changes the album that the program wants to open
+     * Accomplished through adjusting the known album index
+     * 
+     * @param currentAlbumIndex     the new index from which the currentAlbum will be pulled
+     */
     public void setCurrentAlbum(int currentAlbumIndex) {
         instance.currentAlbumIndex = currentAlbumIndex;
     }
 
+    /**
+     * Set the current album.
+     * 
+     * @param album The album to be set as currently used.
+     */
     public void setCurrentAlbum(Album album) {
         for(Album a : instance.getCurrentUser().getAlbumList()) {
             if(a.equals(album)) 
@@ -161,13 +183,13 @@ public class Photos extends Application {
         }
     }
 
+    /**
+     * Method for sending the user to the login page. Can be called with
+     * <code>Photos.getInstance().goToAlbumList()</code>
+     */
     public void goToAlbumList(){
         try{
-            
-            
             replaceSceneContent("/resources/view/albumlist.fxml");
-            if(Debug.debugPhotos) System.out.println("Photos Sending user (" + instance.getUserList().getUser(currentUserIndex) + ") to normal album list");
-            
         } catch (Exception ex){
             ex.printStackTrace();
         }
@@ -180,30 +202,39 @@ public class Photos extends Application {
     public void goToAdminPage() {
         try {
             replaceSceneContent("/resources/view/adminpage.fxml");
-            if(Debug.debugPhotos) System.out.println("Photos Sending user (" + instance.getUserList().getUser(currentUserIndex) + ") to admin page");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
+    /**
+     * Method for sending the user to the albumopen page. Can be called with
+     * <code>Photos.getInstance().goToAlbumOpen()</code> 
+     */
     public void goToAlbumOpen(){
         try {
             replaceSceneContent("/resources/view/albumopen.fxml");
-            if(Debug.debugPhotos) System.out.println("Photos Sending user (" + instance.getUserList().getUser(currentUserIndex) + ") to admin page");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
+    /**
+     * Method for sending the user to the photossearch. Can be called with
+     * <code>Photos.getInstance().goToPhotosSearch()</code> 
+     */
     public void goToPhotosSearch() {
         try {
             replaceSceneContent("/resources/view/photossearchpage.fxml");
-            if(Debug.debugPhotos) System.out.println("Photos Sending user (" + instance.getUserList().getUser(currentUserIndex) + ") to photos search page");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
+    /**
+     * Method for sending the user to the search results page. Can be called with
+     * <code>Photos.getInstance().goToSearchResults()</code>
+     */
     public void goToSearchResults() {
         try{
             replaceSceneContent("/resources/view/searchresultsopen.fxml");
@@ -212,6 +243,10 @@ public class Photos extends Application {
         }
     }
 
+    /**
+     * Method for sending the user to the slideshow page. Can be called with
+     * <code>Photos.getInstance().goToSlideshow()</code>
+     */
     public void goToSlideShow(){
         try{
             replaceSceneContent("/resources/view/slideshow.fxml");

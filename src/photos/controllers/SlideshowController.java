@@ -34,25 +34,40 @@ public class SlideshowController extends Controller implements Initializable {
     @FXML
     private ImageView imageviewCurrentImage;
 
+    
+    /** 
+     * @param event
+     */
     @FXML
     void menuItemQuitClicked(ActionEvent event){
         writeUsersAndQuit(event);
     }
 
+    
+    /** 
+     * @param stage
+     */
     @FXML
     @Override
     public void setMainStage(Stage stage) {
-        // TODO Auto-generated method stub
         mainStage = stage;
         mainStage.setOnCloseRequest(event -> {writeUsersAndQuit(event);});
         
     }
 
+    
+    /** 
+     * @param event
+     */
     @FXML
     void buttonBackClicked(MouseEvent event) {
         Photos.getInstance().goToAlbumOpen();
     }
 
+    
+    /** 
+     * @param event
+     */
     @FXML
     void buttonNextClicked(MouseEvent event) {
         currentIndex+=1;
@@ -72,6 +87,10 @@ public class SlideshowController extends Controller implements Initializable {
         
     }
 
+    
+    /** 
+     * @param event
+     */
     @FXML
     void buttonPrevClicked(MouseEvent event) {
         currentIndex -=1;
@@ -90,6 +109,10 @@ public class SlideshowController extends Controller implements Initializable {
         }
     }
 
+    
+    /** 
+     * @throws FileNotFoundException
+     */
     public void changeImageViewImage() throws FileNotFoundException {
         try{
             Photo currentPhoto = Photos.getInstance().getCurrentAlbum().getPhotos().get(currentIndex);
@@ -105,6 +128,11 @@ public class SlideshowController extends Controller implements Initializable {
         
     }
 
+    
+    /** 
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources){
         currentIndex = 0;
