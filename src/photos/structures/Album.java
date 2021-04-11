@@ -10,7 +10,9 @@ import java.text.SimpleDateFormat;
  * @author Aaron Kan 
  */
 public class Album implements Serializable {
-    
+    /**
+     * Serial version of this class.
+     */
     private static final long serialVersionUID = 2L;
     
     /**
