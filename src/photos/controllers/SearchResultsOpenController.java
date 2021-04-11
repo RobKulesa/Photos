@@ -30,7 +30,7 @@ import photos.app.Photos;
 import photos.structures.Album;
 import photos.structures.Photo;
 
-public class AlbumOpenController extends ListController<Photo> implements Initializable {
+public class SearchResultsOpenController extends ListController<Photo> implements Initializable {
 
     @FXML
     private MenuItem menuItemQuit;
@@ -102,10 +102,69 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
     private Label labelMoveSuccessful;
 
     @FXML
-    private Button buttonOpenSlideshow;
+    private Button buttonBack;
 
     @FXML
-    private Button buttonBack;
+    private AnchorPane paneCreateAlbum;
+
+    @FXML
+    private TextField fieldAlbumName;
+
+    @FXML
+    private Button buttonConfirmNewAlbum;
+
+    @FXML
+    private Button buttonCancelNewAlbum;
+
+    @FXML
+    private Button buttonCreateNewAlbum;
+
+    @FXML
+    void buttonCreateNewAlbumClicked(MouseEvent event) {
+        paneCreateAlbum.setVisible(true);
+        fieldAlbumName.setEditable(true);
+        buttonConfirmNewAlbum.setDisable(false);
+        buttonCancelNewAlbum.setDisable(false);
+    }
+
+    @FXML
+    void buttonConfirmNewAlbumClicked(MouseEvent event) {
+        if(paneConfirmCreate.isVisible() || paneAddEditCaption.isVisible() || paneAddTag.isVisible()) {
+            errorDialog("Please save pending changes before adding album.");
+            return;
+        }
+
+        if(fieldAlbumName.getText().isEmpty()) {
+            errorDialog("Album Name cannot be empty!");
+            return;
+        }
+
+        for(Album a : Photos.getInstance().getCurrentUser().getAlbumList()) {
+            if(a.equals(fieldAlbumName.getText())) {
+                errorDialog("Album Name cannot be the same as one of your other albums!");
+                return;
+            }
+        }
+        Photos.getInstance().getSearchResults().setName(fieldAlbumName.getText());
+        Photos.getInstance().getCurrentUser().getAlbumList().add(Photos.getInstance().getSearchResults());
+        Photos.getInstance().setCurrentAlbum(Photos.getInstance().getSearchResults());
+        paneCreateAlbum.setVisible(false);
+        fieldAlbumName.setEditable(false);
+        fieldAlbumName.setText("");
+        buttonConfirmNewAlbum.setDisable(true);
+        buttonCancelNewAlbum.setDisable(true);
+        writeUsers();
+        Photos.getInstance().goToAlbumOpen();
+    }
+
+    @FXML
+    void buttonCancelNewAlbumClicked(MouseEvent event) {
+        paneCreateAlbum.setVisible(false);
+        fieldAlbumName.setEditable(false);
+        fieldAlbumName.setText("");
+        buttonConfirmNewAlbum.setDisable(true);
+        buttonCancelNewAlbum.setDisable(true);
+    }
 
     @FXML
     void buttonAddEditCaptionClicked(MouseEvent event) {
@@ -147,7 +206,7 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
 
     @FXML
     void buttonBackClicked(MouseEvent event){
-        if(paneConfirmCreate.isVisible() || paneAddEditCaption.isVisible() || paneAddTag.isVisible()) {
+        if(paneConfirmCreate.isVisible() || paneAddEditCaption.isVisible() || paneAddTag.isVisible() || paneCreateAlbum.isVisible()) {
             errorDialog("Please save pending changes before exiting.");
             return;
         }
@@ -171,7 +230,6 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
 
         buttonCancelNewCaption.setDisable(true);
         buttonConfirmNewCaption.setDisable(true);
-        fieldTagName.setText("");
         fieldNewCaption.setEditable(false);
         paneAddEditCaption.setVisible(false);
     }
@@ -199,8 +257,6 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
 
         buttonCancelNewTag.setDisable(true);
         buttonConfirmNewTag.setDisable(true);
-        fieldTagValue.setText("");
-        fieldTagName.setText("");
         fieldTagValue.setEditable(false);
         fieldTagName.setEditable(false);
         paneAddTag.setVisible(false);
@@ -209,7 +265,7 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
     @FXML
     void buttonCopyPhotoClicked(MouseEvent event) {
         Album selectedAlbum = listViewAlbums.getSelectionModel().getSelectedItem();
-        Album currentAlbum = Photos.getInstance().getCurrentAlbum();
+        Album currentAlbum = Photos.getInstance().getSearchResults();
         Photo selectedPhoto = listView.getSelectionModel().getSelectedItem();
         if(selectedAlbum == null) {
             errorDialog("Please Select an Album First!");
@@ -226,17 +282,18 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
         }
 
         if(selectedAlbum.containsPhoto(selectedPhoto)) {
-            errorDialog("This photo is already in this album!");
+            errorDialog("This photo is already in that album!");
             return;
         }
         selectedAlbum.addPhoto(selectedPhoto);
         successDialog("Copied Photo!");
     }
 
+
     @FXML
     void buttonMovePhotoClicked(MouseEvent event) {
         Album selectedAlbum = listViewAlbums.getSelectionModel().getSelectedItem();
-        Album currentAlbum = Photos.getInstance().getCurrentAlbum();
+        Album currentAlbum = Photos.getInstance().getSearchResults();
         Photo selectedPhoto = listView.getSelectionModel().getSelectedItem();
         if(selectedAlbum == null) {
             errorDialog("Please Select an Album First!");
@@ -257,7 +314,7 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
             return;
         }
         selectedAlbum.addPhoto(selectedPhoto);
-        Photos.getInstance().getCurrentAlbum().deletePhoto(selectedPhoto);
+        Photos.getInstance().getSearchResults().deletePhoto(selectedPhoto);
         successDialog("Moved Photo!");
         refreshList(null);
         refreshImageView();
@@ -266,7 +323,7 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
         refreshTagsList();
         refreshAlbumsList();
     }
-
+ 
     @FXML
     void buttonRemoveTagClicked(MouseEvent event) {
         Photo selectedPhoto = listView.getSelectionModel().getSelectedItem();
@@ -279,19 +336,10 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
         refreshTagsList();
     }
 
-    @FXML
-    void buttonOpenSlideshowClicked(MouseEvent event){
-        if(Photos.getInstance().getCurrentAlbum().getNumPhotos() <= 0){
-            errorDialog("Cannot show slideshow of album with zero photos");
-            return;
-        }
-        Photos.getInstance().goToSlideShow();
-    }
-
     @Override
     @FXML
     void menuItemQuitClicked(ActionEvent event) {
-        if(paneConfirmCreate.isVisible() || paneAddEditCaption.isVisible() || paneAddTag.isVisible()) {
+        if(paneConfirmCreate.isVisible() || paneAddEditCaption.isVisible() || paneAddTag.isVisible() || paneCreateAlbum.isVisible()) {
             errorDialog("Please save pending changes before exiting.");
             return;
         }
@@ -339,7 +387,7 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
     public void setMainStage(Stage stage) {
         mainStage = stage;
         mainStage.setOnCloseRequest(event -> {
-            if(paneConfirmCreate.isVisible() || paneAddEditCaption.isVisible() || paneAddTag.isVisible()) {
+            if(paneConfirmCreate.isVisible() || paneAddEditCaption.isVisible() || paneAddTag.isVisible() || paneCreateAlbum.isVisible()) {
                 errorDialog("Please save pending changes before exiting.");
                 event.consume();
                 return;
@@ -422,7 +470,7 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
 
     @Override
     public ArrayList<Photo> getCollection(){
-        return Photos.getInstance().getCurrentAlbum().getPhotos();
+        return Photos.getInstance().getSearchResults().getPhotos();
     }
 
     @Override
@@ -435,7 +483,7 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
         try{
             String extension = "";
             String absolutePath = FileSystems.getDefault().getPath(t.getPath()).normalize().toAbsolutePath().toString();
-            //System.out.println(absolutePath);
+            System.out.println(absolutePath);
             InputStream inputStream = new FileInputStream(absolutePath);
             
             

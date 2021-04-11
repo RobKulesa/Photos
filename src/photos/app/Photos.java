@@ -43,6 +43,8 @@ public class Photos extends Application {
      */
     private int currentAlbumIndex;
 
+    private Album searchResults;
+
     /**
      * Static field that holds the reference to the current instance of the application.
      */
@@ -64,6 +66,14 @@ public class Photos extends Application {
      */
     public static Photos getInstance() {
         return instance;
+    }
+
+    public void setSearchResults(Album album) {
+        instance.searchResults = album;
+    }
+
+    public Album getSearchResults() {
+        return instance.searchResults;
     }
 
     /**
@@ -93,7 +103,26 @@ public class Photos extends Application {
     }
 
     public Album getCurrentAlbum() {
-        return instance.getUserList().getUser(instance.currentUserIndex).getAlbum(instance.currentAlbumIndex);
+        /* StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for(User u : this.userList.getUsers()) {
+            sb.append(u.getUsername());
+            sb.append(": (|");
+            for(Album a : u.getAlbumList()) {
+                sb.append(a.getName());
+                sb.append(", ");
+                sb.append(a.getNumPhotos());
+                sb.append("|");
+            }
+            sb.append(")\n");
+        }
+        sb.append("]\n");
+        System.out.println(sb.toString());
+
+        for(Album a : Photos.getInstance().getCurrentUser().getAlbumList()) {
+            System.out.println(a.toString());
+        } */
+        return instance.getCurrentUser().getAlbum(instance.currentAlbumIndex);
     }
 
     public void setCurrentAlbum(int currentAlbumIndex) {
@@ -101,9 +130,9 @@ public class Photos extends Application {
     }
 
     public void setCurrentAlbum(Album album) {
-        for(Album a : instance.getUserList().getUser(instance.currentUserIndex).getAlbumList()) {
+        for(Album a : instance.getCurrentUser().getAlbumList()) {
             if(a.equals(album)) 
-                instance.currentAlbumIndex = instance.getUserList().getUser(instance.currentUserIndex).getAlbumList().indexOf(a);
+                instance.currentAlbumIndex = instance.getCurrentUser().getAlbumList().indexOf(a);
         }
     }
 
@@ -173,6 +202,14 @@ public class Photos extends Application {
         }
     }
 
+    public void goToSearchResults() {
+        try{
+            replaceSceneContent("/resources/view/searchresultsopen.fxml");
+        } catch(Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
     public void goToSlideShow(){
         try{
             replaceSceneContent("/resources/view/slideshow.fxml");
@@ -189,9 +226,8 @@ public class Photos extends Application {
      */
     private void replaceSceneContent(String fxmlLocation) {
         try {
-
 			FXMLLoader loader = new FXMLLoader();
-            System.out.println(fxmlLocation);
+            //System.out.println(fxmlLocation);
 			loader.setLocation(getClass().getResource(fxmlLocation));
             VBox vbox = (VBox)loader.load();
 			

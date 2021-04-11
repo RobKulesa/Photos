@@ -147,7 +147,7 @@ public class AlbumListController extends ListController<Album> {
                 return;
             }
             getCollection().add(selectedEntry);
-        } else{
+        } else {
             selectedEntry = listView.getSelectionModel().getSelectedItem();
             if(selectedEntry == null){
                 errorDialog("An album must be selected before confirming rename");

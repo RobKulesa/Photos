@@ -71,7 +71,7 @@ public class PhotosSearchController extends Controller {
     @FXML
     void buttonConfirmSearchClicked(MouseEvent event) {
         ArrayList<Album> currentUserAlbums = Photos.getInstance().getCurrentUser().getAlbumList();
-        Album searchResults = new Album("temp search results");
+        Photos.getInstance().setSearchResults(new Album("temp search results"));
         
         String tagname1 = fieldTagName1.getText();
         String tagvalue1 = fieldTagValue1.getText();
@@ -122,20 +122,20 @@ public class PhotosSearchController extends Controller {
             for(Photo photo : album.getPhotos()) {
                 if(radioButtonTagValues.isSelected()) {
                     if(selectedCombo.equals("none") && photo.hasTag(tagname1, tagvalue1)) {
-                        searchResults.addPhoto(photo);
+                        Photos.getInstance().getSearchResults().addPhoto(photo);
                     } else if(selectedCombo.equals("or") && (photo.hasTag(tagname1, tagvalue1) || photo.hasTag(tagname2, tagvalue2))) {
-                        searchResults.addPhoto(photo);
+                        Photos.getInstance().getSearchResults().addPhoto(photo);
                     } else if(selectedCombo.equals("and") && (photo.hasTag(tagname1, tagvalue1) && photo.hasTag(tagname2, tagvalue2))) {
-                        searchResults.addPhoto(photo);
+                        Photos.getInstance().getSearchResults().addPhoto(photo);
                     }
                 } else if(radioButtonDateRange.isSelected()) {
-                    if(photo.isInDateRange(gFrom, gTo)) searchResults.addPhoto(photo);
+                    if(photo.isInDateRange(gFrom, gTo)) Photos.getInstance().getSearchResults().addPhoto(photo);
                 }
             }
         }
 
-        if(Debug.debugControllers) System.out.println("PhotosSearchController Created Search Results Album with " + searchResults.getNumPhotos() + " photos");
-        //TODO: Direct user to search results page -- album view but simpler
+        if(Debug.debugControllers) System.out.println("PhotosSearchController Created Search Results Album with " + Photos.getInstance().getSearchResults().getNumPhotos() + " photos");
+        Photos.getInstance().goToSearchResults();
     }
 
     @Override

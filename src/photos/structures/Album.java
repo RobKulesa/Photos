@@ -122,10 +122,15 @@ public class Album implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if(o==null || !(o instanceof Album)) {
+        if(o==null || !(o instanceof Album || o instanceof String)) {
             return false;
         }
-        Album other = (Album) o;
-        return this.getName().equalsIgnoreCase(other.getName());
+        if(o instanceof Album) {
+            Album otherUser = (Album) o;
+            return this.getName().equalsIgnoreCase(otherUser.getName());
+        } else {
+            String otherString = (String) o;
+            return this.getName().equalsIgnoreCase(otherString);
+        }
     }
 }

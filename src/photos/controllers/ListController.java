@@ -110,6 +110,7 @@ public abstract class ListController<T> extends Controller {
         paneConfirmCreate.setVisible(false);
         fieldNewEntry.setEditable(false);
         labelInvalidAddition.setVisible(false);
+        writeUsers();
     }
 
     @FXML
@@ -136,6 +137,7 @@ public abstract class ListController<T> extends Controller {
 
         removeEntry(selectedEntry);
         refreshList(null);
+        writeUsers();
     }
 
     public void refreshList(T t) {

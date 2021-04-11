@@ -64,6 +64,16 @@ public abstract class Controller {
         dialog.showAndWait();
 	}
 
+    public void successDialog(String errorMsg) {
+        Dialog<String> dialog = new Dialog<String>();
+		dialog.setTitle("Success! =)");
+		ButtonType type = new ButtonType("Ok", ButtonData.OK_DONE);
+		dialog.setContentText(errorMsg);
+		dialog.getDialogPane().getButtonTypes().add(type);
+		dialog.setResizable(true);
+        dialog.showAndWait();
+	}
+
     /**
      * Read the userList from filesystem using {@link UserList}.readUserList().
      */
