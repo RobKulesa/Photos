@@ -50,7 +50,7 @@ public class Album implements Serializable {
 
     public void addPhoto(Photo p) {
         this.photos.add(p);
-        //this.updateDates(); TODO: fix this
+        //this.updateDates();
     }
 
     public void deletePhoto(Photo p) {
@@ -65,6 +65,10 @@ public class Album implements Serializable {
 
     public int getNumPhotos() {
         return this.photos.size();
+    }
+
+    public boolean containsPhoto(Photo p) {
+        return this.photos.contains(p);
     }
 
     @Override

@@ -3,6 +3,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.GregorianCalendar;
+import java.util.Calendar;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.function.Predicate;
@@ -33,7 +34,9 @@ public class Photo implements Serializable {
     public Photo(String path){
         this.path = path;
         this.caption = null;
-        this.lastModified = initLastModified(path);       // NEED TO FIX
+        this.lastModified = initLastModified(path);  
+        this.lastModified.set(Calendar.MILLISECOND,0);
+        // NEED TO FIX
         /* this.tags = new TreeMap<String, ArrayList<String>>(new Comparator<String>()  {
 
             @Override
@@ -79,8 +82,10 @@ public class Photo implements Serializable {
             String minutes = fileTimeToString.substring(14, 16);
             String seconds = fileTimeToString.substring(17,19);
             
-            return new GregorianCalendar(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day),
+            GregorianCalendar ret = new GregorianCalendar(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day),
                                             Integer.parseInt(hours), Integer.parseInt(minutes), Integer.parseInt(seconds));
+            ret.set(Calendar.MILLISECOND, 0);
+            return ret;
 
         } catch (IOException e) {
             //e.printStackTrace();

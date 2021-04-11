@@ -177,7 +177,6 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
 
     @FXML
     void buttonConfirmNewTagClicked(MouseEvent event) {
-        //TODO: ERROR DIALOG ON DUPLICATE TAGS
         Photo selectedPhoto = listView.getSelectionModel().getSelectedItem();
         String newTagName = fieldTagName.getText();
         String newTagVal = fieldTagValue.getText();
@@ -186,7 +185,12 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
             return;
         }
         
-        selectedPhoto.addTag(newTagName, newTagVal);
+        try {
+            selectedPhoto.addTag(newTagName, newTagVal);
+        } catch(IllegalArgumentException e) {
+            errorDialog(e.getMessage());
+            return;
+        }
         refreshList(selectedPhoto);
         refreshTagsList();
 
@@ -197,13 +201,12 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
         fieldTagValue.setEditable(false);
         fieldTagName.setEditable(false);
         paneAddTag.setVisible(false);
-
-        
     }
 
     @FXML
     void buttonCopyPhotoClicked(MouseEvent event) {
         Album selectedAlbum = listViewAlbums.getSelectionModel().getSelectedItem();
+        Album currentAlbum = Photos.getInstance().getCurrentAlbum();
         Photo selectedPhoto = listView.getSelectionModel().getSelectedItem();
         if(selectedAlbum == null) {
             errorDialog("Please Select an Album First!");
@@ -213,18 +216,15 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
             errorDialog("Please select a Photo First!");
             return;
         }
-        ArrayList<Album> userAlbums = new ArrayList<Album>(listViewAlbums.getItems());
-        for(Album a : userAlbums) {
-            if(selectedAlbum.equals(a)) {
-                errorDialog("Please select an album other than the currently opened one.");
-                return;
-            }
-            for(Photo p : a.getPhotos()) {
-                if(selectedPhoto.equals(p)) {
-                    errorDialog("This photo is already in this album!");
-                    return;
-                }
-            }
+
+        if(selectedAlbum.equals(currentAlbum)) {
+            errorDialog("Please select an album other than the currently opened one.");
+            return;
+        }
+
+        if(selectedAlbum.containsPhoto(selectedPhoto)) {
+            errorDialog("This photo is already in this album!");
+            return;
         }
         selectedAlbum.addPhoto(selectedPhoto);
     }
