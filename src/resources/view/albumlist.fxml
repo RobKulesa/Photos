@@ -53,7 +53,7 @@
       <menus>
         <Menu mnemonicParsing="false" text="File">
           <items>
-            <MenuItem mnemonicParsing="false" text="Quit" />
+            <MenuItem fx:id="menuItemQuit" mnemonicParsing="false" onAction="#menuItemQuitClicked" text="Quit" />
           </items>
         </Menu>
       </menus>

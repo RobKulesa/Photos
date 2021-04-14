@@ -549,6 +549,23 @@ public class SearchResultsOpenController extends ListController<Photo> implement
         refreshAlbumsList();
     }
 
+    /** 
+     * FXML Event handler that deletes the currently selected photo
+     * upon the appropriate event firing
+     * 
+     * @param event     Event that represents the delete button being clicked
+     */
+    @FXML
+    @Override
+    void buttonDeleteClicked(MouseEvent event) {
+        super.buttonDeleteClicked(event);
+        refreshList(null);
+        refreshImageView();
+        refreshDate();
+        refreshCaption();
+        refreshTagsList();
+        refreshAlbumsList();
+    }
     
     /** 
      * FXML Event handler that quits the application
@@ -762,8 +779,8 @@ public class SearchResultsOpenController extends ListController<Photo> implement
             if (index > 0) {
                 extension = t.getPath().substring(index + 1);
             }
-            if(!extension.equals("bmp") && !extension.equals("gif") && !extension.equals("jpg")
-                && !extension.equals("jpeg") && !extension.equals("png")){
+            if(extension.isBlank() || (!extension.equals("bmp") && !extension.equals("gif") && !extension.equals("jpg")
+                && !extension.equals("jpeg") && !extension.equals("png"))){
                     inputStream.close();
                     return false;
                 }
@@ -779,7 +796,6 @@ public class SearchResultsOpenController extends ListController<Photo> implement
         return true;
     }
 
-    
     /**
      * Method that is called when the searchresultsopen page and its controller are initialized
      * Used to assign default settings and values to certain controls

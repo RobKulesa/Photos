@@ -22,6 +22,15 @@ import javafx.stage.Stage;
 public class Photos extends Application {
 
     /**
+     * Main method to launch the Photos application.
+     * 
+     * @param args    an array of command-line arguments for the application.
+     */
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    /**
      * Field for the main stage that will be shown to the user.
      */
     Stage mainStage;
@@ -273,14 +282,5 @@ public class Photos extends Application {
 		} catch (IOException e) {
 			return;
 		}
-    }
-
-    /**
-     * Main method to launch the Photos application.
-     * 
-     * @param args    an array of command-line arguments for the application.
-     */
-    public static void main(String[] args) {
-        launch(args);
     }
 }

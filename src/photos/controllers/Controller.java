@@ -111,7 +111,6 @@ public abstract class Controller {
             mainStage.close();
         } catch (Exception e) { 
             errorDialog(e.getMessage());
-            event.consume();
             return;
         }
     }

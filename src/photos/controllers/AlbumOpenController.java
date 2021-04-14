@@ -750,8 +750,8 @@ public class AlbumOpenController extends ListController<Photo> implements Initia
             if (index > 0) {
                 extension = t.getPath().substring(index + 1).toLowerCase();
             }
-            if(!extension.equals("bmp") && !extension.equals("gif") && !extension.equals("jpg")
-                && !extension.equals("jpeg") && !extension.equals("png")){
+            if(extension.isBlank() || (!extension.equals("bmp") && !extension.equals("gif") && !extension.equals("jpg")
+                        && !extension.equals("jpeg") && !extension.equals("png"))) {
                     inputStream.close();
                     return false;
                 }

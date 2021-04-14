@@ -48,8 +48,7 @@
       <menus>
         <Menu mnemonicParsing="false" text="File">
           <items>
-            <MenuItem mnemonicParsing="false" text="Logout" />
-            <MenuItem mnemonicParsing="false" text="Quit" />
+            <MenuItem fx:id="menuItemQuit" mnemonicParsing="false" onAction="#menuItemQuitClicked" text="Quit" />
           </items>
         </Menu>
       </menus>
@@ -60,14 +59,7 @@
                <font>
                   <Font size="41.0" />
                </font></Label>
-            <Button fx:id="buttonBack" layoutX="52.0" layoutY="513.0" mnemonicParsing="false" onMouseClicked="#buttonBackClicked" prefHeight="25.0" prefWidth="98.0" text="Back" />
-            <AnchorPane layoutX="37.0" layoutY="560.0" prefHeight="70.0" prefWidth="128.0">
-               <children>
-                  <Label layoutX="31.0" layoutY="6.0" text="Above button" />
-                  <Label layoutX="35.0" layoutY="23.0" text="navigates to" />
-                  <Label layoutX="28.0" layoutY="41.0" text="previous scene" />
-               </children>
-            </AnchorPane>
+            <Button fx:id="buttonBack" layoutX="52.0" layoutY="513.0" mnemonicParsing="false" onMouseClicked="#buttonBackClicked" prefHeight="25.0" prefWidth="98.0" text="Go Back To Album" />
             <Button fx:id="buttonNext" layoutX="668.0" layoutY="513.0" mnemonicParsing="false" onMouseClicked="#buttonNextClicked" prefHeight="25.0" prefWidth="98.0" text="Next &gt;" />
             <Button fx:id="buttonPrev" layoutX="500.0" layoutY="513.0" mnemonicParsing="false" onMouseClicked="#buttonPrevClicked" prefHeight="25.0" prefWidth="98.0" text="&lt; Prev" />
             <ImageView fx:id="imageviewCurrentImage" fitHeight="384.0" fitWidth="606.0" layoutX="104.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true" />
